@@ -1,12 +1,6 @@
 package com.niclas.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.niclas.utils.OrderStatus;
-import org.apache.commons.lang3.RandomStringUtils;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -43,14 +37,6 @@ public class Order extends AuditModel {
 
 
     public Order() {
-    }
-
-
-    public String generateOrderId() {
-        LocalDateTime ldt = LocalDateTime.now();
-        String prefix = DateTimeFormatter.ofPattern("MM-dd-yyyy").format(ldt);
-        String suffix = RandomStringUtils.randomNumeric(6);
-        return prefix + "/" + suffix;
     }
 
 

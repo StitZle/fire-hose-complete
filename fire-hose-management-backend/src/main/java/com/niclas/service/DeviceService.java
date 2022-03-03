@@ -3,7 +3,7 @@ package com.niclas.service;
 import com.niclas.model.Device;
 import com.niclas.repository.DeviceRepository;
 import com.niclas.rest.exceptionHandling.exception.DeviceNotFoundException;
-import com.niclas.utils.DeviceIdGenerator;
+import com.niclas.utils.Generators;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,19 +14,16 @@ public class DeviceService {
 
     private final int DEVICE_ID_LENGTH = 6;
 
-    private final DeviceIdGenerator deviceIdGenerator;
-
     private final DeviceRepository deviceRepository;
 
     @Autowired
-    public DeviceService(DeviceRepository deviceRepository, DeviceIdGenerator deviceIdGenerator) {
+    public DeviceService(DeviceRepository deviceRepository) {
         this.deviceRepository = deviceRepository;
-        this.deviceIdGenerator = deviceIdGenerator;
     }
 
     public Device addDevice(Device device) {
         if (device.getDeviceId().equals("")) {
-            device.setDeviceId(deviceIdGenerator.generate(DEVICE_ID_LENGTH));
+            device.setDeviceId(Generators.generateDeviceId(DEVICE_ID_LENGTH));
         }
         deviceRepository.save(device);
         return device;
@@ -43,7 +40,7 @@ public class DeviceService {
         device.setIsPrimary(deviceRequest.getIsPrimary());
 
         if (deviceRequest.getDeviceId().equals("") || deviceRequest.getDeviceId() == null) {
-            device.setDeviceId(deviceIdGenerator.generate(DEVICE_ID_LENGTH));
+            device.setDeviceId(Generators.generateDeviceId(DEVICE_ID_LENGTH));
         } else {
             device.setDeviceId(deviceRequest.getDeviceId());
         }

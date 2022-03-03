@@ -33,7 +33,7 @@ public class OrderController {
     }
 
 
-    /*@PostMapping( "/orders/add" )
+    @PostMapping("/orders/add")
     public ResponseEntity<Order> addOrder( @RequestBody JsonNode jsonNode ) {
         Order order = new Order();
 
@@ -64,7 +64,7 @@ public class OrderController {
         orderRepository.save( order );
         return new ResponseEntity<>( order, HttpStatus.CREATED );
     }
-*/
+
 
     @GetMapping( "orders" )
     public ResponseEntity<List<Order>> getAllOrdersBetweenDates(
