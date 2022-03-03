@@ -1,29 +1,21 @@
 package com.niclas.rest.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.niclas.model.Order;
+import com.niclas.repository.DepartmentRepository;
+import com.niclas.repository.OrderRepository;
+import com.niclas.utils.OrderStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.niclas.model.Department;
-import com.niclas.model.Order;
-import com.niclas.model.OrderDevice;
-import com.niclas.repository.DepartmentRepository;
-import com.niclas.repository.OrderRepository;
-import com.niclas.utils.OrderStatus;
-
-import lombok.extern.slf4j.Slf4j;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -41,7 +33,7 @@ public class OrderController {
     }
 
 
-    @PostMapping( "/orders/add" )
+    /*@PostMapping( "/orders/add" )
     public ResponseEntity<Order> addOrder( @RequestBody JsonNode jsonNode ) {
         Order order = new Order();
 
@@ -72,7 +64,7 @@ public class OrderController {
         orderRepository.save( order );
         return new ResponseEntity<>( order, HttpStatus.CREATED );
     }
-
+*/
 
     @GetMapping( "orders" )
     public ResponseEntity<List<Order>> getAllOrdersBetweenDates(
@@ -84,12 +76,12 @@ public class OrderController {
     }
 
 
-    @GetMapping( "/orders/get/specific" )
+    /*@GetMapping( "/orders/get/specific" )
     public ResponseEntity<List<Order>> getOrderForMonthAndYear( @RequestParam int month, @RequestParam int year ) {
         //TODO add if not found custom Response
         List<Order> orderList = orderRepository.findAllByMonthAndYear( month, year );
         return new ResponseEntity<>( orderList, HttpStatus.OK );
-    }
+    }*/
 
 
     @GetMapping( "orders/order-status/get" )
