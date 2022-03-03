@@ -41,14 +41,6 @@ public class Order extends AuditModel {
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
 
-    @Column(name = "month")
-    private int month;
-
-    @Column(name = "year")
-    private int year;
-
-    private OrderStatus orderStatus;
-
 
     public Order() {
     }
@@ -116,29 +108,5 @@ public class Order extends AuditModel {
 
     public void setNotes(String notes) {
         this.notes = notes;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public void setMonth(int month) {
-        this.month = month;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
     }
 }
