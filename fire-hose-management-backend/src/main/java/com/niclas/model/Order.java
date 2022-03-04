@@ -1,12 +1,6 @@
 package com.niclas.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.niclas.utils.OrderStatus;
-import org.apache.commons.lang3.RandomStringUtils;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -41,24 +35,8 @@ public class Order extends AuditModel {
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
 
-    @Column(name = "month")
-    private int month;
-
-    @Column(name = "year")
-    private int year;
-
-    private OrderStatus orderStatus;
-
 
     public Order() {
-    }
-
-
-    public String generateOrderId() {
-        LocalDateTime ldt = LocalDateTime.now();
-        String prefix = DateTimeFormatter.ofPattern("MM-dd-yyyy").format(ldt);
-        String suffix = RandomStringUtils.randomNumeric(6);
-        return prefix + "/" + suffix;
     }
 
 
@@ -116,29 +94,5 @@ public class Order extends AuditModel {
 
     public void setNotes(String notes) {
         this.notes = notes;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public void setMonth(int month) {
-        this.month = month;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
     }
 }
