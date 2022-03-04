@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.niclas.rest.exceptionHandling.exception.DepartmentNotFoundException;
-import com.niclas.rest.exceptionHandling.exception.OrderStatusNotFoundException;
+import com.niclas.rest.exceptionHandling.exception.OrderParamsOverload;
 import com.niclas.rest.exceptionHandling.exception.URLErrorException;
 import com.niclas.rest.exceptionHandling.messages.ErrorMessage;
 import com.niclas.rest.exceptionHandling.messages.ValidationErrorResponse;
@@ -72,7 +72,7 @@ public class GlobalControllerExceptionHandler {
     }
 
 
-    @ExceptionHandler( OrderStatusNotFoundException.class )
+    @ExceptionHandler( OrderParamsOverload.class )
     public ResponseEntity<ErrorMessage> OrderStatusNotFoundException( Exception e ) {
         ErrorMessage errorMessage = new ErrorMessage( new Date(), e.getClass().getSimpleName(), e.getMessage() );
         return new ResponseEntity<>( errorMessage, new HttpHeaders(), HttpStatus.BAD_REQUEST );

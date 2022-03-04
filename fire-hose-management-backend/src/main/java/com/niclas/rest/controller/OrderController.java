@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.niclas.model.Order;
+import com.niclas.rest.exceptionHandling.exception.OrderParamsOverload;
 import com.niclas.service.OrderService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,14 +36,15 @@ public class OrderController {
     }
 
 
-    @PostMapping( "/orders/add" )
-    public ResponseEntity<Order> addOrder( @RequestBody JsonNode jsonNode ) {
-        Order order = orderService.addOrder( jsonNode );
+    @PostMapping( value = "/orders")
+    public ResponseEntity<Order> addOrder( @RequestBody JsonNode orderNode )
+            throws JsonProcessingException, OrderParamsOverload {
+        Order order = orderService.addOrder( orderNode );
         return new ResponseEntity<>( order, HttpStatus.CREATED );
     }
 
 
-    @GetMapping( "orders" )
+    @GetMapping( value = "orders" )
     public ResponseEntity<List<Order>> getAllOrdersBetweenDates(
             @RequestParam @DateTimeFormat( pattern = "dd/MM/yyyy" ) Date startDate,
             @RequestParam @DateTimeFormat( pattern = "dd/MM/yyyy" ) Date endDate ) {
