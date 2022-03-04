@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
             display: "inline-block",
             padding: "0.5em",
             lineHeight: "1.5em",
-            backgroundColor: "#FAFAFA"
+            backgroundColor: "#ffffff"
         }
     },
 }));

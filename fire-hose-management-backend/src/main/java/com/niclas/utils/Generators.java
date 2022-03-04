@@ -23,7 +23,7 @@ public class Generators {
 
     public static String generateOrderId() {
         LocalDateTime ldt = LocalDateTime.now();
-        String prefix = DateTimeFormatter.ofPattern("MM-dd-yyyy").format(ldt);
+        String prefix = DateTimeFormatter.ofPattern("dd-MM-yyyy").format(ldt);
         String suffix = RandomStringUtils.randomNumeric(6);
         return prefix + "/" + suffix;
     }
