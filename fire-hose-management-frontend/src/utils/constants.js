@@ -9,7 +9,7 @@ export const urls = {
     },
     orders: {
         prod: "",
-        staging: "http://localhost:8085/fire-hose-management/orders/add"
+        staging: "http://localhost:8085/fire-hose-management/orders"
     },
     deliveries: {
         prod: "",

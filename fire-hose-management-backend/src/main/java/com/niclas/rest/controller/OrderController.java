@@ -44,7 +44,7 @@ public class OrderController {
     }
 
 
-    @GetMapping( value = "orders" )
+    @GetMapping( value = "/orders" )
     public ResponseEntity<List<Order>> getAllOrdersBetweenDates(
             @RequestParam @DateTimeFormat( pattern = "dd/MM/yyyy" ) Date startDate,
             @RequestParam @DateTimeFormat( pattern = "dd/MM/yyyy" ) Date endDate ) {
