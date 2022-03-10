@@ -7,8 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 
 @Entity
 @Table( name = "order_devices" )
@@ -41,6 +39,7 @@ public class OrderDevice {
         this.deviceName = deviceName;
         this.count = count;
     }
+
 
     public long getId() {
         return id;
