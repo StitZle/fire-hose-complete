@@ -5,8 +5,8 @@ import Notifications from "../shared/Notifications";
 import { deleteDevice, postDevice, putDevice } from "../../utils/requests/Devices";
 import { DeviceOverlay } from "./DeviceOverlay";
 import { DeleteDeviceOverlay } from "./DeleteDevice Overlay";
-import { DevicesDataGrid } from "./DevicesDataGrid";
 import DefaultPage from "../shared/DefaultPage";
+import DevicesDataGrid from "./DevicesDataGrid";
 
 
 const Devices = () => {
@@ -71,7 +71,6 @@ const Devices = () => {
     editDeviceMutation.mutate( dtoBuilder( deviceName, deviceId, isPrimary ) )
   }
 
-
   return (
       <DefaultPage>
         <h1>Geräteübersicht</h1>
@@ -82,6 +81,7 @@ const Devices = () => {
             setIsEditOverlayVisibleFunction={( state ) => setIsEditOverlayVisible( state )}
             setIsAddOverlayVisibleFunction={( state ) => setIsAddOverlayVisible( state )}
         />
+
 
         {isAddOverlayVisible &&
             <DeviceOverlay
