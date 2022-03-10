@@ -1,8 +1,8 @@
-import {DataGrid, GridToolbarContainer, GridToolbarExport} from "@material-ui/data-grid";
+import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import {gridLocale} from "../../i118/GridLocale";
 import React from "react";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import IconButton from "@material-ui/core/IconButton";
 import {Button} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
@@ -103,7 +103,7 @@ export const DepartmentsDataGrid = ({
                 columns={columns}
                 pageSize={10}
                 loading={departments.length === 0}
-                onRowSelected={(row) => selectedDepartmentFunction(row.data)}
+                onRowClick={(item) => selectedDepartmentFunction(item.row)}
                 localeText={gridLocale}
                 components={{Toolbar: CustomToolbar}}
                 className={classes.dataGridRemoveBorder}
