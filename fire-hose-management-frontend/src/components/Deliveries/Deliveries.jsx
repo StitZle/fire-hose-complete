@@ -5,16 +5,14 @@ import {useGetAllOrdersBetweenDates} from "../../hooks/useGetAllOrdersBetweenDat
 import dayjs from "dayjs";
 
 const Deliveries = () => {
-
     const [selectedDelivery, setSelectedDelivery] = useState({});
-    const [isDetailsOverlayVisible, setIsDetailsOverlayVisible] = useState(false);
+
 
 
     const {deliveries, refetch} = useGetAllOrdersBetweenDates(
         dayjs().startOf("year").format("DD/MM/YYYY"),
         dayjs().format("DD/MM/YYYY"));
 
-    console.log("DELIVERIES", deliveries)
 
     return (
         <DefaultPage>
@@ -22,7 +20,7 @@ const Deliveries = () => {
             <DeliveriesDataGrid
                 deliveries={deliveries}
                 selectedDeliveryFunction={(item) => setSelectedDelivery(item)}
-                setDetailsOverlayVisibleFunction={(state) => setIsDetailsOverlayVisible(state)}/>
+            />
         </DefaultPage>
     );
 }

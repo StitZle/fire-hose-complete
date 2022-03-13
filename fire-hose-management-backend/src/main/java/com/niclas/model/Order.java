@@ -14,11 +14,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Entity
 @Table( name = "orders" )
-public class Order extends AuditModel {
-
+public class Order extends AuditModel
+{
 
     @Id
     @Column( name = "id" )
@@ -33,6 +35,7 @@ public class Order extends AuditModel {
     @JoinColumn( name = "department", referencedColumnName = "id" )
     private Department department;
 
+    @JsonProperty( "contact" )
     @OneToOne( fetch = FetchType.EAGER, cascade = CascadeType.ALL )
     @JoinColumn( name = "order_contact", referencedColumnName = "id" )
     private OrderContact orderContact;

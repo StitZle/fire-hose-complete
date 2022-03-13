@@ -1,13 +1,13 @@
-import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
-import { gridLocale } from "../../i118/GridLocale";
+import {DataGrid, GridToolbarContainer, GridToolbarExport} from '@mui/x-data-grid';
+import {gridLocale} from "../../i118/GridLocale";
 import React from "react";
 import IconButton from "@material-ui/core/IconButton";
-import { Button, Checkbox } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import {Button, Checkbox} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-const useStyles = makeStyles( ( theme ) => ({
+const useStyles = makeStyles((theme) => ({
   dataGrid: {
     height: 720,
     width: "100%"
@@ -98,13 +98,14 @@ const DevicesDataGrid = ( {
   return (
     <div className={classes.dataGrid}>
       <DataGrid
-        rows={devices}
-        columns={columns}
-        loading={devices.length === 0}
-        onRowClick={( item ) => selectedDeviceFunction( item.row )}
-        localeText={gridLocale}
-        components={{ Toolbar: CustomToolbar }}
-        className={classes.dataGridRemoveBorder}
+          rows={devices}
+          columns={columns}
+          loading={devices.length === 0}
+          pageSize={10}
+          onRowClick={(item) => selectedDeviceFunction(item.row)}
+          localeText={gridLocale}
+          components={{ Toolbar: CustomToolbar }}
+          className={classes.dataGridRemoveBorder}
       />
     </div>
   );

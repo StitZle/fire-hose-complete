@@ -10,88 +10,97 @@ import Devices from "../components/Devices/Devices";
 import OrderForm from "../components/Order/OrderForm";
 import OrderSuccess from "../components/Order/OrderSuccess";
 import Repairs from "../components/Repairs/Repairs";
+import DeliveryDetail from "../components/Deliveries/DeliveryDetail";
 
 export const DASHBOARD = {
-  path: "/",
-  name: "Dashboard",
-  exact: true,
-  authRequired: false,
-  icon: <DashboardIcon/>,
-  component: <Dashboard/>,
+    path: "/",
+    name: "Dashboard",
+    exact: true,
+    authRequired: false,
+    icon: <DashboardIcon/>,
+    component: <Dashboard/>,
 }
 
 export const DELIVERIES = {
-  path: "/deliveries",
-  name: "Abgaben",
-  exact: true,
-  authRequired: true,
-  icon: <LocalShippingIcon/>,
-  component: <Deliveries/>
+    path: "/deliveries",
+    name: "Abgaben",
+    exact: true,
+    authRequired: true,
+    icon: <LocalShippingIcon/>,
+    component: <Deliveries/>
+}
+
+export const DELIVERY_DETAILS = {
+    path: "/delivery/:id/details",
+    name: "Abgaben details",
+    exact: true,
+    authRequired: true,
+    component: <DeliveryDetail/>
 }
 
 export const REPAIRS = {
-  path: "/repairs",
-  name: "Reparaturen",
-  exact: true,
-  authRequired: true,
-  icon: <BuildCircleIcon/>,
-  component: <Repairs/>
+    path: "/repairs",
+    name: "Reparaturen",
+    exact: true,
+    authRequired: true,
+    icon: <BuildCircleIcon/>,
+    component: <Repairs/>
 }
 
 export const DEPARTMENTS = {
-  path: "/settings/departments",
-  name: "Abteilungen",
-  exact: true,
-  authRequired: true,
-  icon: <PeopleIcon/>,
-  component: <Departments/>
+    path: "/settings/departments",
+    name: "Abteilungen",
+    exact: true,
+    authRequired: true,
+    icon: <PeopleIcon/>,
+    component: <Departments/>
 }
 
 export const DEVICES = {
-  path: "/settings/devices",
-  name: "Geräteübersicht",
-  exact: true,
-  authRequired: true,
-  icon: <DeviceHubIcon/>,
-  component: <Devices/>
+    path: "/settings/devices",
+    name: "Geräteübersicht",
+    exact: true,
+    authRequired: true,
+    icon: <DeviceHubIcon/>,
+    component: <Devices/>
 }
-
 
 
 export const ORDER_FORM = {
-  path: "/order-form",
-  name: "Auftrag",
-  exact: true,
-  authRequired: false,
-  component: <OrderForm/>
+    path: "/order-form",
+    name: "Auftrag",
+    exact: true,
+    authRequired: false,
+    component: <OrderForm/>
 }
 
 export const ORDER_SUCCESS = {
-  path: "/order-success",
-  name: "Auftrag",
-  exact: true,
-  authRequired: false,
-  component: <OrderSuccess/>
+    path: "/order-success",
+    name: "Auftrag",
+    exact: true,
+    authRequired: false,
+    component: <OrderSuccess/>
 }
 
 
 export const allRoutes = [
-  DASHBOARD,
-  DELIVERIES,
-  REPAIRS,
-  DEPARTMENTS,
-  DEVICES,
-  ORDER_FORM,
-  ORDER_SUCCESS
+    DASHBOARD,
+    DELIVERIES,
+    DELIVERY_DETAILS,
+    REPAIRS,
+    DEPARTMENTS,
+    DEVICES,
+    ORDER_FORM,
+    ORDER_SUCCESS
 ]
 
 export const primaryRoutes = [
-  DASHBOARD,
-  DELIVERIES,
-  REPAIRS
+    DASHBOARD,
+    DELIVERIES,
+    REPAIRS
 ]
 
 export const secondaryRoutes = [
-  DEPARTMENTS,
-  DEVICES
+    DEPARTMENTS,
+    DEVICES
 ]

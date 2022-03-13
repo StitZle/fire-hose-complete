@@ -1,12 +1,14 @@
 package com.niclas.rest.controller;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,13 +49,41 @@ public class OrderController {
     @GetMapping( value = "/orders" )
     public ResponseEntity<List<Order>> getAllOrdersBetweenDates(
             @RequestParam @DateTimeFormat( pattern = "dd/MM/yyyy" ) Date startDate,
-            @RequestParam @DateTimeFormat( pattern = "dd/MM/yyyy" ) Date endDate ) {
+            @RequestParam @DateTimeFormat( pattern = "dd/MM/yyyy" ) Date endDate )
+    {
         //TODO add if not found custom Response
-        List<Order> orderList = orderService.getAllOrdersBetweenDates( startDate, endDate );
+
+        // transform Date
+        Date endDateWithTimeOffset = nextDay( endDate );
+        List<Order> orderList = orderService.getAllOrdersBetweenDates( startDate, endDateWithTimeOffset );
         return new ResponseEntity<>( orderList, HttpStatus.OK );
     }
 
+
+    private static Date nextDay( Date date )
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime( date );
+        calendar.add( Calendar.DATE, 1 );
+        return calendar.getTime();
+    }
+
+
+    private static LocalDateTime dateToLocalDateTime( Date date )
+    {
+        return LocalDateTime.ofInstant( date.toInstant(), ZoneId.systemDefault() );
+    }
+
+
+    private static Date localDateTimeToDate( LocalDateTime localDateTime )
+    {
+        return Date.from( localDateTime.atZone( ZoneId.systemDefault() ).toInstant() );
+    }
+
 }
+
+
+
 
 
 /*
