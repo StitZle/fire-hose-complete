@@ -12,6 +12,8 @@ const DeliveryDetail = () => {
     const location = useLocation();
     const delivery = location.state.delivery
 
+    //TODO get single Delivery
+    //TODO fix page Reload
 
     return (
         <DefaultPage>
