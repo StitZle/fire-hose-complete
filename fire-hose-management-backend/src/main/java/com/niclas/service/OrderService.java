@@ -88,7 +88,7 @@ public class OrderService {
     private OrderDevice buildOrderDevice( JsonNode deviceNode, String orderId ) {
         OrderDevice orderDevice = new OrderDevice();
         orderDevice.setOrderId( orderId );
-        orderDevice.setDeviceId( deviceNode.get( "id" ).asLong() );
+        orderDevice.setDeviceId( deviceNode.get( "deviceId" ).asText() );
         orderDevice.setDeviceName( deviceNode.get( "deviceName" ).asText() );
         orderDevice.setCount( deviceNode.get( "count" ).asInt() );
         return orderDevice;

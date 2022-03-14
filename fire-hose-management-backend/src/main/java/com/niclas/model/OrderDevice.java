@@ -21,7 +21,7 @@ public class OrderDevice {
     private String orderId;
 
     @Column( name = "device_id" )
-    private long deviceId;
+    private String deviceId;
 
     @Column( name = "device_name" )
     private String deviceName;
@@ -34,7 +34,8 @@ public class OrderDevice {
     }
 
 
-    public OrderDevice( long deviceId, String deviceName, int count ) {
+    public OrderDevice( String deviceId, String deviceName, int count )
+    {
         this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.count = count;
@@ -61,12 +62,14 @@ public class OrderDevice {
     }
 
 
-    public long getDeviceId() {
+    public String getDeviceId()
+    {
         return deviceId;
     }
 
 
-    public void setDeviceId( long deviceId ) {
+    public void setDeviceId( String deviceId )
+    {
         this.deviceId = deviceId;
     }
 
