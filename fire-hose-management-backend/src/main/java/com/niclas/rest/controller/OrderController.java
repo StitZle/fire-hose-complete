@@ -52,6 +52,7 @@ public class OrderController {
             @RequestParam @DateTimeFormat( pattern = "dd/MM/yyyy" ) Date endDate )
     {
         //TODO add if not found custom Response
+        //TODO add default range (1 Year)
 
         // transform Date
         Date endDateWithTimeOffset = nextDay( endDate );
@@ -60,6 +61,7 @@ public class OrderController {
     }
 
 
+    //TODO move this to other file
     private static Date nextDay( Date date )
     {
         Calendar calendar = Calendar.getInstance();
