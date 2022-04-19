@@ -1,4 +1,4 @@
-import {Card, CardContent, Paper} from "@mui/material";
+import {Card, CardContent, Paper, TextField} from "@mui/material";
 import Typography from "@mui/material/Typography";
 
 const Notes = ({delivery}) => {
@@ -18,9 +18,15 @@ const Notes = ({delivery}) => {
                     Bemerkungen:
                 </Typography>
                 <pre>
-                    <Typography>
-                        {renderNotes()}
-                    </Typography>
+                    <TextField
+                        id="filled-textarea"
+                        label={"Bemerkungen"}
+                        value={renderNotes()}
+                        rows={5}
+                        multiline
+                        variant={"filled"}
+                        fullWidth={true}
+                    />
                 </pre>
             </CardContent>
         </Card>

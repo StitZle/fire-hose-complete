@@ -1,19 +1,25 @@
 import React from 'react';
-import {Button} from "@material-ui/core";
-import * as countries from "i18n-iso-countries";
 import DefaultPage from "./shared/DefaultPage";
+import Typography from "@mui/material/Typography";
+import {useAuth0} from "@auth0/auth0-react";
 
 const Dashboard = () => {
 
-    const countiesHandle = () => {
-        countries.registerLocale(require("i18n-iso-countries/langs/de.json"));
-        console.log(countries.getNames("de", {select: "official"}))
-    }
+    const {isAuthenticated} = useAuth0();
 
     return (
         <DefaultPage>
             <h1>Dashboard</h1>
-            <Button variant="contained" onClick={() => countiesHandle()}>Default</Button>
+            {!isAuthenticated &&
+                <Typography variant={"h6"}>
+                    Bitte loggen Sie sich ein um Daten zu sehen!
+                </Typography>
+            }
+            {isAuthenticated &&
+                <Typography variant={"h6"}>
+                    Erfolgreich eingeloggt!
+                </Typography>
+            }
         </DefaultPage>
 
     );

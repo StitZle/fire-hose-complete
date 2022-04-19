@@ -26,6 +26,7 @@ const DeliveriesDataGrid = ({deliveries = [],}) => {
     const navigate = useNavigate();
     const classes = useStyles();
     const [selectedDelivery, setSelectedDelivery] = useState({});
+    console.log(selectedDelivery);
 
     const buttons = [
         {

@@ -3,6 +3,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import DeviceHubIcon from '@mui/icons-material/DeviceHub';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import Dashboard from "../components/Dashboard";
 import Deliveries from "../components/Deliveries/Deliveries";
 import Departments from "../components/Departments/Departments";
@@ -11,6 +12,7 @@ import OrderForm from "../components/Order/OrderForm";
 import OrderSuccess from "../components/Order/OrderSuccess";
 import Repairs from "../components/Repairs/Repairs";
 import DeliveryDetail from "../components/Deliveries/DeliveryDetail";
+import ExportData from "../components/Export/ExportData";
 
 export const DASHBOARD = {
     path: "/",
@@ -45,6 +47,15 @@ export const REPAIRS = {
     authRequired: true,
     icon: <BuildCircleIcon/>,
     component: <Repairs/>
+}
+
+export const EXPORT = {
+    path: "/export",
+    name: "Export",
+    exact: true,
+    authRequired: true,
+    icon: <FileDownloadIcon/>,
+    component: <ExportData/>
 }
 
 export const DEPARTMENTS = {
@@ -88,6 +99,7 @@ export const allRoutes = [
     DELIVERIES,
     DELIVERY_DETAILS,
     REPAIRS,
+    EXPORT,
     DEPARTMENTS,
     DEVICES,
     ORDER_FORM,
@@ -97,7 +109,8 @@ export const allRoutes = [
 export const primaryRoutes = [
     DASHBOARD,
     DELIVERIES,
-    REPAIRS
+    REPAIRS,
+    EXPORT
 ]
 
 export const secondaryRoutes = [

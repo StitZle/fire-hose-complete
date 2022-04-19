@@ -17,7 +17,7 @@ const DeliveryDetail = () => {
 
     return (
         <DefaultPage>
-            <h1>Delivery Detail {delivery.id}</h1>
+            <h1>Detailübersicht für Abgabe: {delivery.orderId}</h1>
             <Grid container spacing={2}>
                 <Grid item xs={6} md={8}>
                     <Sender delivery={delivery}/>
@@ -25,11 +25,11 @@ const DeliveryDetail = () => {
                 <Grid item xs={6} md={4}>
                     <Info delivery={delivery}/>
                 </Grid>
-                <Grid item xs={6} md={4}>
-                    <Notes delivery={delivery}/>
-                </Grid>
                 <Grid item xs={6} md={8}>
                     <Devices delivery={delivery}/>
+                </Grid>
+                <Grid item xs={6} md={4}>
+                    <Notes delivery={delivery}/>
                 </Grid>
             </Grid>
         </DefaultPage>
