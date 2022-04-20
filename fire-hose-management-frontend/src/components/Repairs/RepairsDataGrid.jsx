@@ -1,11 +1,11 @@
-import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
-import { gridLocale } from "../../i118/GridLocale";
+import {DataGrid, GridToolbarContainer, GridToolbarExport} from '@mui/x-data-grid';
+import {gridLocale} from "../../i118/GridLocale";
 import React from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from "@material-ui/core/IconButton";
-import { Button, Checkbox } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import {Button, Checkbox} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles( ( theme ) => ({
   dataGrid: {
@@ -86,13 +86,12 @@ const RepairsDataGrid = ( {
   ]
 
   const CustomToolbar = () => {
-    return (
-      <GridToolbarContainer className={"grid-toolbar-container"}>
-        <Button variant="contained" color="primary" onClick={() => setIsAddOverlayVisibleFunction( true )}>
-          Reparatur hinzufügen</Button>
+    return (<GridToolbarContainer className={"grid-toolbar-container"}>
+              <Button variant="contained" color="primary" onClick={() => setIsAddOverlayVisibleFunction()}>
+                Wartung hinzufügen</Button>
 
-        <GridToolbarExport/>
-      </GridToolbarContainer>
+              <GridToolbarExport/>
+            </GridToolbarContainer>
     )
   }
 

@@ -1,7 +1,9 @@
 package com.niclas.rest.controller;
 
-import java.util.List;
-
+import com.niclas.model.Device;
+import com.niclas.rest.exceptionHandling.exception.DeviceNotFoundException;
+import com.niclas.service.DeviceService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,11 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.niclas.model.Device;
-import com.niclas.rest.exceptionHandling.exception.DeviceNotFoundException;
-import com.niclas.service.DeviceService;
-
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
 
 
 @Slf4j
@@ -34,7 +32,7 @@ public class DeviceController {
     }
 
 
-    @PostMapping( value = "/devices/", consumes = { MediaType.APPLICATION_JSON_VALUE } )
+    @PostMapping( value = "/devices/", consumes = {MediaType.APPLICATION_JSON_VALUE} )
     public ResponseEntity<Device> addDevice( @RequestBody Device deviceRequest ) {
 
         Device device = deviceService.addDevice( deviceRequest );
@@ -49,9 +47,8 @@ public class DeviceController {
     }
 
 
-    @PutMapping( value = "/devices/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE } )
-    public ResponseEntity<Device> editDevice( @PathVariable( value = "id" ) long id, @RequestBody Device deviceRequest )
-            throws DeviceNotFoundException {
+    @PutMapping( value = "/devices/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE} )
+    public ResponseEntity<Device> editDevice( @PathVariable( value = "id" ) long id, @RequestBody Device deviceRequest ) throws DeviceNotFoundException {
 
         Device device = deviceService.updateDevice( deviceRequest, id );
         return new ResponseEntity<>( device, HttpStatus.OK );
@@ -60,9 +57,7 @@ public class DeviceController {
 
     @DeleteMapping( value = "/devices/{id}" )
     public ResponseEntity<Object> deleteComponent( @PathVariable( value = "id" ) long id ) {
-
         deviceService.deleteDevice( id );
         return new ResponseEntity<>( HttpStatus.OK );
     }
-
 }

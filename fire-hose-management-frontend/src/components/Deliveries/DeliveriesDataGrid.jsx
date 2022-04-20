@@ -21,17 +21,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const DeliveriesDataGrid = ({deliveries = [],}) => {
+const DeliveriesDataGrid = ( { deliveries = [], } ) => {
 
     const navigate = useNavigate();
     const classes = useStyles();
-    const [selectedDelivery, setSelectedDelivery] = useState({});
-    console.log(selectedDelivery);
+    const [selectedDelivery, setSelectedDelivery] = useState( {} );
+    console.log( selectedDelivery );
 
-    const buttons = [
-        {
-            key: 1,
-            labelText: "Details",
+    const buttons = [{
+        key: 1,
+        labelText: "Details",
             icon: <SearchIcon/>,
             onClick: () => {
                 navigate(DELIVERY_DETAILS.path.replace(":id", selectedDelivery.id), {

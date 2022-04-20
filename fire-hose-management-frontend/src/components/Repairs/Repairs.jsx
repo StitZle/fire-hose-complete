@@ -2,38 +2,38 @@ import React, {useState} from 'react';
 import {DevicesDataGrid} from "../Devices/DevicesDataGrid";
 import RepairsDataGrid from "./RepairsDataGrid";
 import DefaultPage from "../shared/DefaultPage";
-import {useAuth0} from "@auth0/auth0-react";
-import {RepairOverlay} from "./RepairOverlay";
+import {ADD_REPAIR} from "../../router/navigationPaths";
+import {useNavigate} from "react-router-dom";
+import {useGetAllDeviceMaintenances} from "../../hooks/useGetAllDeviceMaintenances";
 
 const Repairs = () => {
 
-    const {user} = useAuth0();
+    const navigate = useNavigate();
 
-    const [selectedRepair, setSelectedRepair] = useState({})
-    const [isDeleteOverlayVisible, setDeleteOverlayVisible] = useState(false)
-    const [isAddOverlayVisible, setIsAddOverlayVisible] = useState(false)
-    const [isEditOverlayVisible, setIsEditOverlayVisible] = useState(false)
+    const { deviceMaintenances } = useGetAllDeviceMaintenances();
+    console.log( deviceMaintenances );
 
-    console.log(user)
+    const [selectedRepair, setSelectedRepair] = useState( {} )
+    const [isDeleteOverlayVisible, setDeleteOverlayVisible] = useState( false )
+    const [isEditOverlayVisible, setIsEditOverlayVisible] = useState( false )
 
-    return (
-        <DefaultPage>
-            <h1>Reparaturen und Waschungen</h1>
-            <RepairsDataGrid
+
+    const setIsAddOverlayVisible = () => {
+        navigate( ADD_REPAIR.path, { replace: true } );
+    }
+
+
+    return (<DefaultPage>
+        <h1>Gerätewartungen</h1>
+        <RepairsDataGrid
                 repairs={[]}
-                selectedDeviceFunction={(repair) => setSelectedRepair(repair)}
-                setDeleteOverlayVisibleFunction={(state) => setDeleteOverlayVisible(state)}
-                setIsEditOverlayVisibleFunction={(state) => setIsEditOverlayVisible(state)}
-                setIsAddOverlayVisibleFunction={(state) => setIsAddOverlayVisible(state)}
-            />
+                selectedDeviceFunction={( repair ) => setSelectedRepair( repair )}
+                setDeleteOverlayVisibleFunction={( state ) => setDeleteOverlayVisible( state )}
+                setIsEditOverlayVisibleFunction={( state ) => setIsEditOverlayVisible( state )}
+                setIsAddOverlayVisibleFunction={() => setIsAddOverlayVisible()}
+        />
 
-            {isAddOverlayVisible &&
-                <RepairOverlay
-                    handleClose={() => setIsAddOverlayVisible(false)}
-                />}
-
-        </DefaultPage>
-    );
+    </DefaultPage>);
 }
 
 export default Repairs

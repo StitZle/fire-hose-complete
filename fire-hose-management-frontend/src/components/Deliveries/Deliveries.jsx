@@ -20,6 +20,7 @@ const Deliveries = () => {
             <DeliveriesDataGrid
                 deliveries={deliveries}
                 selectedDeliveryFunction={(item) => setSelectedDelivery(item)}
+
             />
         </DefaultPage>
     );

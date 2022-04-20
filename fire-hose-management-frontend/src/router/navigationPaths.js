@@ -13,6 +13,7 @@ import OrderSuccess from "../components/Order/OrderSuccess";
 import Repairs from "../components/Repairs/Repairs";
 import DeliveryDetail from "../components/Deliveries/DeliveryDetail";
 import ExportData from "../components/Export/ExportData";
+import AddRepair from "../components/Repairs/AddRepair";
 
 export const DASHBOARD = {
     path: "/",
@@ -47,6 +48,15 @@ export const REPAIRS = {
     authRequired: true,
     icon: <BuildCircleIcon/>,
     component: <Repairs/>
+}
+
+export const ADD_REPAIR = {
+    path: "/repairs/new",
+    name: "Neue Wartung",
+    exact: true,
+    authRequired: true,
+    icon: <BuildCircleIcon/>,
+    component: <AddRepair/>
 }
 
 export const EXPORT = {
@@ -94,17 +104,7 @@ export const ORDER_SUCCESS = {
 }
 
 
-export const allRoutes = [
-    DASHBOARD,
-    DELIVERIES,
-    DELIVERY_DETAILS,
-    REPAIRS,
-    EXPORT,
-    DEPARTMENTS,
-    DEVICES,
-    ORDER_FORM,
-    ORDER_SUCCESS
-]
+export const allRoutes = [DASHBOARD, DELIVERIES, DELIVERY_DETAILS, REPAIRS, ADD_REPAIR, EXPORT, DEPARTMENTS, DEVICES, ORDER_FORM, ORDER_SUCCESS]
 
 export const primaryRoutes = [
     DASHBOARD,
