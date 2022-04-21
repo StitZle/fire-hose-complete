@@ -16,104 +16,104 @@ import ExportData from "../components/Export/ExportData";
 import AddRepair from "../components/Repairs/AddRepair";
 
 export const DASHBOARD = {
-    path: "/",
-    name: "Dashboard",
-    exact: true,
-    authRequired: false,
-    icon: <DashboardIcon/>,
-    component: <Dashboard/>,
+  path: "/",
+  name: "Dashboard",
+  exact: true,
+  authRequired: false,
+  icon: <DashboardIcon/>,
+  component: <Dashboard/>,
 }
 
 export const DELIVERIES = {
-    path: "/deliveries",
-    name: "Abgaben",
-    exact: true,
-    authRequired: true,
-    icon: <LocalShippingIcon/>,
-    component: <Deliveries/>
+  path: "/deliveries",
+  name: "Abgaben",
+  exact: true,
+  authRequired: true,
+  icon: <LocalShippingIcon/>,
+  component: <Deliveries/>
 }
 
 export const DELIVERY_DETAILS = {
-    path: "/delivery/:id/details",
-    name: "Abgaben details",
-    exact: true,
-    authRequired: true,
-    component: <DeliveryDetail/>
+  path: "/delivery/:id/details",
+  name: "Abgaben details",
+  exact: true,
+  authRequired: true,
+  component: <DeliveryDetail/>
 }
 
 export const REPAIRS = {
-    path: "/repairs",
-    name: "Reparaturen",
-    exact: true,
-    authRequired: true,
-    icon: <BuildCircleIcon/>,
-    component: <Repairs/>
+  path: "/repairs",
+  name: "Gerätewartung",
+  exact: true,
+  authRequired: true,
+  icon: <BuildCircleIcon/>,
+  component: <Repairs/>
 }
 
 export const ADD_REPAIR = {
-    path: "/repairs/new",
-    name: "Neue Wartung",
-    exact: true,
-    authRequired: true,
-    icon: <BuildCircleIcon/>,
-    component: <AddRepair/>
+  path: "/repairs/new",
+  name: "Neue Wartung",
+  exact: true,
+  authRequired: true,
+  icon: <BuildCircleIcon/>,
+  component: <AddRepair/>
 }
 
 export const EXPORT = {
-    path: "/export",
-    name: "Export",
-    exact: true,
-    authRequired: true,
-    icon: <FileDownloadIcon/>,
-    component: <ExportData/>
+  path: "/export",
+  name: "Export",
+  exact: true,
+  authRequired: true,
+  icon: <FileDownloadIcon/>,
+  component: <ExportData/>
 }
 
 export const DEPARTMENTS = {
-    path: "/settings/departments",
-    name: "Abteilungen",
-    exact: true,
-    authRequired: true,
-    icon: <PeopleIcon/>,
-    component: <Departments/>
+  path: "/settings/departments",
+  name: "Abteilungen",
+  exact: true,
+  authRequired: true,
+  icon: <PeopleIcon/>,
+  component: <Departments/>
 }
 
 export const DEVICES = {
-    path: "/settings/devices",
-    name: "Geräteübersicht",
-    exact: true,
-    authRequired: true,
-    icon: <DeviceHubIcon/>,
-    component: <Devices/>
+  path: "/settings/devices",
+  name: "Geräteübersicht",
+  exact: true,
+  authRequired: true,
+  icon: <DeviceHubIcon/>,
+  component: <Devices/>
 }
 
 
 export const ORDER_FORM = {
-    path: "/order-form",
-    name: "Auftrag",
-    exact: true,
-    authRequired: false,
-    component: <OrderForm/>
+  path: "/order-form",
+  name: "Auftrag",
+  exact: true,
+  authRequired: false,
+  component: <OrderForm/>
 }
 
 export const ORDER_SUCCESS = {
-    path: "/order-success",
-    name: "Auftrag",
-    exact: true,
-    authRequired: false,
-    component: <OrderSuccess/>
+  path: "/order-success",
+  name: "Auftrag",
+  exact: true,
+  authRequired: false,
+  component: <OrderSuccess/>
 }
 
 
 export const allRoutes = [DASHBOARD, DELIVERIES, DELIVERY_DETAILS, REPAIRS, ADD_REPAIR, EXPORT, DEPARTMENTS, DEVICES, ORDER_FORM, ORDER_SUCCESS]
 
 export const primaryRoutes = [
-    DASHBOARD,
-    DELIVERIES,
-    REPAIRS,
-    EXPORT
+  DASHBOARD,
+  DELIVERIES,
+  REPAIRS,
+  EXPORT
 ]
 
 export const secondaryRoutes = [
-    DEPARTMENTS,
-    DEVICES
+  DEPARTMENTS,
+  DEVICES
 ]

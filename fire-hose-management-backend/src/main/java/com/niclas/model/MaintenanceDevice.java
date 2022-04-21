@@ -1,5 +1,7 @@
 package com.niclas.model;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +19,13 @@ public class MaintenanceDevice extends AuditModel {
     @GeneratedValue( strategy = GenerationType.AUTO ) //TODO better config for GenerationType
     private long id;
 
+    @Column( name = "maintenance_id", insertable = false, updatable = false )
+    private UUID maintenanceId;
+
     @Column( name = "device_name" )
     private String deviceName;
 
-    @Column( name = "device_id", insertable = false, updatable = false )
+    @Column( name = "device_id" )
     private String deviceId;
 
     @Column( name = "is_primary" )
@@ -32,52 +37,75 @@ public class MaintenanceDevice extends AuditModel {
     @Column( name = "discarded" )
     private int discarded;
 
+
     public MaintenanceDevice() {
     }
+
 
     public long getId() {
         return id;
     }
 
+
     public void setId( long id ) {
         this.id = id;
     }
+
+
+    public UUID getMaintenanceId() {
+        return maintenanceId;
+    }
+
+
+    public void setMaintenanceId( UUID maintenanceId ) {
+        this.maintenanceId = maintenanceId;
+    }
+
 
     public String getDeviceName() {
         return deviceName;
     }
 
+
     public void setDeviceName( String deviceName ) {
         this.deviceName = deviceName;
     }
+
 
     public String getDeviceId() {
         return deviceId;
     }
 
+
     public void setDeviceId( String deviceId ) {
         this.deviceId = deviceId;
     }
+
 
     public boolean isPrimary() {
         return isPrimary;
     }
 
+
     public void setPrimary( boolean primary ) {
         isPrimary = primary;
     }
+
 
     public int getMaintained() {
         return maintained;
     }
 
+
     public void setMaintained( int maintained ) {
         this.maintained = maintained;
     }
 
+
     public int getDiscarded() {
         return discarded;
     }
+
 
     public void setDiscarded( int discarded ) {
         this.discarded = discarded;

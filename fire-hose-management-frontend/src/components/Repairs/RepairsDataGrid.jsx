@@ -1,11 +1,9 @@
-import {DataGrid, GridToolbarContainer, GridToolbarExport} from '@mui/x-data-grid';
-import {gridLocale} from "../../i118/GridLocale";
+import { DataGrid, GridColDef, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
+import { gridLocale } from "../../i118/GridLocale";
 import React from "react";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import IconButton from "@material-ui/core/IconButton";
-import {Button, Checkbox} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+import { Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import dayjs from "dayjs";
 
 const useStyles = makeStyles( ( theme ) => ({
   dataGrid: {
@@ -19,79 +17,55 @@ const useStyles = makeStyles( ( theme ) => ({
 
 const RepairsDataGrid = ( {
                             repairs = [],
-                            selectedRepairFunction,
-                            setDeleteOverlayVisibleFunction,
-                            setIsEditOverlayVisibleFunction,
                             setIsAddOverlayVisibleFunction
 
                           } ) => {
   const classes = useStyles();
 
-  const buttons = [
-    {
-      key: 1,
-      labelText: "Gerät löschen",
-      icon: <DeleteIcon/>,
-      onClick: () => {
-        setDeleteOverlayVisibleFunction( true )
-      }
-    }, {
-      key: 1,
-      labelText: "Gerät bearbeiten",
-      icon: <EditIcon/>,
-      onClick: () => {
-        setIsEditOverlayVisibleFunction( true )
-      }
-    }]
-
-
-  const buttonHandler = ( props ) => {
-    if( props ) {
-      return (
-        <div>
-          {
-            buttons.map( ( btn ) => {
-              return (
-                <IconButton
-                  aria-label={btn.labelText}
-                  onClick={( value ) => {
-                    btn.onClick( value )
-                  }}>
-                  {btn.icon}
-                </IconButton>
-              )
-
-            } )
-          }
-        </div>
-      )
-    }
+  const dateRender = ( params ) => {
+    return dayjs( params.value ).format( "DD/MM/YYYY HH:mm" )
   }
 
-  const checkboxRender = ( params ) => {
-    return (
-      <Checkbox
-        checked={params.value}
-        disabled={true}
-        color="primary"
-      />
-    )
+  const deviceNameRender = ( params ) => {
+    let devices = [];
+    params.row.maintenanceDevices.forEach( ( device ) => {
+      devices.push( device.deviceName )
+    } )
+    return devices.join( ", " );
   }
 
-  const columns = [
-    { field: "deviceName", headerName: "Gerätename", flex: true },
-    { field: "deviceId", headerName: "Kennung", flex: true },
-    { field: "isPrimary", headerName: "Primäres Gerät", renderCell: checkboxRender, flex: true },
-    { field: "", headerName: "Aktionen", renderCell: buttonHandler, flex: true }
+  const maintainedCount = ( params ) => {
+    let count = 0
+    params.row.maintenanceDevices.forEach( ( device ) => {
+      count = count + device.maintained
+    } )
+    return count;
+  }
+
+  const discardedCount = ( params ) => {
+    let count = 0
+    params.row.maintenanceDevices.forEach( ( device ) => {
+      count = count + device.discarded
+    } )
+    return count;
+  }
+
+
+  const columns: GridColDef = [
+    { field: "createdAt", headerName: "Durchführungsdatum", renderCell: dateRender, flex: true },
+    { field: "username", headerName: "Durchgeführt von", flex: true },
+    { field: "deviceCount", headerName: "Gewartete Geräte", valueGetter: deviceNameRender, flex: true },
+    { field: "maintainedCount", headerName: "Anzahl gewartete Geräte", valueGetter: maintainedCount, flex: true },
+    { field: "discardedCount", headerName: "Anzahl entsorgter Geräte", valueGetter: discardedCount, flex: true },
   ]
 
   const CustomToolbar = () => {
     return (<GridToolbarContainer className={"grid-toolbar-container"}>
-              <Button variant="contained" color="primary" onClick={() => setIsAddOverlayVisibleFunction()}>
-                Wartung hinzufügen</Button>
+        <Button variant="contained" color="primary" onClick={() => setIsAddOverlayVisibleFunction()}>
+          Wartung hinzufügen</Button>
 
-              <GridToolbarExport/>
-            </GridToolbarContainer>
+        <GridToolbarExport/>
+      </GridToolbarContainer>
     )
   }
 
@@ -104,7 +78,6 @@ const RepairsDataGrid = ( {
         columns={columns}
         pageSize={10}
         loading={repairs.length === 0}
-        onRowClick={( item ) => selectedRepairFunction( item.row )}
         localeText={gridLocale}
         components={{ Toolbar: CustomToolbar }}
         className={classes.dataGridRemoveBorder}

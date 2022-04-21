@@ -5,6 +5,7 @@ import {useAuth0} from "@auth0/auth0-react";
 
 const Dashboard = () => {
 
+  //https://stackoverflow.com/questions/54060096/close-persistent-mui-drawer-on-clicking-outside
     const {isAuthenticated} = useAuth0();
 
     return (

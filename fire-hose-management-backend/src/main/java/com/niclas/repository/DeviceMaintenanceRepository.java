@@ -1,15 +1,17 @@
 package com.niclas.repository;
 
-import com.niclas.model.DeviceMaintenance;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DeviceMaintenanceRepository extends JpaRepository<DeviceMaintenance, Long> {
+import com.niclas.model.Maintenance;
 
-    Optional<DeviceMaintenance> findDeviceMaintenanceById( long id );
 
-    List<DeviceMaintenance> findAllByOrderByIdDesc();
+public interface DeviceMaintenanceRepository extends JpaRepository<Maintenance, Long> {
+
+    Optional<Maintenance> findDeviceMaintenanceById( long id );
+
+
+    List<Maintenance> findAllByOrderByIdDesc();
 }
