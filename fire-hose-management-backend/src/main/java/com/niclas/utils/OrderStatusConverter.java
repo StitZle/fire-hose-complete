@@ -1,3 +1,4 @@
+/*
 package com.niclas.utils;
 
 import javax.persistence.AttributeConverter;
@@ -28,3 +29,4 @@ public class OrderStatusConverter implements AttributeConverter<OrderStatus, Str
                 .orElseThrow(IllegalArgumentException::new);
     }
 }
+*/

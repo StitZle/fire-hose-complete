@@ -1,11 +1,11 @@
 package com.niclas.rest.controller;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.niclas.model.Order;
+import com.niclas.rest.exceptionHandling.exception.OrderParamsOverload;
+import com.niclas.service.OrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.niclas.model.Order;
-import com.niclas.rest.exceptionHandling.exception.OrderParamsOverload;
-import com.niclas.service.OrderService;
-
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 
 @Slf4j
@@ -42,6 +40,7 @@ public class OrderController {
     public ResponseEntity<Order> addOrder( @RequestBody JsonNode orderNode )
             throws JsonProcessingException, OrderParamsOverload {
         Order order = orderService.addOrder( orderNode );
+        System.out.println( order );
         return new ResponseEntity<>( order, HttpStatus.CREATED );
     }
 

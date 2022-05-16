@@ -1,13 +1,13 @@
 package com.niclas.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.niclas.model.Department;
 import com.niclas.repository.DepartmentRepository;
 import com.niclas.rest.exceptionHandling.exception.DepartmentNotFoundException;
+import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 
 @Component
@@ -34,14 +34,13 @@ public class DepartmentService {
     }
 
 
-    public Department getDepartmentById( long id ) throws DepartmentNotFoundException {
+    public Department getDepartmentById( ObjectId id ) throws DepartmentNotFoundException {
         return departmentRepository.findDepartmentById( id ).orElseThrow( () -> new DepartmentNotFoundException( id ) );
     }
 
 
-    public Department updateDepartment( Department departmentRequest, long id ) throws DepartmentNotFoundException {
-        Department department = departmentRepository.findDepartmentById( id )
-                .orElseThrow( () -> new DepartmentNotFoundException( id ) );
+    public Department updateDepartment( Department departmentRequest, ObjectId id ) throws DepartmentNotFoundException {
+        Department department = departmentRepository.findDepartmentById( id ).orElseThrow( () -> new DepartmentNotFoundException( id ) );
 
         department.setDepartment( departmentRequest.getDepartment() );
         department.setStreet( departmentRequest.getStreet() );
@@ -57,7 +56,7 @@ public class DepartmentService {
         return department;
     }
 
-    public void deleteDepartment(long id){
+    public void deleteDepartment( ObjectId id ) {
         departmentRepository.deleteById( id );
     }
 

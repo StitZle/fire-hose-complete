@@ -1,32 +1,20 @@
 package com.niclas.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 
 
-@Entity
-@Table( name = "order_contact" )
 public class OrderContact {
 
     @Id
-    @Column( name = "id" )
-    @GeneratedValue( strategy = GenerationType.AUTO ) //TODO better config for GenerationType
-    private long id;
+    private ObjectId id;
 
-    @Column( name = "firstname" )
     private String firstname;
 
-    @Column( name = "lastname" )
     private String lastname;
 
-    @Column( name = "mail" )
     private String mail;
 
-    @Column( name = "company" )
     private String company;
 
 
@@ -42,12 +30,12 @@ public class OrderContact {
     }
 
 
-    public long getId() {
-        return id;
+    public String getId() {
+        return id.toHexString();
     }
 
 
-    public void setId( long id ) {
+    public void setId( ObjectId id ) {
         this.id = id;
     }
 

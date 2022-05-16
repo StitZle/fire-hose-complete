@@ -1,11 +1,5 @@
 package com.niclas.service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +10,12 @@ import com.niclas.model.OrderDevice;
 import com.niclas.repository.OrderRepository;
 import com.niclas.rest.exceptionHandling.exception.OrderParamsOverload;
 import com.niclas.utils.Generators;
+import org.bson.types.ObjectId;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 @Component
@@ -69,8 +69,7 @@ public class OrderService {
         }
 
         if( !orderJson.hasNonNull( "department" ) && !orderJson.hasNonNull( "contact" ) ) {
-            throw new OrderParamsOverload(
-                    "Order cannot have both fields null. One field must be set: department, contact" );
+            throw new OrderParamsOverload( "Order cannot have both fields null. One field must be set: department or contact" );
         }
     }
 
@@ -87,6 +86,7 @@ public class OrderService {
 
     private OrderDevice buildOrderDevice( JsonNode deviceNode, String orderId ) {
         OrderDevice orderDevice = new OrderDevice();
+        orderDevice.setId( new ObjectId() );
         orderDevice.setOrderId( orderId );
         orderDevice.setDeviceId( deviceNode.get( "deviceId" ).asText() );
         orderDevice.setDeviceName( deviceNode.get( "deviceName" ).asText() );

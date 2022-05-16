@@ -4,11 +4,18 @@ import com.niclas.model.Department;
 import com.niclas.rest.exceptionHandling.exception.DepartmentNotFoundException;
 import com.niclas.service.DepartmentService;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -25,7 +32,7 @@ public class DepartmentController {
     }
 
 
-    @PostMapping( value = "/departments/", consumes = { MediaType.APPLICATION_JSON_VALUE } )
+    @PostMapping( value = "/departments", consumes = {MediaType.APPLICATION_JSON_VALUE} )
     public ResponseEntity<Department> addDepartment( @RequestBody Department departmentRequest ) {
 
         Department department = departmentService.addDepartment( departmentRequest );
@@ -33,7 +40,7 @@ public class DepartmentController {
     }
 
 
-    @GetMapping( value = "/departments/" )
+    @GetMapping( value = "/departments" )
     public ResponseEntity<List<Department>> getAllDepartments() {
 
         List<Department> departments = departmentService.getAllDepartments();
@@ -42,16 +49,15 @@ public class DepartmentController {
 
 
     @GetMapping( "/departments/{id}" )
-    public ResponseEntity<Department> getDepartmentById( @PathVariable long id ) throws DepartmentNotFoundException {
+    public ResponseEntity<Department> getDepartmentById( @PathVariable ObjectId id ) throws DepartmentNotFoundException {
 
         Department department = departmentService.getDepartmentById( id );
         return new ResponseEntity<>( department, HttpStatus.OK );
     }
 
 
-    @PutMapping( value = "/departments/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE } )
-    public ResponseEntity<Department> updateDepartment( @PathVariable( value = "id" ) long id,
-            @RequestBody Department departmentRequest ) throws DepartmentNotFoundException {
+    @PutMapping( value = "/departments/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE} )
+    public ResponseEntity<Department> updateDepartment( @PathVariable( value = "id" ) ObjectId id, @RequestBody Department departmentRequest ) throws DepartmentNotFoundException {
 
         Department department = departmentService.updateDepartment( departmentRequest, id );
         return new ResponseEntity<>( department, HttpStatus.OK );
@@ -59,7 +65,7 @@ public class DepartmentController {
 
 
     @DeleteMapping( "/departments/{id}" )
-    public ResponseEntity<Object> deleteDepartment( @PathVariable( value = "id" ) long id ) {
+    public ResponseEntity<Object> deleteDepartment( @PathVariable( value = "id" ) ObjectId id ) {
 
         departmentService.deleteDepartment( id );
         return new ResponseEntity<>( HttpStatus.OK );

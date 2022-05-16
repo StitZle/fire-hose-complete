@@ -1,6 +1,5 @@
 package com.niclas.utils;
 
-import com.niclas.model.Device;
 
 
 public class MaintenanceDeviceDto {
@@ -26,12 +25,12 @@ public class MaintenanceDeviceDto {
         this.discarded = discarded;
     }
 
-    public MaintenanceDeviceDto( Device device ) {
+ /*   public MaintenanceDeviceDto( Device device ) {
         this.deviceName = device.getDeviceName();
         this.deviceId = device.getDeviceId();
         this.isPrimary = device.getIsPrimary();
     }
-
+*/
 
     public String getDeviceName() {
         return deviceName;

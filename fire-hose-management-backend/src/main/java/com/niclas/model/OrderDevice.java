@@ -1,32 +1,20 @@
 package com.niclas.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 
 
-@Entity
-@Table( name = "order_devices" )
-public class OrderDevice {
+public class OrderDevice extends AuditModel {
 
     @Id
-    @Column( name = "id" )
-    @GeneratedValue( strategy = GenerationType.AUTO ) //TODO better config for GenerationType
-    private long id;
+    private ObjectId id;
 
-    @Column( name = "order_id", insertable = false, updatable = false )
     private String orderId;
 
-    @Column( name = "device_id" )
     private String deviceId;
 
-    @Column( name = "device_name" )
     private String deviceName;
 
-    @Column( name = "count" )
     private int count;
 
 
@@ -34,20 +22,19 @@ public class OrderDevice {
     }
 
 
-    public OrderDevice( String deviceId, String deviceName, int count )
-    {
+    public OrderDevice( String deviceId, String deviceName, int count ) {
         this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.count = count;
     }
 
 
-    public long getId() {
-        return id;
+    public String getId() {
+        return id.toHexString();
     }
 
 
-    public void setId( long id ) {
+    public void setId( ObjectId id ) {
         this.id = id;
     }
 
@@ -62,14 +49,12 @@ public class OrderDevice {
     }
 
 
-    public String getDeviceId()
-    {
+    public String getDeviceId() {
         return deviceId;
     }
 
 
-    public void setDeviceId( String deviceId )
-    {
+    public void setDeviceId( String deviceId ) {
         this.deviceId = deviceId;
     }
 
