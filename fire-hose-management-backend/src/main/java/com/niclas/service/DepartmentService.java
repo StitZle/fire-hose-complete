@@ -48,8 +48,8 @@ public class DepartmentService {
         department.setPostalCode( departmentRequest.getPostalCode() );
         department.setLocation( departmentRequest.getLocation() );
         department.setCountry( departmentRequest.getCountry() );
-        department.setForename( departmentRequest.getForename() );
-        department.setSurname( departmentRequest.getSurname() );
+        department.setFirstname( departmentRequest.getFirstname() );
+        department.setLastname( departmentRequest.getLastname() );
         department.setMail( departmentRequest.getMail() );
 
         departmentRepository.save( department );

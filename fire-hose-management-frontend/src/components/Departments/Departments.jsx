@@ -16,17 +16,17 @@ const Departments = () => {
 
     const {departments, refetch} = useGetAllDepartments();
 
-    const addDepartmentMutation = useMutation((departmentDto) => postDepartment(departmentDto), {
+    const addDepartmentMutation = useMutation( ( department ) => postDepartment( department ), {
         onSuccess: () => {
-            Notifications.showSuccess("Die Abteilung wurde erfolgreich erstellt!")
-            setIsAddOverlayVisible(false)
+            Notifications.showSuccess( "Die Abteilung wurde erfolgreich erstellt!" )
+            setIsAddOverlayVisible( false )
             refetch();
         },
-        onError: (error) => {
-            Notifications.showError("Fehler beim Hinzufügen der Abteilung!")
-            console.log(error)
+        onError: ( error ) => {
+            Notifications.showError( "Fehler beim Hinzufügen der Abteilung!" )
+            console.log( error )
         }
-    })
+    } )
 
     const editDepartmentMutation = useMutation((departmentDto) => putDepartment(selectedDepartment.id, departmentDto), {
         onSuccess: () => {
@@ -51,28 +51,6 @@ const Departments = () => {
         }
     })
 
-    const addDepartment = (department, street, houseNumber, postalCode, location, country, forename, surname, mail) => {
-        addDepartmentMutation.mutate(dtoBuilder(department, street, houseNumber, postalCode, location, country, forename, surname, mail))
-    }
-
-    const editDepartment = (department, street, houseNumber, postalCode, location, country, forename, surname, mail) => {
-        editDepartmentMutation.mutate(dtoBuilder(department, street, houseNumber, postalCode, location, country, forename, surname, mail))
-    }
-
-    const dtoBuilder = (department, street, houseNumber, postalCode, location, country, forename, surname, mail) => {
-        return {
-            department: department,
-            street: street,
-            houseNumber: houseNumber,
-            postalCode: postalCode,
-            location: location,
-            country: country,
-            forename: forename,
-            surname: surname,
-            mail: mail
-        }
-    }
-
 
     return (
         <DefaultPage>
@@ -87,27 +65,27 @@ const Departments = () => {
 
             {isAddOverlayVisible &&
                 <DepartmentOverlay
-                    handleClose={() => setIsAddOverlayVisible(false)}
-                    headline={"Neue Abteilung hinzufügen"}
-                    submitBtnText={"Hinzufügen"}
-                    submitBtnFunction={addDepartment}
+                        handleClose={() => setIsAddOverlayVisible(false)}
+                        headline={"Neue Abteilung hinzufügen"}
+                        submitBtnText={"Hinzufügen"}
+                        submitBtnFunction={( department ) => addDepartmentMutation.mutate( department )}
                 />}
 
             {isEditOverlayVisible &&
                 <DepartmentOverlay
-                    handleClose={() => setIsEditOverlayVisible(false)}
-                    headline={selectedDepartment.department + " bearbeiten"}
-                    submitBtnText={"Ändern"}
-                    submitBtnFunction={editDepartment}
-                    initialDepartment={selectedDepartment.department}
-                    initialStreet={selectedDepartment.street}
-                    initialHouseNumber={selectedDepartment.houseNumber}
-                    initialPostalCode={selectedDepartment.postalCode}
-                    initialLocation={selectedDepartment.location}
-                    initialCountry={selectedDepartment.country}
-                    initialForename={selectedDepartment.forename}
-                    initialSurname={selectedDepartment.surname}
-                    initialMail={selectedDepartment.mail}
+                        handleClose={() => setIsEditOverlayVisible( false )}
+                        headline={selectedDepartment.department + " bearbeiten"}
+                        submitBtnText={"Ändern"}
+                        submitBtnFunction={( department ) => editDepartmentMutation.mutate( department )}
+                        initialDepartment={selectedDepartment.department}
+                        initialStreet={selectedDepartment.street}
+                        initialHouseNumber={selectedDepartment.houseNumber}
+                        initialPostalCode={selectedDepartment.postalCode}
+                        initialLocation={selectedDepartment.location}
+                        initialCountry={selectedDepartment.country}
+                        initialFirstname={selectedDepartment.firstname}
+                        initialLastname={selectedDepartment.lastname}
+                        initialMail={selectedDepartment.mail}
                 />}
 
 
