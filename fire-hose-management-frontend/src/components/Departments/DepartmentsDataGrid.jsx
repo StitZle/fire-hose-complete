@@ -1,9 +1,8 @@
-import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
+import {DataGrid, GridActionsCellItem, GridToolbarContainer, GridToolbarExport} from '@mui/x-data-grid';
 import {gridLocale} from "../../i118/GridLocale";
 import React from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import IconButton from "@material-ui/core/IconButton";
 import {Button} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 
@@ -28,67 +27,70 @@ export const DepartmentsDataGrid = ({
                                     }) => {
     const classes = useStyles();
 
-    const buttons = [
-        {
-            key: 1,
-            labelText: "Abteilung löschen",
-            icon: <DeleteIcon/>,
-            onClick: () => {
-                setDeleteOverlayVisibleFunction(true)
-            }
-        }, {
-            key: 1,
-            labelText: "Abteilung bearbeiten",
-            icon: <EditIcon/>,
-            onClick: () => {
-                setIsEditOverlayVisibleFunction(true)
-            }
-        }]
+    const getFullName = (params) => {
+        return `${params.row.contact.firstname} ${params.row.contact.lastname}`
+    }
 
+    const getStreetAddress = (params) => {
+        return `${params.row.street} ${params.row.houseNumber}`
+    }
 
-    const buttonHandler = (props) => {
-        if (props) {
-            return (
-                <div>
-                    {
-                        buttons.map((btn) => {
-                            return (
-                                <IconButton
-                                    aria-label={btn.labelText}
-                                    onClick={(value) => {
-                                        btn.onClick(value)
-                                    }}>
-                                    {btn.icon}
-                                </IconButton>
-                            )
-
-                        })
-                    }
-                </div>
-            )
-        }
+    const getMail = (params) => {
+        return params.row.contact.mail
     }
 
 
-    const columns = [
-        {field: "department", headerName: "Abteilung", flex: true},
-        {field: "street", headerName: "Straße", flex: true},
-        {field: "houseNumber", headerName: "Hausnummer", flex: true},
-        {field: "postalCode", headerName: "PLZ", flex: true},
-        {field: "location", headerName: "Ort", flex: true},
-        {field: "country", headerName: "Land", flex: true},
-        {field: "forename", headerName: "Vorname", flex: true},
-        {field: "surname", headerName: "Nachname", flex: true},
-        {field: "mail", headerName: "E-Mail", flex: true},
-        {field: "", headerName: "Aktionen", renderCell: buttonHandler, width: 140},
-    ]
+    const editDepartment = React.useCallback(
+        (row) => () => {
+            selectedDepartmentFunction(row)
+            setIsEditOverlayVisibleFunction(true)
+        }, [selectedDepartmentFunction, setIsEditOverlayVisibleFunction]
+    )
+
+    const deleteDepartment = React.useCallback(
+        (row) => () => {
+            selectedDepartmentFunction(row)
+            setDeleteOverlayVisibleFunction(true)
+        }, [selectedDepartmentFunction, setDeleteOverlayVisibleFunction]
+    )
+
+
+    const columns = React.useMemo(
+        () => [
+            {field: "departmentName", headerName: "Abteilung", flex: true},
+            {field: "address", headerName: "Adresse", flex: true, valueGetter: getStreetAddress},
+            {field: "postalCode", headerName: "PLZ", flex: true},
+            {field: "location", headerName: "Ort", flex: true},
+            {field: "country", headerName: "Land", flex: true},
+            {field: "contact", headerName: "Ansprechpartner", flex: true, valueGetter: getFullName},
+            {field: "mail", headerName: "E-Mail", flex: true, valueGetter: getMail},
+            {
+                field: "actions",
+                type: "actions",
+                width: 140,
+                getActions: (params) => [
+                    <GridActionsCellItem
+                        icon={<DeleteIcon/>}
+                        label="Abteilung löschen"
+                        onClick={deleteDepartment(params.row)}
+                    />,
+                    <GridActionsCellItem
+                        icon={<EditIcon/>}
+                        label="Abteilung bearbeiten"
+                        onClick={editDepartment(params.row)}
+                    />
+                ],
+            },
+        ],
+        [deleteDepartment, editDepartment]
+    );
+
 
     function CustomToolbar() {
         return (
             <GridToolbarContainer className={"grid-toolbar-container"}>
                 <Button variant="contained" color="primary" onClick={() => setIsAddOverlayVisibleFunction(true)}>Abteilung
                     hinzufügen</Button>
-
                 <GridToolbarExport/>
             </GridToolbarContainer>
         )
@@ -98,12 +100,11 @@ export const DepartmentsDataGrid = ({
     return (
         <div className={classes.dataGrid}>
             <DataGrid
-                disableColumnMenu={true}
+                getRowId={(row) => row.id}
                 rows={departments}
                 columns={columns}
                 pageSize={10}
                 loading={departments.length === 0}
-                onRowClick={(item) => selectedDepartmentFunction(item.row)}
                 localeText={gridLocale}
                 components={{Toolbar: CustomToolbar}}
                 className={classes.dataGridRemoveBorder}

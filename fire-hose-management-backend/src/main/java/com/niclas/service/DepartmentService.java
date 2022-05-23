@@ -1,13 +1,14 @@
 package com.niclas.service;
 
-import com.niclas.model.Department;
-import com.niclas.repository.DepartmentRepository;
-import com.niclas.rest.exceptionHandling.exception.DepartmentNotFoundException;
+import java.util.List;
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.niclas.model.Department;
+import com.niclas.repository.DepartmentRepository;
+import com.niclas.rest.exceptionHandling.exception.DepartmentNotFoundException;
 
 
 @Component
@@ -39,18 +40,22 @@ public class DepartmentService {
     }
 
 
-    public Department updateDepartment( Department departmentRequest, ObjectId id ) throws DepartmentNotFoundException {
-        Department department = departmentRepository.findDepartmentById( id ).orElseThrow( () -> new DepartmentNotFoundException( id ) );
+    public Department updateDepartment( Department departmentRequest, ObjectId id ) throws DepartmentNotFoundException
+    {
+        Department department = departmentRepository.findDepartmentById( id )
+                .orElseThrow( () -> new DepartmentNotFoundException( id ) );
 
-        department.setDepartment( departmentRequest.getDepartment() );
+        department.setDepartmentName( departmentRequest.getDepartmentName() );
         department.setStreet( departmentRequest.getStreet() );
         department.setHouseNumber( departmentRequest.getHouseNumber() );
         department.setPostalCode( departmentRequest.getPostalCode() );
         department.setLocation( departmentRequest.getLocation() );
         department.setCountry( departmentRequest.getCountry() );
-        department.setFirstname( departmentRequest.getFirstname() );
-        department.setLastname( departmentRequest.getLastname() );
-        department.setMail( departmentRequest.getMail() );
+
+        department.getContact().setFirstname( departmentRequest.getContact().getFirstname() );
+        department.getContact().setLastname( departmentRequest.getContact().getLastname() );
+        department.getContact().setGender( departmentRequest.getContact().getGender() );
+        department.getContact().setMail( departmentRequest.getContact().getMail() );
 
         departmentRepository.save( department );
         return department;

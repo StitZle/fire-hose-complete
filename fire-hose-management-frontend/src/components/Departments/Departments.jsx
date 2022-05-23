@@ -73,25 +73,26 @@ const Departments = () => {
 
             {isEditOverlayVisible &&
                 <DepartmentOverlay
-                        handleClose={() => setIsEditOverlayVisible( false )}
-                        headline={selectedDepartment.department + " bearbeiten"}
-                        submitBtnText={"Ändern"}
-                        submitBtnFunction={( department ) => editDepartmentMutation.mutate( department )}
-                        initialDepartment={selectedDepartment.department}
-                        initialStreet={selectedDepartment.street}
-                        initialHouseNumber={selectedDepartment.houseNumber}
-                        initialPostalCode={selectedDepartment.postalCode}
-                        initialLocation={selectedDepartment.location}
-                        initialCountry={selectedDepartment.country}
-                        initialFirstname={selectedDepartment.firstname}
-                        initialLastname={selectedDepartment.lastname}
-                        initialMail={selectedDepartment.mail}
+                    handleClose={() => setIsEditOverlayVisible(false)}
+                    headline={selectedDepartment.departmentName + " bearbeiten"}
+                    submitBtnText={"Ändern"}
+                    submitBtnFunction={(department) => editDepartmentMutation.mutate(department)}
+                    initialDepartmentName={selectedDepartment.departmentName}
+                    initialStreet={selectedDepartment.street}
+                    initialHouseNumber={selectedDepartment.houseNumber}
+                    initialPostalCode={selectedDepartment.postalCode}
+                    initialLocation={selectedDepartment.location}
+                    initialCountry={selectedDepartment.country}
+                    initialGender={selectedDepartment.contact.gender}
+                    initialFirstname={selectedDepartment.contact.firstname}
+                    initialLastname={selectedDepartment.contact.lastname}
+                    initialMail={selectedDepartment.contact.mail}
                 />}
 
 
             {isDeleteOverlayVisible &&
                 <DeleteDepartmentOverlay
-                    departmentName={selectedDepartment.department}
+                    departmentName={selectedDepartment.departmentName}
                     handleClose={() => setIsDeleteOverlayVisible(false)}
                     submitBtnFunction={() => deleteDepartmentMutation.mutate()}
                 />}
