@@ -1,16 +1,16 @@
-import { Button, CircularProgress, Grid, makeStyles, MenuItem } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { useGetAllDepartments } from "../../hooks/useGetAllDepartments";
-import { useGetAllDevices } from "../../hooks/useGetAllDevices";
+import {Button, CircularProgress, Grid, makeStyles, MenuItem} from "@material-ui/core";
+import React, {useEffect, useState} from "react";
+import {useGetAllDepartments} from "../../hooks/useGetAllDepartments";
+import {useGetAllDevices} from "../../hooks/useGetAllDevices";
 import deepClone from "deep-clone";
-import { CTextField } from "../shared/input/CTextField";
-import { CLine } from "../shared/styling/CLine";
-import { CSelect } from "../shared/input/CSelect";
-import { ValidatorForm } from 'react-material-ui-form-validator';
-import { useMutation } from "react-query";
-import { postOrder } from "../../utils/requests/Orders";
-import { ORDER_SUCCESS } from "../../router/navigationPaths";
-import { useNavigate } from 'react-router-dom';
+import {CTextField} from "../shared/input/CTextField";
+import {CLine} from "../shared/styling/CLine";
+import {CSelect} from "../shared/input/CSelect";
+import {ValidatorForm} from 'react-material-ui-form-validator';
+import {useMutation} from "react-query";
+import {postOrder} from "../../utils/requests/Orders";
+import {ORDER_SUCCESS} from "../../router/navigationPaths";
+import {useNavigate} from 'react-router-dom';
 import DefaultPage from "../shared/DefaultPage";
 
 const useStyles = makeStyles( ( theme ) => ({
@@ -35,15 +35,14 @@ const OrderForm = () => {
   const [nonShowDevices, setNonShowDevices] = useState( [] )
 
   const [notes, setNotes] = useState( "" )
-  const [forename, setForename] = useState( "" )
-  const [surname, setSurname] = useState( "" )
+  const [firstname, setFirstname] = useState( "" )
+  const [lastname, setLastname] = useState( "" )
 
   const { departments } = useGetAllDepartments();
   const { devices } = useGetAllDevices();
 
   const selectableDepartments = departments.map( ( department, index ) =>
-    <MenuItem key={index} value={department}>{department.department}</MenuItem>
-  )
+          <MenuItem key={index} value={department}>{department.departmentName}</MenuItem> )
 
   const postOrderMutation = useMutation( ( orderDto ) => postOrder( orderDto ), {
     onSuccess: ( response ) => {
@@ -81,9 +80,7 @@ const OrderForm = () => {
   }, [devices, devices.length] )
 
   useEffect( () => {
-    if( Object.keys( department ).length !== 0 &&
-      forename.length !== 0 &&
-      surname.length !== 0 ) {
+    if( Object.keys( department ).length !== 0 && firstname.length !== 0 && lastname.length !== 0 ) {
       //TODO Use Effect macht hier keinen sinn
       //Check here if num of total devices is greater than zero
     }
@@ -126,13 +123,31 @@ const OrderForm = () => {
   const handleSubmit = ( event ) => {
     event.preventDefault()
 
-    let orderDto = {};
-    orderDto.department = department;
-    orderDto.devices = showDevices.filter( device => device.count > 0 );
-    orderDto.forename = forename;
-    orderDto.surname = surname;
-    orderDto.notes = notes
-
+    let orderDto = {
+      department: {
+        id: department.id,
+        departmentName: department.departmentName,
+        contact: {
+          firstname: department.contact.firstname,
+          lastname: department.contact.lastname,
+          gender: department.contact.gender,
+          mail: department.contact.mail
+        },
+        street: department.street,
+        houseNumber: department.houseNumber,
+        location: department.location,
+        postalCode: department.postalCode,
+        country: department.country,
+        registered: department.registered,
+        sendConfirmationMail: department.sendConfirmationMail
+      },
+      contact: null,
+      devices: showDevices.filter( device => device.count > 0 ),
+      firstname: firstname,
+      lastname: lastname,
+      notes: (notes !== "") ? notes : null
+    };
+    console.log( orderDto )
     postOrderMutation.mutate( orderDto )
   }
 
@@ -214,20 +229,20 @@ const OrderForm = () => {
 
             <Grid item lg={6} md={6} xs={12}>
               <CTextField
-                label={"Absender Vorname"}
-                value={forename}
-                onChange={( event ) => setForename( event.target.value )}
-                validators={["required"]}
-                errorMessages={"Bitte geben Sie einen Vorname an!"}
+                      label={"Absender Vorname"}
+                      value={firstname}
+                      onChange={( event ) => setFirstname( event.target.value )}
+                      validators={["required"]}
+                      errorMessages={"Bitte geben Sie einen Vorname an!"}
               />
             </Grid>
             <Grid item lg={6} md={6} xs={12}>
               <CTextField
-                label={"Absender Nachname"}
-                value={surname}
-                onChange={( event ) => setSurname( event.target.value )}
-                validators={["required"]}
-                errorMessages={"Bitte geben Sie einen Nachnamen an!"}
+                      label={"Absender Nachname"}
+                      value={lastname}
+                      onChange={( event ) => setLastname( event.target.value )}
+                      validators={["required"]}
+                      errorMessages={"Bitte geben Sie einen Nachnamen an!"}
               />
             </Grid>
 

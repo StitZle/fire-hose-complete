@@ -1,7 +1,10 @@
 package com.niclas.rest.controller;
 
-import java.util.List;
-
+import com.niclas.model.Department;
+import com.niclas.rest.exceptionHandling.exception.DepartmentNotFoundException;
+import com.niclas.service.DepartmentService;
+import com.niclas.transfer.DepartmentRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,11 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.niclas.model.Department;
-import com.niclas.rest.exceptionHandling.exception.DepartmentNotFoundException;
-import com.niclas.service.DepartmentService;
-
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
 
 
 @Slf4j
@@ -35,7 +34,7 @@ public class DepartmentController {
 
 
     @PostMapping( value = "/departments", consumes = {MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseEntity<Department> addDepartment( @RequestBody Department departmentRequest ) {
+    public ResponseEntity<Department> addDepartment( @RequestBody DepartmentRequest departmentRequest ) {
 
         Department department = departmentService.addDepartment( departmentRequest );
         return new ResponseEntity<>( department, HttpStatus.CREATED );

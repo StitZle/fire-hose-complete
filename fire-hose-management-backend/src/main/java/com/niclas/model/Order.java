@@ -21,9 +21,9 @@ public class Order extends AuditModel {
 
     private List<OrderDevice> devices;
 
-    private String senderForename;
+    private String senderFirstname;
 
-    private String senderSurname;
+    private String senderLastname;
 
     private String notes;
 
@@ -82,23 +82,23 @@ public class Order extends AuditModel {
     }
 
 
-    public String getSenderForename() {
-        return senderForename;
+    public String getSenderFirstname() {
+        return senderFirstname;
     }
 
 
-    public void setSenderForename( String senderForename ) {
-        this.senderForename = senderForename;
+    public void setSenderFirstname( String senderFirstname ) {
+        this.senderFirstname = senderFirstname;
     }
 
 
-    public String getSenderSurname() {
-        return senderSurname;
+    public String getSenderLastname() {
+        return senderLastname;
     }
 
 
-    public void setSenderSurname( String senderSurname ) {
-        this.senderSurname = senderSurname;
+    public void setSenderLastname( String senderLastname ) {
+        this.senderLastname = senderLastname;
     }
 
 

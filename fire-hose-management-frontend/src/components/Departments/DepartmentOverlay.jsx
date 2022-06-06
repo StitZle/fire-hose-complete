@@ -25,11 +25,8 @@ i18nIsoCountries.registerLocale(require("i18n-iso-countries/langs/de.json"));
 const countries = Object.values(i18nIsoCountries.getNames("de", {select: "official"})).map((country, index) =>
     <MenuItem key={index} value={country}>{country}</MenuItem>)
 
-const genderMenuItems = [
-    <MenuItem key={0} value={"MALE"}>Männlich</MenuItem>,
-    <MenuItem key={1} value={"FEMALE"}>Weiblich</MenuItem>,
-    <MenuItem key={2} value={"OTHER"}>Divers</MenuItem>
-]
+const genderMenuItems = [<MenuItem key={0} value={"MALE"}>Herr</MenuItem>, <MenuItem key={1} value={"FEMALE"}>Frau</MenuItem>,
+    <MenuItem key={2} value={"OTHER"}>Divers</MenuItem>]
 
 
 export const DepartmentOverlay = ({

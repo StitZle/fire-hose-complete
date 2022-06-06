@@ -15,19 +15,22 @@ public class Contact
     private String mail;
 
 
-    public Contact()
-    {
+    public Contact() {
     }
 
+    public Contact( String firstname, String lastname, Gender gender, String mail ) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.gender = gender;
+        this.mail = mail;
+    }
 
-    public String getFirstname()
-    {
+    public String getFirstname() {
         return firstname;
     }
 
 
-    public void setFirstname( String firstname )
-    {
+    public void setFirstname( String firstname ) {
         this.firstname = firstname;
     }
 

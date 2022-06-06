@@ -1,5 +1,7 @@
 package com.niclas.model;
 
+import com.niclas.transfer.DepartmentOrderRequest;
+import com.niclas.transfer.DepartmentRequest;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -30,18 +32,34 @@ public class Department extends AuditModel {
     private boolean sendConfirmationMail;
 
 
-    public Department() {
+    public Department( String departmentName, Contact contact, String street, String houseNumber, String location, String postalCode, String country, boolean registered, boolean sendConfirmationMail ) {
+        this.departmentName = departmentName;
+        this.contact = contact;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.location = location;
+        this.postalCode = postalCode;
+        this.country = country;
+        this.registered = registered;
+        this.sendConfirmationMail = sendConfirmationMail;
     }
 
 
-    public String getId()
-    {
+    public static Department createNewDepartment( DepartmentRequest departmentRequest ) {
+        return new Department( departmentRequest.getDepartmentName(), new Contact( departmentRequest.getContactRequest().getFirstname(), departmentRequest.getContactRequest().getLastname(), departmentRequest.getContactRequest().getGender(), departmentRequest.getContactRequest().getMail() ), departmentRequest.getStreet(), departmentRequest.getHouseNumber(), departmentRequest.getLocation(), departmentRequest.getPostalCode(), departmentRequest.getCountry(), true, departmentRequest.getSendConfirmationMail() );
+    }
+
+    public static Department createDepartment( DepartmentOrderRequest departmentOrderRequest ) {
+        return new Department( departmentOrderRequest.getDepartmentName(), new Contact( departmentOrderRequest.getContactRequest().getFirstname(), departmentOrderRequest.getContactRequest().getLastname(), departmentOrderRequest.getContactRequest().getGender(), departmentOrderRequest.getContactRequest().getMail() ), departmentOrderRequest.getStreet(), departmentOrderRequest.getHouseNumber(), departmentOrderRequest.getLocation(), departmentOrderRequest.getPostalCode(), departmentOrderRequest.getCountry(), departmentOrderRequest.isRegistered(), departmentOrderRequest.getSendConfirmationMail() );
+    }
+
+
+    public String getId() {
         return id.toHexString();
     }
 
 
-    public void setId( ObjectId id )
-    {
+    public void setId( ObjectId id ) {
         this.id = id;
     }
 
