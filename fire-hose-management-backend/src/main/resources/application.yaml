@@ -17,7 +17,7 @@ spring:
     default-encoding: UTF-8
     host: smtp.gmail.com
     port: 587
-    username: nibucloud@gmail.com
+    username:
     password:
     protocol: smtp
     properties:
