@@ -76,46 +76,53 @@ const EditDepartmentOverlay = ({
                         label={"Abteilung"}
                         value={department.departmentName}
                         variant="filled"
-                        onChange={(event) => console.log("hi")}
+                        fullWidth={true}
+                        disabled={true}
                     />
                 </Grid>
                 <Grid item md={6}>
                     <TextField
-                        disabled={true}
                         label={"Straße"}
                         value={department.street}
                         variant="filled"
+                        fullWidth={true}
+                        disabled={true}
                     />
                 </Grid>
                 <Grid item md={6}>
                     <TextField
-                        disabled={true}
                         label={"Hausnummer"}
                         value={department.houseNumber}
+                        variant="filled"
+                        fullWidth={true}
+                        disabled={true}
                     />
                 </Grid>
                 <Grid item md={4}>
                     <TextField
-                        disabled={true}
                         label={"PLZ"}
                         value={department.postalCode}
                         variant="filled"
+                        fullWidth={true}
+                        disabled={true}
                     />
                 </Grid>
                 <Grid item md={4}>
                     <TextField
-                        disabled={true}
                         label={"Ort"}
                         value={department.location}
                         variant="filled"
+                        fullWidth={true}
+                        disabled={true}
                     />
                 </Grid>
                 <Grid item md={4}>
                     <Select
-                        disabled={true}
                         label={"Land"}
                         value={"Deutschland"}
                         variant="filled"
+                        fullWidth={true}
+                        disabled={true}
                     />
                 </Grid>
                 <Grid item md={4}>
