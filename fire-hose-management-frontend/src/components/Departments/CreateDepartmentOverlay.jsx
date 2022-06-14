@@ -7,6 +7,9 @@ import {CSelect} from "../shared/input/CSelect";
 import {ValidatorForm} from "react-material-ui-form-validator";
 import {Overlay} from "../shared/Overlay";
 import {makeStyles} from "@material-ui/core/styles";
+import {useMutation} from "react-query";
+import {postDepartment} from "../../utils/requests/Departments";
+import Notifications from "../shared/Notifications";
 
 const useStyles = makeStyles((theme) => ({
     checkbox: {
@@ -25,42 +28,41 @@ i18nIsoCountries.registerLocale(require("i18n-iso-countries/langs/de.json"));
 const countries = Object.values(i18nIsoCountries.getNames("de", {select: "official"})).map((country, index) =>
     <MenuItem key={index} value={country}>{country}</MenuItem>)
 
-const genderMenuItems = [<MenuItem key={0} value={"MALE"}>Herr</MenuItem>, <MenuItem key={1} value={"FEMALE"}>Frau</MenuItem>,
-    <MenuItem key={2} value={"OTHER"}>Divers</MenuItem>]
+const genderMenuItems = [
+    <MenuItem key={0} value={"MALE"}>Herr</MenuItem>,
+    <MenuItem key={1} value={"FEMALE"}>Frau</MenuItem>,
+    <MenuItem key={2} value={"OTHER"}>Divers</MenuItem>
+]
 
 
-export const DepartmentOverlay = ({
-                                      handleClose,
-                                      headline,
-                                      submitBtnText,
-                                      submitBtnFunction,
-                                      initialDepartmentName = "",
-                                      initialStreet = "",
-                                      initialHouseNumber = "",
-                                      initialPostalCode = "",
-                                      initialLocation = "",
-                                      initialCountry = "Deutschland",
-                                      initialGender = "",
-                                      initialFirstname = "",
-                                      initialLastname = "",
-                                      initialMail = "",
-                                      initialSendConfirmationMail = true
-                                  }) => {
+export const CreateDepartmentOverlay = ({closeCreateDepartmentOverlay, handleClose}) => {
 
     const classes = useStyles();
-    const [departmentName, setDepartmentName] = useState(initialDepartmentName)
-    const [street, setStreet] = useState(initialStreet)
-    const [houseNumber, setHouseNumber] = useState(initialHouseNumber)
-    const [postalCode, setPostalCode] = useState(initialPostalCode)
-    const [location, setLocation] = useState(initialLocation)
-    const [country, setCountry] = useState(initialCountry)
-    const [gender, setGender] = useState(initialGender)
-    const [firstname, setFirstname] = useState(initialFirstname)
-    const [lastname, setLastname] = useState(initialLastname)
-    const [mail, setMail] = useState(initialMail)
-    const [sendConfirmationMail, setSendConformationMail] = useState(initialSendConfirmationMail)
+    const [departmentName, setDepartmentName] = useState("")
+    const [street, setStreet] = useState("")
+    const [houseNumber, setHouseNumber] = useState("")
+    const [postalCode, setPostalCode] = useState("")
+    const [location, setLocation] = useState("")
+    const [country, setCountry] = useState("Deutschland")
+    const [gender, setGender] = useState("")
+    const [firstname, setFirstname] = useState("")
+    const [lastname, setLastname] = useState("")
+    const [mail, setMail] = useState("")
+    const [sendConfirmationMail, setSendConformationMail] = useState(true)
 
-    const dtoBuilder = (departmentName, street, houseNumber, postalCode, location, country, firstname, lastname, mail, sendConfirmationMail) => {
+
+    const addDepartmentMutation = useMutation((department) => postDepartment(department), {
+        onSuccess: () => {
+            Notifications.showSuccess("Die Abteilung wurde erfolgreich erstellt!")
+            closeCreateDepartmentOverlay()
+        },
+        onError: (error) => {
+            Notifications.showError("Fehler beim Hinzufügen der Abteilung!")
+            console.log(error)
+        }
+    })
+
+    const departmentBuilder = (departmentName, street, houseNumber, postalCode, location, country, firstname, lastname, mail, sendConfirmationMail) => {
         return {
             departmentName: departmentName,
             contact: {
@@ -81,10 +83,11 @@ export const DepartmentOverlay = ({
 
     return (<Overlay
         onClose={() => handleClose()}
-        headerContent={<h2>{headline}</h2>}
+        headerContent={<h2>Neue Abteilung anlegen</h2>}
         size={"m"}>
+
         <ValidatorForm
-            onSubmit={() => submitBtnFunction(dtoBuilder(departmentName, street, houseNumber, postalCode, location, country, firstname, lastname, mail, sendConfirmationMail))}>
+            onSubmit={() => addDepartmentMutation.mutate(departmentBuilder(departmentName, street, houseNumber, postalCode, location, firstname, lastname, mail, sendConfirmationMail))}>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <CTextField
@@ -194,11 +197,10 @@ export const DepartmentOverlay = ({
                 </Grid>
             </Grid>
             <Stack spacing={2} direction="row" className={classes.footer}>
-                <Button color="primary" variant="contained" type="submit">{submitBtnText}</Button>
+                <Button color="primary" variant="contained" type="submit">Anlegen</Button>
                 <Button color="primary" variant="outlined" onClick={() => handleClose()}>Abbrechen</Button>
             </Stack>
         </ValidatorForm>
 
     </Overlay>);
-
-}
+};

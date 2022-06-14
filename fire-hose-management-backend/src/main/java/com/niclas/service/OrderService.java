@@ -1,22 +1,22 @@
 package com.niclas.service;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.bson.types.ObjectId;
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.niclas.mail.MailService;
 import com.niclas.model.Department;
 import com.niclas.model.Order;
-import com.niclas.model.OrderContact;
 import com.niclas.model.OrderDevice;
 import com.niclas.repository.OrderRepository;
 import com.niclas.rest.exceptionHandling.exception.OrderParamsOverload;
 import com.niclas.transfer.OrderRequest;
 import com.niclas.utils.Generators;
-import org.bson.types.ObjectId;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 
 @Component
@@ -56,7 +56,7 @@ public class OrderService {
             order.setDepartment( department );
         }
 
-        if( orderRequest.getContactOrderRequest() != null ) {
+       /* if( orderRequest.getContactOrderRequest() != null ) {
             OrderContact orderContact = objectMapper.treeToValue( orderJson.get( "contact" ), OrderContact.class );
             order.setOrderContact( orderContact );
         }
@@ -66,10 +66,10 @@ public class OrderService {
         order.setSenderLastname( orderJson.get( "lastname" ).textValue() );
 
         //TODO if no note is set then set this to null
-        order.setNotes( orderJson.get( "notes" ).textValue() );
+        order.setNotes( orderJson.get( "notes" ).textValue() );*/
 
         orderRepository.save( order );
-        mailService.buildAndSendOrderConfirmationMail( order );
+        //mailService.buildAndSendOrderConfirmationMail( order );
 
         return order;
     }
@@ -82,13 +82,13 @@ public class OrderService {
 
     private void checkForDoubleParams( OrderRequest orderRequest ) throws OrderParamsOverload {
 
-        if( orderRequest.getDepartmentOrderRequest() != null && orderRequest.getContactRequest() != null ) {
+        /*if( orderRequest.getDepartmentOrderRequest() != null && orderRequest.getContactRequest() != null ) {
             throw new OrderParamsOverload( "Order cannot have both fields set: department, contact" );
         }
 
         if( orderRequest.getDepartmentOrderRequest() == null && orderRequest.getContactRequest() == null ) {
             throw new OrderParamsOverload( "Order cannot have both fields null. One field must be set: department or contact" );
-        }
+        }*/
     }
 
 

@@ -1,18 +1,19 @@
 package com.niclas.transfer;
 
-import org.bson.types.ObjectId;
-
 import javax.validation.constraints.NotBlank;
 
+import org.bson.types.ObjectId;
 
-public class DepartmentOrderRequest extends DepartmentRequest {
+
+public class DepartmentOrderRequest extends DepartmentRequest
+{
 
     @NotBlank
     private ObjectId id;
 
-    private
 
-    public DepartmentOrderRequest( ObjectId id ) {
+    public DepartmentOrderRequest( ObjectId id )
+    {
         this.id = id;
     }
 
