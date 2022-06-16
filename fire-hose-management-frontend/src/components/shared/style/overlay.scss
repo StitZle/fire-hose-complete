@@ -61,7 +61,7 @@
 
   &.size-m {
     width: calc(
-            55% - 1px
+      55% - 1px
     ); // one px is subtracted, because otherwise the test framework is not able to click the overlay-background
 
     @keyframes slideIn {

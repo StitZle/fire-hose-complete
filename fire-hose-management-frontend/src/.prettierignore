@@ -1,0 +1,11 @@
+# Ignore artifacts:
+.idea
+build
+coverage
+cypress
+deployment
+node_modules
+reports
+src/translations
+src/translations.xt
+README.md

@@ -1,4 +1,16 @@
-export const departmentBuilder = ( departmentName, street, houseNumber, postalCode, location, country, gender, firstname, lastname, mail, sendConfirmationMail ) => {
+export const departmentBuilder = (
+  departmentName,
+  street,
+  houseNumber,
+  postalCode,
+  location,
+  country,
+  gender,
+  firstname,
+  lastname,
+  mail,
+  sendConfirmationMail
+) => {
   return {
     departmentName: departmentName,
     contact: {
@@ -12,6 +24,6 @@ export const departmentBuilder = ( departmentName, street, houseNumber, postalCo
     postalCode: postalCode,
     location: location,
     country: country,
-    sendConfirmationMail: sendConfirmationMail
-  }
-}
+    sendConfirmationMail: sendConfirmationMail,
+  };
+};

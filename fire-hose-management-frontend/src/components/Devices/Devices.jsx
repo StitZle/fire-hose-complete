@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useGetAllDevices } from "../../hooks/useGetAllDevices";
 import { useMutation } from "react-query";
 import Notifications from "../shared/Notifications";
@@ -9,66 +9,64 @@ import DefaultPage from "../shared/DefaultPage";
 import DevicesDataGrid from "./DevicesDataGrid";
 import EditDeviceOverlay from "./EditDeviceOverlay";
 
-
 const Devices = () => {
-
-  const [selectedDevice, setSelectedDevice] = useState( {} )
-  const [isDeleteOverlayVisible, setDeleteOverlayVisible] = useState( false )
-  const [isAddOverlayVisible, setIsAddOverlayVisible] = useState( false )
-  const [isEditOverlayVisible, setIsEditOverlayVisible] = useState( false )
+  const [selectedDevice, setSelectedDevice] = useState({});
+  const [isDeleteOverlayVisible, setDeleteOverlayVisible] = useState(false);
+  const [isAddOverlayVisible, setIsAddOverlayVisible] = useState(false);
+  const [isEditOverlayVisible, setIsEditOverlayVisible] = useState(false);
 
   const { devices, refetch } = useGetAllDevices();
 
   const handleCreateAndRefetch = () => {
-    setIsAddOverlayVisible( false );
+    setIsAddOverlayVisible(false);
     refetch();
-  }
+  };
 
-  const handleEditAndRefetch = () =>{
+  const handleEditAndRefetch = () => {
     setIsEditOverlayVisible(false);
     refetch();
-  }
+  };
 
-  const handleDeleteAndRefetch = () =>{
+  const handleDeleteAndRefetch = () => {
     setDeleteOverlayVisible(false);
     refetch();
-  }
+  };
 
   return (
     <DefaultPage>
       <h1>Geräteübersicht</h1>
       <DevicesDataGrid
         devices={devices}
-        selectedDeviceFunction={( item ) => setSelectedDevice( item )}
-        setDeleteOverlayVisibleFunction={( state ) => setDeleteOverlayVisible( state )}
-        setIsEditOverlayVisibleFunction={( state ) => setIsEditOverlayVisible( state )}
-        setIsAddOverlayVisibleFunction={( state ) => setIsAddOverlayVisible( state )}
+        selectedDeviceFunction={(item) => setSelectedDevice(item)}
+        setDeleteOverlayVisibleFunction={(state) => setDeleteOverlayVisible(state)}
+        setIsEditOverlayVisibleFunction={(state) => setIsEditOverlayVisible(state)}
+        setIsAddOverlayVisibleFunction={(state) => setIsAddOverlayVisible(state)}
       />
 
-
-      {isAddOverlayVisible &&
+      {isAddOverlayVisible && (
         <CreateDeviceOverlay
           closeOverlayAndRefetch={() => handleCreateAndRefetch()}
-          closeOverlay={() => setIsAddOverlayVisible( false )}
-        />}
+          closeOverlay={() => setIsAddOverlayVisible(false)}
+        />
+      )}
 
-      {isEditOverlayVisible &&
+      {isEditOverlayVisible && (
         <EditDeviceOverlay
           closeOverlayAndRefetch={() => handleEditAndRefetch()}
-          closeOverlay={() => setIsEditOverlayVisible( false )}
+          closeOverlay={() => setIsEditOverlayVisible(false)}
           device={selectedDevice}
-        />}
+        />
+      )}
 
-
-      {isDeleteOverlayVisible &&
+      {isDeleteOverlayVisible && (
         <DeleteDeviceOverlay
-          closeOverlayAndRefetch={()=>handleDeleteAndRefetch()}
-          closeOverlay={() => setDeleteOverlayVisible( false )}
+          closeOverlayAndRefetch={() => handleDeleteAndRefetch()}
+          closeOverlay={() => setDeleteOverlayVisible(false)}
           device={selectedDevice}
-        />}
-
+        />
+      )}
     </DefaultPage>
   );
-}
+};
 
 export default Devices;

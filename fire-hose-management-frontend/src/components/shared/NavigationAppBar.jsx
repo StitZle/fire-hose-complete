@@ -7,20 +7,19 @@ import { AppBar } from "@mui/material";
 import React from "react";
 
 const NavigationAppBar = () => {
-
   return (
-    <AppBar position="fixed" sx={{ zIndex: ( theme ) => theme.zIndex.drawer + 1 }}>
+    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
         <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
           Schlauchverwaltung {/* TODO add from global config here */}
         </Typography>
-        <AppBarAuth/>
+        <AppBarAuth />
         <IconButton color="inherit">
-          <DarkModeIcon/>
+          <DarkModeIcon />
         </IconButton>
       </Toolbar>
     </AppBar>
   );
-}
+};
 
 export default NavigationAppBar;

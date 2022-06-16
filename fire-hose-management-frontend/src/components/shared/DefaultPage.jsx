@@ -13,77 +13,65 @@ import NavigationAppBar from "./NavigationAppBar";
 
 const drawerWidth = 240;
 
-const DefaultPage = ( { children } ) => {
-
+const DefaultPage = ({ children }) => {
   const { isAuthenticated } = useAuth0();
 
-  const primaryItems = primaryRoutes.map( ( route, index ) =>
+  const primaryItems = primaryRoutes.map((route, index) => (
     <ListItemButton key={index} component={Link} to={route.path}>
-      <ListItemIcon>
-        {route.icon}
-      </ListItemIcon>
-      <ListItemText primary={route.name}/>
+      <ListItemIcon>{route.icon}</ListItemIcon>
+      <ListItemText primary={route.name} />
     </ListItemButton>
-  );
+  ));
 
-  const secondaryItems = secondaryRoutes.map( ( route, index ) =>
+  const secondaryItems = secondaryRoutes.map((route, index) => (
     <ListItemButton key={index} component={Link} to={route.path}>
-      <ListItemIcon>
-        {route.icon}
-      </ListItemIcon>
-      <ListItemText primary={route.name}/>
+      <ListItemIcon>{route.icon}</ListItemIcon>
+      <ListItemText primary={route.name} />
     </ListItemButton>
-  );
+  ));
 
   const drawer = (
     <div>
-      <Toolbar/>
-      <Divider/>
-      <List>
-        {primaryItems}
-      </List>
-      <Divider/>
-      <List>
-        {secondaryItems}
-      </List>
-    </div>);
+      <Toolbar />
+      <Divider />
+      <List>{primaryItems}</List>
+      <Divider />
+      <List>{secondaryItems}</List>
+    </div>
+  );
 
   return (
     <>
-      <Box sx={{ display: 'flex' }}>
-        <NavigationAppBar/>
+      <Box sx={{ display: "flex" }}>
+        <NavigationAppBar />
         <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           {/*Mobile drawer*/}
 
-          {isAuthenticated &&
+          {isAuthenticated && (
             <Drawer
               variant="permanent"
               sx={{
-                display: { xs: 'none', sm: 'block' },
-                '& .MuiDrawer-paper': {
-                  boxSizing: 'border-box',
+                display: { xs: "none", sm: "block" },
+                "& .MuiDrawer-paper": {
+                  boxSizing: "border-box",
                   width: drawerWidth,
-                  backgroundColor: "transparent"
+                  backgroundColor: "transparent",
                 },
-
               }}
-              open>
+              open
+            >
               {drawer}
             </Drawer>
-          }
+          )}
         </Box>
 
-        <Box
-          component="main"
-          sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
-          <Toolbar/>
+        <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
+          <Toolbar />
           {children}
         </Box>
-
       </Box>
-
     </>
   );
-}
+};
 export default DefaultPage;
