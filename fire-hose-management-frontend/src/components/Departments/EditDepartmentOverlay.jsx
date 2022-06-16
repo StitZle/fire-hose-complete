@@ -12,54 +12,74 @@ import Notifications from "../shared/Notifications";
 import { CTextField } from "../shared/input/CTextField";
 import { departmentBuilder } from "./departmentHelper";
 
-const useStyles = makeStyles( ( theme ) => ({
+const useStyles = makeStyles((theme) => ({
   checkbox: {
     display: "table-cell",
-    verticalAlign: "middle"
+    verticalAlign: "middle",
   },
   footer: {
     paddingTop: "24px",
-    paddingBottom: "32px"
-  }
-}) );
+    paddingBottom: "32px",
+  },
+}));
 
-const genderMenuItems = [<MenuItem key={0} value={"MALE"}>Herr</MenuItem>,
-  <MenuItem key={1} value={"FEMALE"}>Frau</MenuItem>,
-  <MenuItem key={2} value={"OTHER"}>Divers</MenuItem>]
+const genderMenuItems = [
+  <MenuItem key={0} value={"MALE"}>
+    Herr
+  </MenuItem>,
+  <MenuItem key={1} value={"FEMALE"}>
+    Frau
+  </MenuItem>,
+  <MenuItem key={2} value={"OTHER"}>
+    Divers
+  </MenuItem>,
+];
 
-const EditDepartmentOverlay = ( {
-                                  closeOverlayAndRefetch,
-                                  closeOverlay,
-                                  department
-                                } ) => {
-
+const EditDepartmentOverlay = ({ closeOverlayAndRefetch, closeOverlay, department }) => {
   const classes = useStyles();
 
-  const [gender, setGender] = useState( department.contact.gender )
-  const [firstname, setFirstname] = useState( department.contact.firstname )
-  const [lastname, setLastname] = useState( department.contact.lastname )
-  const [mail, setMail] = useState( department.contact.mail )
-  const [sendConfirmationMail, setSendConformationMail] = useState( department.sendConfirmationMail )
+  const [gender, setGender] = useState(department.contact.gender);
+  const [firstname, setFirstname] = useState(department.contact.firstname);
+  const [lastname, setLastname] = useState(department.contact.lastname);
+  const [mail, setMail] = useState(department.contact.mail);
+  const [sendConfirmationMail, setSendConformationMail] = useState(department.sendConfirmationMail);
 
-  const editDepartmentMutation = useMutation( ( departmentDto ) => putDepartment( department.id, departmentDto ), {
+  const editDepartmentMutation = useMutation((departmentDto) => putDepartment(department.id, departmentDto), {
     onSuccess: () => {
-      Notifications.showSuccess( "Die Abteilung wurde erfolgreich aktualisiert!" )
+      Notifications.showSuccess("Die Abteilung wurde erfolgreich aktualisiert!");
       closeOverlayAndRefetch();
     },
-    onError: ( error ) => {
-      Notifications.showError( "Die Abteilung konnte nicht aktualisiert werden!" )
-      console.log( error )
-    }
-  } )
-
+    onError: (error) => {
+      Notifications.showError("Die Abteilung konnte nicht aktualisiert werden!");
+      console.log(error);
+    },
+  });
 
   return (
     <Overlay
       onClose={() => closeOverlay()}
       headerContent={<h2>{department.departmentName} aktualisieren</h2>}
-      size={"m"}>
+      size={"m"}
+    >
       <ValidatorForm
-        onSubmit={() => editDepartmentMutation.mutate( departmentBuilder( department.departmentName, department.street, department.houseNumber, department.postalCode, department.location, department.country, gender, firstname, lastname, mail, sendConfirmationMail ) )}>
+        onSubmit={() =>
+          editDepartmentMutation.mutate(
+            departmentBuilder(
+              department.departmentName,
+              department.street,
+              department.houseNumber,
+              department.postalCode,
+              department.location,
+              department.country,
+              gender,
+              firstname,
+              lastname,
+              mail,
+              sendConfirmationMail
+            )
+          )
+        }
+      >
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <TextField
@@ -71,13 +91,7 @@ const EditDepartmentOverlay = ( {
             />
           </Grid>
           <Grid item md={6}>
-            <TextField
-              label={"Straße"}
-              value={department.street}
-              variant="filled"
-              fullWidth={true}
-              disabled={true}
-            />
+            <TextField label={"Straße"} value={department.street} variant="filled" fullWidth={true} disabled={true} />
           </Grid>
           <Grid item md={6}>
             <TextField
@@ -89,38 +103,20 @@ const EditDepartmentOverlay = ( {
             />
           </Grid>
           <Grid item md={4}>
-            <TextField
-              label={"PLZ"}
-              value={department.postalCode}
-              variant="filled"
-              fullWidth={true}
-              disabled={true}
-            />
+            <TextField label={"PLZ"} value={department.postalCode} variant="filled" fullWidth={true} disabled={true} />
           </Grid>
           <Grid item md={4}>
-            <TextField
-              label={"Ort"}
-              value={department.location}
-              variant="filled"
-              fullWidth={true}
-              disabled={true}
-            />
+            <TextField label={"Ort"} value={department.location} variant="filled" fullWidth={true} disabled={true} />
           </Grid>
           <Grid item md={4}>
-            <Select
-              label={"Land"}
-              value={"Deutschland"}
-              variant="filled"
-              fullWidth={true}
-              disabled={true}
-            />
+            <Select label={"Land"} value={"Deutschland"} variant="filled" fullWidth={true} disabled={true} />
           </Grid>
           <Grid item md={4}>
             <CSelect
               label={"Anrede"}
               defaultValue={[]}
               value={gender}
-              onChange={( event ) => setGender( event.target.value )}
+              onChange={(event) => setGender(event.target.value)}
               options={genderMenuItems}
               validators={["required"]}
               errorMessages={["Die Auswahl einer Anrede ist erforderlich!"]}
@@ -130,7 +126,7 @@ const EditDepartmentOverlay = ( {
             <CTextField
               label={"Vorname"}
               value={firstname}
-              onChange={( event ) => setFirstname( event.target.value )}
+              onChange={(event) => setFirstname(event.target.value)}
               validators={["required"]}
               errorMessages={["Die Eingabe eines Vornamen ist erforderlich!"]}
             />
@@ -139,7 +135,7 @@ const EditDepartmentOverlay = ( {
             <CTextField
               label={"Nachname"}
               value={lastname}
-              onChange={( event ) => setLastname( event.target.value )}
+              onChange={(event) => setLastname(event.target.value)}
               validators={["required"]}
               errorMessages={["Die Eingabe eines Nachnamen ist erforderlich!"]}
             />
@@ -148,26 +144,35 @@ const EditDepartmentOverlay = ( {
             <CTextField
               label={"E-Mail"}
               value={mail}
-              onChange={( event ) => setMail( event.target.value )}
+              onChange={(event) => setMail(event.target.value)}
               validators={["required", "isEmail"]}
-              errorMessages={["Die Eingabe einer E-Mail-Adresse ist erforderlich!", "Die Eingegebene E-Mail-Adresse ist nicht valide!"]}
+              errorMessages={[
+                "Die Eingabe einer E-Mail-Adresse ist erforderlich!",
+                "Die Eingegebene E-Mail-Adresse ist nicht valide!",
+              ]}
             />
           </Grid>
           <Grid item md={6}>
             <FormControlLabel
-              control={<Checkbox
-                className={classes.checkbox}
-                checked={sendConfirmationMail}
-                onChange={() => setSendConformationMail( !sendConfirmationMail )}
-                color="primary"
-              />}
+              control={
+                <Checkbox
+                  className={classes.checkbox}
+                  checked={sendConfirmationMail}
+                  onChange={() => setSendConformationMail(!sendConfirmationMail)}
+                  color="primary"
+                />
+              }
               label="Bestätigungsmail versenden?"
             />
           </Grid>
         </Grid>
         <Stack spacing={2} direction="row" className={classes.footer}>
-          <Button color="primary" variant="contained" type="submit">Aktualisieren</Button>
-          <Button color="primary" variant="outlined" onClick={() => closeOverlay()}>Abbrechen</Button>
+          <Button color="primary" variant="contained" type="submit">
+            Aktualisieren
+          </Button>
+          <Button color="primary" variant="outlined" onClick={() => closeOverlay()}>
+            Abbrechen
+          </Button>
         </Stack>
       </ValidatorForm>
     </Overlay>

@@ -1,55 +1,49 @@
-import { DataGrid, GridActionsCellItem, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
 import { gridLocale } from "../../i118/GridLocale";
 import React from "react";
 import { Button, Checkbox } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
-const useStyles = makeStyles( ( theme ) => ({
+const useStyles = makeStyles((theme) => ({
   dataGrid: {
     height: 720,
-    width: "100%"
+    width: "100%",
   },
   dataGridRemoveBorder: {
     border: "none !important",
-  }
-}) );
+  },
+}));
 
-const DevicesDataGrid = ( {
-                            devices = [],
-                            selectedDeviceFunction,
-                            setDeleteOverlayVisibleFunction,
-                            setIsEditOverlayVisibleFunction,
-                            setIsAddOverlayVisibleFunction
-
-                          } ) => {
+const DevicesDataGrid = ({
+  devices = [],
+  selectedDeviceFunction,
+  setDeleteOverlayVisibleFunction,
+  setIsEditOverlayVisibleFunction,
+  setIsAddOverlayVisibleFunction,
+}) => {
   const classes = useStyles();
 
   const editDevice = React.useCallback(
-    ( row ) => () => {
-      selectedDeviceFunction( row );
-      setIsEditOverlayVisibleFunction( true );
-    }, [selectedDeviceFunction, setIsEditOverlayVisibleFunction]
+    (row) => () => {
+      selectedDeviceFunction(row);
+      setIsEditOverlayVisibleFunction(true);
+    },
+    [selectedDeviceFunction, setIsEditOverlayVisibleFunction]
   );
 
   const deleteDevice = React.useCallback(
-    ( row ) => () => {
-      selectedDeviceFunction( row );
-      setDeleteOverlayVisibleFunction( true );
-    }, [selectedDeviceFunction, setDeleteOverlayVisibleFunction]
+    (row) => () => {
+      selectedDeviceFunction(row);
+      setDeleteOverlayVisibleFunction(true);
+    },
+    [selectedDeviceFunction, setDeleteOverlayVisibleFunction]
   );
 
-
-  const checkboxRender = ( params ) => {
-    return (
-      <Checkbox
-        checked={params.value}
-        disabled={true}
-        color="primary"
-      />
-    )
-  }
+  const checkboxRender = (params) => {
+    return <Checkbox checked={params.value} disabled={true} color="primary" />;
+  };
 
   const columns = React.useMemo(
     () => [
@@ -60,34 +54,25 @@ const DevicesDataGrid = ( {
         field: "actions",
         type: "actions",
         width: 140,
-        getActions: ( params ) => [
-          <GridActionsCellItem
-            icon={<DeleteIcon/>}
-            label="Gerät löschen"
-            onClick={deleteDevice( params.row )}
-          />,
-          <GridActionsCellItem
-            icon={<EditIcon/>}
-            label="Geräte bearbeiten"
-            onClick={editDevice( params.row )}
-          />
+        getActions: (params) => [
+          <GridActionsCellItem icon={<DeleteIcon />} label="Gerät löschen" onClick={deleteDevice(params.row)} />,
+          <GridActionsCellItem icon={<EditIcon />} label="Geräte bearbeiten" onClick={editDevice(params.row)} />,
         ],
       },
     ],
     [deleteDevice, editDevice]
   );
 
-
   const CustomToolbar = () => {
     return (
       <GridToolbarContainer className={"grid-toolbar-container"}>
-        <Button variant="contained" color="primary" onClick={() => setIsAddOverlayVisibleFunction( true )}>Gerät
-          hinzufügen</Button>
-        <GridToolbarExport/>
+        <Button variant="contained" color="primary" onClick={() => setIsAddOverlayVisibleFunction(true)}>
+          Gerät hinzufügen
+        </Button>
+        <GridToolbarExport />
       </GridToolbarContainer>
-    )
-  }
-
+    );
+  };
 
   return (
     <div className={classes.dataGrid}>
@@ -102,6 +87,6 @@ const DevicesDataGrid = ( {
       />
     </div>
   );
-}
+};
 
 export default DevicesDataGrid;

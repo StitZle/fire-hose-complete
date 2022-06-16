@@ -1,21 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./style/overlay.scss"
+import "./style/overlay.scss";
 import PropTypes from "prop-types";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@material-ui/core/IconButton";
 
 const ESC_KEY_CODE = 27;
 
 export const Overlay = ({
-                             size = "m",
-                             hasAnimation = true,
-                             headerContent = undefined,
-                             footerContent = undefined,
-                             onClose = undefined,
-                             className = "",
-                             dataTestId = "",
-                             ...otherProps
-                           }) => {
+  size = "m",
+  hasAnimation = true,
+  headerContent = undefined,
+  footerContent = undefined,
+  onClose = undefined,
+  className = "",
+  dataTestId = "",
+  ...otherProps
+}) => {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [initialTarget, setInitialTarget] = useState();
 
@@ -86,15 +86,15 @@ export const Overlay = ({
             <div className={hasScrolled ? "uli-overlay-header show-shadow" : "uli-overlay-header"}>
               {headerContent}
               <IconButton onClick={() => _close()} className="uli-overlay-close">
-                <CloseIcon/>
+                <CloseIcon />
               </IconButton>
             </div>
             <div className="uli-overlay-content">{otherProps.children}</div>
           </>
         ) : (
           <>
-            <IconButton  onClick={() => _close()} className="uli-overlay-close only">
-              <CloseIcon/>
+            <IconButton onClick={() => _close()} className="uli-overlay-close only">
+              <CloseIcon />
             </IconButton>
             <div className="uli-overlay-content only">{otherProps.children}</div>
           </>

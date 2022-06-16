@@ -8,43 +8,49 @@ import { useMutation } from "react-query";
 import { deleteDevice } from "../../utils/requests/Devices";
 import Notifications from "../shared/Notifications";
 
-const useStyles = makeStyles( ( theme ) => ({
+const useStyles = makeStyles((theme) => ({
   underline: {
-    textDecorationLine: "underline"
-  }
-}) );
+    textDecorationLine: "underline",
+  },
+}));
 
-export const DeleteDeviceOverlay = ( {
-                                       closeOverlayAndRefetch, closeOverlay, device
-                                     } ) => {
-
+export const DeleteDeviceOverlay = ({ closeOverlayAndRefetch, closeOverlay, device }) => {
   const classes = useStyles();
 
-  const deleteDeviceMutation = useMutation( () => deleteDevice( device.id ), {
+  const deleteDeviceMutation = useMutation(() => deleteDevice(device.id), {
     onSuccess: () => {
-      Notifications.showSuccess( `Das Gerät: ${device.deviceName} wurde erfolgreich gelöscht!` )
+      Notifications.showSuccess(`Das Gerät: ${device.deviceName} wurde erfolgreich gelöscht!`);
       closeOverlayAndRefetch();
-    }, onError: ( error ) => {
-      Notifications.showError( `Das Gerät: ${device.deviceName} konnte nicht gelöscht werden!` )
-      console.log( error )
-    }
-  } );
+    },
+    onError: (error) => {
+      Notifications.showError(`Das Gerät: ${device.deviceName} konnte nicht gelöscht werden!`);
+      console.log(error);
+    },
+  });
 
+  const footerContent = (
+    <Stack spacing={2} direction="row">
+      <Button color="primary" variant="contained" type="submit" onClick={() => deleteDeviceMutation.mutate()}>
+        Bestätigen
+      </Button>
+      <Button color="primary" variant="outlined" onClick={() => closeOverlay()}>
+        Abbrechen
+      </Button>
+    </Stack>
+  );
 
-  const footerContent = (<Stack spacing={2} direction="row">
-      <Button color="primary" variant="contained" type="submit" onClick={() => deleteDeviceMutation.mutate()}>Bestätigen</Button>
-      <Button color="primary" variant="outlined" onClick={() => closeOverlay()}>Abbrechen</Button>
-    </Stack>);
-
-  return (<Overlay
+  return (
+    <Overlay
       onClose={() => closeOverlay()}
       headerContent={<h2>Gerät: {device.deviceName} löschen?</h2>}
       footerContent={footerContent}
-      size={"s"}>
+      size={"s"}
+    >
       <Typography variant={"body2"}>
-        Mit den Klick auf Bestätigen, wird das Gerät: <br/><span
-        className={classes.underline}>{device.deviceName}</span> <br/>
+        Mit den Klick auf Bestätigen, wird das Gerät: <br />
+        <span className={classes.underline}>{device.deviceName}</span> <br />
         unwiderruflich gelöscht!
       </Typography>
-    </Overlay>);
-}
+    </Overlay>
+  );
+};

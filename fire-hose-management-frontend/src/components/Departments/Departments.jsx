@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useGetAllDepartments } from "../../hooks/useGetAllDepartments";
 import { useMutation } from "react-query";
 import Notifications from "../shared/Notifications";
@@ -10,63 +10,63 @@ import DefaultPage from "../shared/DefaultPage";
 import EditDepartmentOverlay from "./EditDepartmentOverlay";
 
 const Departments = () => {
-  const [selectedDepartment, setSelectedDepartment] = useState( {} )
-  const [isCreateOverlayVisible, setIsCreateOverlayVisible] = useState( false )
-  const [isEditOverlayVisible, setIsEditOverlayVisible] = useState( false )
-  const [isDeleteOverlayVisible, setIsDeleteOverlayVisible] = useState( false )
+  const [selectedDepartment, setSelectedDepartment] = useState({});
+  const [isCreateOverlayVisible, setIsCreateOverlayVisible] = useState(false);
+  const [isEditOverlayVisible, setIsEditOverlayVisible] = useState(false);
+  const [isDeleteOverlayVisible, setIsDeleteOverlayVisible] = useState(false);
 
   const { departments, refetch } = useGetAllDepartments();
 
   const handleCloseCreateAndRefetch = () => {
-    setIsCreateOverlayVisible( false );
+    setIsCreateOverlayVisible(false);
     refetch();
-  }
+  };
 
   const handleCloseEditAndRefetch = () => {
-    setIsEditOverlayVisible( false );
+    setIsEditOverlayVisible(false);
     refetch();
-  }
+  };
 
-  const handleCloseDeleteAndRefetch = () =>{
+  const handleCloseDeleteAndRefetch = () => {
     setIsDeleteOverlayVisible(false);
     refetch();
-  }
-
+  };
 
   return (
     <DefaultPage>
       <h1>Abteilungen</h1>
       <DepartmentsDataGrid
         departments={departments}
-        selectedDepartmentFunction={( item ) => setSelectedDepartment( item )}
-        setDeleteOverlayVisibleFunction={( state ) => setIsDeleteOverlayVisible( state )}
-        setIsEditOverlayVisibleFunction={( state ) => setIsEditOverlayVisible( state )}
-        setIsAddOverlayVisibleFunction={( state ) => setIsCreateOverlayVisible( state )}
+        selectedDepartmentFunction={(item) => setSelectedDepartment(item)}
+        setDeleteOverlayVisibleFunction={(state) => setIsDeleteOverlayVisible(state)}
+        setIsEditOverlayVisibleFunction={(state) => setIsEditOverlayVisible(state)}
+        setIsAddOverlayVisibleFunction={(state) => setIsCreateOverlayVisible(state)}
       />
 
-      {isCreateOverlayVisible &&
+      {isCreateOverlayVisible && (
         <CreateDepartmentOverlay
           closeOverlayAndRefetch={() => handleCloseCreateAndRefetch()}
-          closeOverlay={() => setIsCreateOverlayVisible( false )}
-        />}
+          closeOverlay={() => setIsCreateOverlayVisible(false)}
+        />
+      )}
 
-      {isEditOverlayVisible &&
+      {isEditOverlayVisible && (
         <EditDepartmentOverlay
           closeOverlayAndRefetch={() => handleCloseEditAndRefetch()}
-          closeOverlay={() => setIsEditOverlayVisible( false )}
+          closeOverlay={() => setIsEditOverlayVisible(false)}
           department={selectedDepartment}
+        />
+      )}
 
-        />}
-
-
-      {isDeleteOverlayVisible &&
+      {isDeleteOverlayVisible && (
         <DeleteDepartmentOverlay
-          closeOverlayAndRefetch={()=> handleCloseDeleteAndRefetch()}
-          closeOverlay={() => setIsDeleteOverlayVisible( false )}
+          closeOverlayAndRefetch={() => handleCloseDeleteAndRefetch()}
+          closeOverlay={() => setIsDeleteOverlayVisible(false)}
           department={selectedDepartment}
-        />}
+        />
+      )}
     </DefaultPage>
   );
-}
+};
 
 export default Departments;
