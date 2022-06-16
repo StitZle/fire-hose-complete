@@ -1,65 +1,72 @@
 package com.niclas.model;
 
-import javax.persistence.*;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "Devices")
+
+@Document( "devices" )
 public class Device extends AuditModel {
 
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO) //TODO better config for GenerationType
-    private long id;
+    private ObjectId id;
 
-    @Column(name = "device_name")
     private String deviceName;
 
-    @Column(name = "device_id")
     private String deviceId;
 
-    @Column(name = "is_primary")
     private boolean isPrimary;
 
 
     public Device() {
     }
 
-    public Device(String deviceName, String deviceId, boolean isPrimary) {
+
+    public Device( String deviceName, String deviceId, boolean isPrimary ) {
         this.deviceName = deviceName;
         this.deviceId = deviceId;
         this.isPrimary = isPrimary;
     }
 
-    public long getId() {
-        return id;
+
+    public String getId() {
+        return id.toHexString();
     }
 
-    public void setId(long id) {
+
+    public void setId( ObjectId id ) {
         this.id = id;
     }
+
 
     public String getDeviceName() {
         return deviceName;
     }
 
-    public void setDeviceName(String component) {
+
+    public void setDeviceName( String component ) {
         this.deviceName = component;
     }
+
 
     public String getDeviceId() {
         return deviceId;
     }
 
-    public void setDeviceId(String deviceId) {
+
+    public void setDeviceId( String deviceId ) {
         this.deviceId = deviceId;
     }
+
 
     public boolean getIsPrimary() {
         return isPrimary;
     }
 
-    public void setIsPrimary(boolean primary) {
+
+    public void setIsPrimary( boolean primary ) {
         this.isPrimary = primary;
     }
 
 }
+

@@ -1,0 +1,64 @@
+[
+  {
+    "department": {
+      "createdAt": "2022-05-23T21:09:10.345+00:00",
+      "updatedAt": "2022-05-31T21:28:01.650+00:00",
+      "id": "628bf7f60fd6c373fa46d5b4",
+      "departmentName": "Feuerwehr March",
+      "contact": {
+        "firstname": "Niclas",
+        "lastname": "Bürger",
+        "gender": "MALE",
+        "mail": "official@niclasbuerger.de"
+      },
+      "street": "Konrad-Stürtzel-Strasse",
+      "houseNumber": "42",
+      "location": "March",
+      "postalCode": "79232",
+      "country": "Deutschland",
+      "registered": true,
+      "sendConfirmationMail": true
+    },
+    "contact": null,
+    "devices": [
+      {
+        "createdAt": "2022-05-09T17:54:14.783+00:00",
+        "updatedAt": "2022-05-09T17:54:32.239+00:00",
+        "id": "62795546fea31c75cd997e6b",
+        "deviceName": "B-Schlauch",
+        "deviceId": "W03RYO",
+        "isPrimary": true,
+        "count": "32"
+      }
+    ],
+    "forename": "Niclas",
+    "surname": "Bürger",
+    "notes": null
+  },
+  {
+    "department": null,
+    "contact": {
+      "firstname": "Niclas",
+      "lastname": "Bürger",
+      "gender": "MALE",
+      "mail": "official@niclasbuerger.de",
+      "company": "Bauhof March"
+    },
+    "devices": [
+      {
+        "createdAt": "2022-05-09T17:54:14.783+00:00",
+        "updatedAt": "2022-05-09T17:54:32.239+00:00",
+        "id": "62795546fea31c75cd997e6b",
+        "deviceName": "B-Schlauch",
+        "deviceId": "W03RYO",
+        "isPrimary": true,
+        "count": "32"
+      }
+    ],
+    "forename": "Niclas",
+    "surname": "Bürger",
+    "notes": null
+  }
+]
+
+

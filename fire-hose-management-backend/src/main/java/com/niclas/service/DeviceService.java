@@ -4,6 +4,7 @@ import com.niclas.model.Device;
 import com.niclas.repository.DeviceRepository;
 import com.niclas.rest.exceptionHandling.exception.DeviceNotFoundException;
 import com.niclas.utils.Generators;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,23 +34,24 @@ public class DeviceService {
         return deviceRepository.findAllByOrderByIdDesc();
     }
 
-    public Device updateDevice(Device deviceRequest, long id) throws DeviceNotFoundException {
-        Device device = deviceRepository.findDeviceById(id).orElseThrow(() -> new DeviceNotFoundException(id));
+    public Device updateDevice( Device deviceRequest, ObjectId id ) throws DeviceNotFoundException {
+        Device device = deviceRepository.findDeviceById( id ).orElseThrow( () -> new DeviceNotFoundException( id ) );
 
-        device.setDeviceName(deviceRequest.getDeviceName());
-        device.setIsPrimary(deviceRequest.getIsPrimary());
+        device.setDeviceName( deviceRequest.getDeviceName() );
+        device.setIsPrimary( deviceRequest.getIsPrimary() );
 
-        if (deviceRequest.getDeviceId().equals("") || deviceRequest.getDeviceId() == null) {
-            device.setDeviceId(Generators.generateDeviceId(DEVICE_ID_LENGTH));
-        } else {
-            device.setDeviceId(deviceRequest.getDeviceId());
+        if( deviceRequest.getDeviceId().equals( "" ) || deviceRequest.getDeviceId() == null ) {
+            device.setDeviceId( Generators.generateDeviceId( DEVICE_ID_LENGTH ) );
+        }
+        else {
+            device.setDeviceId( deviceRequest.getDeviceId() );
         }
         deviceRepository.save(device);
         return device;
     }
 
-    public void deleteDevice(long id) {
-        deviceRepository.deleteById(id);
+    public void deleteDevice( ObjectId id ) {
+        deviceRepository.deleteById( id );
     }
 
 }

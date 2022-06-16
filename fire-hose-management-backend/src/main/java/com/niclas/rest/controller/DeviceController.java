@@ -4,6 +4,7 @@ import com.niclas.model.Device;
 import com.niclas.rest.exceptionHandling.exception.DeviceNotFoundException;
 import com.niclas.service.DeviceService;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,7 +33,7 @@ public class DeviceController {
     }
 
 
-    @PostMapping( value = "/devices/", consumes = {MediaType.APPLICATION_JSON_VALUE} )
+    @PostMapping( value = "/devices", consumes = {MediaType.APPLICATION_JSON_VALUE} )
     public ResponseEntity<Device> addDevice( @RequestBody Device deviceRequest ) {
 
         Device device = deviceService.addDevice( deviceRequest );
@@ -40,7 +41,7 @@ public class DeviceController {
     }
 
 
-    @GetMapping( value = "/devices/" )
+    @GetMapping( value = "/devices" )
     public ResponseEntity<List<Device>> getAllDevices() {
         List<Device> devices = deviceService.getAllDevices();
         return new ResponseEntity<>( devices, HttpStatus.OK );
@@ -48,7 +49,7 @@ public class DeviceController {
 
 
     @PutMapping( value = "/devices/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseEntity<Device> editDevice( @PathVariable( value = "id" ) long id, @RequestBody Device deviceRequest ) throws DeviceNotFoundException {
+    public ResponseEntity<Device> editDevice( @PathVariable( value = "id" ) ObjectId id, @RequestBody Device deviceRequest ) throws DeviceNotFoundException {
 
         Device device = deviceService.updateDevice( deviceRequest, id );
         return new ResponseEntity<>( device, HttpStatus.OK );
@@ -56,7 +57,7 @@ public class DeviceController {
 
 
     @DeleteMapping( value = "/devices/{id}" )
-    public ResponseEntity<Object> deleteComponent( @PathVariable( value = "id" ) long id ) {
+    public ResponseEntity<Object> deleteComponent( @PathVariable( value = "id" ) ObjectId id ) {
         deviceService.deleteDevice( id );
         return new ResponseEntity<>( HttpStatus.OK );
     }

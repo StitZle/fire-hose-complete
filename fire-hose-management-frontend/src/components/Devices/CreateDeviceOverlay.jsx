@@ -6,6 +6,11 @@ import { ValidatorForm } from "react-material-ui-form-validator";
 import { CTextField } from "../shared/input/CTextField";
 import { Overlay } from "../shared/Overlay";
 import Typography from "@material-ui/core/Typography";
+import { useMutation } from "react-query";
+import { postDevice } from "../../utils/requests/Devices";
+import Notifications from "../shared/Notifications";
+import { deviceBuilder } from "./deviceHelper";
+import { bool } from "prop-types";
 
 const useStyles = makeStyles( ( theme ) => ({
   checkbox: {
@@ -18,34 +23,40 @@ const useStyles = makeStyles( ( theme ) => ({
   }
 }) );
 
-export const DeviceOverlay = ( {
-                                 handleClose,
-                                 headline,
-                                 submitBtnText,
-                                 submitBtnFunction,
-                                 initialDeviceName = "",
-                                 initialDeviceId = "",
-                                 initialIsPrimary = false
-                               }
+export const CreateDeviceOverlay = ( {
+                                       closeOverlayAndRefetch,
+                                       closeOverlay
+                                     }
 ) => {
   const classes = useStyles();
 
-  const [deviceName, setDeviceName] = useState( initialDeviceName )
-  const [deviceId, setDeviceId] = useState( initialDeviceId )
-  const [isPrimary, setIsPrimary] = useState( initialIsPrimary )
+  const [deviceName, setDeviceName] = useState( "" )
+  const [deviceId, setDeviceId] = useState( "" )
+  const [isPrimary, setIsPrimary] = useState( false )
+
+  const addDeviceMutation = useMutation( ( deviceDto ) => postDevice( deviceDto ), {
+    onSuccess: () => {
+      Notifications.showSuccess( `Das Gerät: ${deviceName} wurde erfolgreich erstellt.` )
+      closeOverlayAndRefetch();
+    },
+    onError: ( error ) => {
+      Notifications.showError( `Das Gerät: ${deviceName} konnte nicht erstellt werden!` )
+      console.log( error )
+    }
+  } )
 
 
   return (
     <Overlay
-      onClose={() => handleClose()}
-      headerContent={<h2>{headline}</h2>}
+      onClose={() => closeOverlay()}
+      headerContent={<h2>Neues Gerät anlegen</h2>}
       size={"s"}>
       <Typography variant={"body2"}>
         Die Angabe einer Geräte-Kennung ist nicht Verpflichtend.<br/>
         Wird das Feld nicht ausgefüllt so generiert das System automatisch eine Sechsstellige-Kennnummer.
-        Die Kennnummer kann nachträglich geändert werden.
+        Der Gerätename sowie die Kennnummer kann nachträglich nicht mehr geändert werden.
       </Typography>
-      <ValidatorForm onSubmit={() => submitBtnFunction( deviceName, deviceId, isPrimary )}>
+      <ValidatorForm onSubmit={() => addDeviceMutation.mutate( deviceBuilder( deviceName, deviceId, isPrimary ) )}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <CTextField
@@ -80,8 +91,8 @@ export const DeviceOverlay = ( {
           </Grid>
         </Grid>
         <Stack spacing={2} direction="row" className={classes.footer}>
-          <Button color="primary" variant="contained" type="submit">{submitBtnText}</Button>
-          <Button color="primary" variant="outlined" onClick={() => handleClose()}>Abbrechen</Button>
+          <Button color="primary" variant="contained" type="submit">Anlegen</Button>
+          <Button color="primary" variant="outlined" onClick={() => closeOverlay()}>Abbrechen</Button>
         </Stack>
       </ValidatorForm>
     </Overlay>

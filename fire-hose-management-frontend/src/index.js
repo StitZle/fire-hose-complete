@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import {QueryClient, QueryClientProvider} from "react-query";
-import {Provider} from "react-redux";
-import {store} from "./store/store";
 import {BrowserRouter} from "react-router-dom";
 import {ToastContainer} from "react-toastify";
 import {ThemeProvider} from "@material-ui/styles";
@@ -15,22 +13,22 @@ import configJson from "./auth_config.json";
 import theme from "./theme";
 import {AppRouter} from "./router/AppRouter";
 
-const queryClient = new QueryClient({
+const queryClient = new QueryClient( {
     defaultOptions: {
         queries: {
             refetchOnWindowFocus: false,
             cacheTime: 0,
-            retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+            retryDelay: attemptIndex => Math.min( 1000 * 2 ** attemptIndex, 30000 ),
         },
         mutations: {
             retry: false,
         }
     }
-})
+} )
 
-export const history = createBrowserHistory({
+export const history = createBrowserHistory( {
     basename: process.env.PUBLIC_URL
-})
+} )
 
 const providerConfig = {
     domain: configJson.domain,
@@ -40,9 +38,7 @@ const providerConfig = {
     cacheLocation: "localstorage"
 }
 
-const app = (
-    <Auth0Provider {...providerConfig}>
-        <Provider store={store}>
+const app = (<Auth0Provider {...providerConfig}>
             <QueryClientProvider client={queryClient}>
                 <BrowserRouter exact path={"/"}>
                     <ThemeProvider theme={theme}>
@@ -51,13 +47,10 @@ const app = (
                     </ThemeProvider>
                 </BrowserRouter>
             </QueryClientProvider>
-        </Provider>
-    </Auth0Provider>
+        </Auth0Provider>
 )
 
-ReactDOM.render(app,
-    document.getElementById('root')
-);
+ReactDOM.render( app, document.getElementById( 'root' ) );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

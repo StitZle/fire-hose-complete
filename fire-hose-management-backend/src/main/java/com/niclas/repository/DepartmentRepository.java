@@ -3,17 +3,19 @@ package com.niclas.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.niclas.model.Department;
 
 
-public interface DepartmentRepository extends JpaRepository<Department, Long> {
+public interface DepartmentRepository extends MongoRepository<Department, ObjectId>
+{
 
-    Department findDepartmentByDepartment( String departmentName );
+    Department findDepartmentByDepartmentName( String departmentName );
 
 
-    Optional<Department> findDepartmentById( long id );
+    Optional<Department> findDepartmentById( ObjectId id );
 
 
     List<Department> findAllByOrderByIdDesc();

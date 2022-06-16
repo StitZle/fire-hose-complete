@@ -1,166 +1,173 @@
 package com.niclas.model;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.niclas.transfer.DepartmentOrderRequest;
+import com.niclas.transfer.DepartmentRequest;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 
-@Entity
-@Table(name = "departments")
-public class Department {
-
-    //TODO add Form Validation
-    //TODO better Naming for From Attributes on Frontend and Backend
+@Document( "departments" )
+public class Department extends AuditModel {
 
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO) //TODO better config for GenerationType
-    private long id;
+    private ObjectId id;
 
-    @Column(name = "department_name")
-    private String department;
+    private String departmentName;
 
-    @Column(name = "contact_person_forename")
-    private String forename;
+    private Contact contact;
 
-    @Column(name = "contact_person_surname")
-    private String surname;
-
-    @Column(name = "contact_person_mail")
-    private String mail;
-
-    @Column(name = "street")
     private String street;
 
-    @Column(name = "house_number")
     private String houseNumber;
 
-    @Column(name = "location")
     private String location;
 
-    @Column(name = "postal_code")
     private String postalCode;
 
-    @Column(name = "country")
     private String country;
 
-    @Column(name = "registered")
     private boolean registered;
 
+    private boolean sendConfirmationMail;
 
-    public Department() {
-    }
 
-    public Department(String department, String forename, String surname, String mail, String street, String houseNumber, String location, String postalCode, String country, boolean registered) {
-        this.department = department;
-        this.forename = forename;
-        this.surname = surname;
-        this.mail = mail;
+    public Department( String departmentName, Contact contact, String street, String houseNumber, String location, String postalCode, String country, boolean registered, boolean sendConfirmationMail ) {
+        this.departmentName = departmentName;
+        this.contact = contact;
         this.street = street;
         this.houseNumber = houseNumber;
         this.location = location;
         this.postalCode = postalCode;
         this.country = country;
         this.registered = registered;
+        this.sendConfirmationMail = sendConfirmationMail;
     }
 
-    public Department( JsonNode jsonNode) {
-        this.department = jsonNode.get("department").asText();
-        this.forename = jsonNode.get("forename").asText();
-        this.surname = jsonNode.get("surname").asText();
-        this.mail = jsonNode.get("mail").asText();
-        this.street = jsonNode.get("street").asText();
-        this.houseNumber = jsonNode.get("houseNumber").asText();
-        this.location = jsonNode.get("location").asText();
-        this.postalCode = jsonNode.get("postalCode").asText();
-        this.country = jsonNode.get("country").asText();
-        this.registered = jsonNode.get("registered").asBoolean();
+
+    public static Department createNewDepartment( DepartmentRequest departmentRequest ) {
+        return new Department( departmentRequest.getDepartmentName(), new Contact( departmentRequest.getContactRequest().getFirstname(), departmentRequest.getContactRequest().getLastname(), departmentRequest.getContactRequest().getGender(), departmentRequest.getContactRequest().getMail() ), departmentRequest.getStreet(), departmentRequest.getHouseNumber(), departmentRequest.getLocation(), departmentRequest.getPostalCode(), departmentRequest.getCountry(), true, departmentRequest.getSendConfirmationMail() );
     }
 
-    public long getId() {
-        return id;
+    public static Department createDepartment( DepartmentOrderRequest departmentOrderRequest ) {
+        return new Department( departmentOrderRequest.getDepartmentName(), new Contact( departmentOrderRequest.getContactRequest().getFirstname(), departmentOrderRequest.getContactRequest().getLastname(), departmentOrderRequest.getContactRequest().getGender(), departmentOrderRequest.getContactRequest().getMail() ), departmentOrderRequest.getStreet(), departmentOrderRequest.getHouseNumber(), departmentOrderRequest.getLocation(), departmentOrderRequest.getPostalCode(), departmentOrderRequest.getCountry(), departmentOrderRequest.isRegistered(), departmentOrderRequest.getSendConfirmationMail() );
     }
 
-    public void setId(long id) {
+
+    public String getId() {
+        return id.toHexString();
+    }
+
+
+    public void setId( ObjectId id ) {
         this.id = id;
     }
 
-    public String getDepartment() {
-        return department;
+
+    public String getDepartmentName()
+    {
+        return departmentName;
     }
 
-    public void setDepartment(String departmentName) {
-        this.department = departmentName;
+
+    public void setDepartmentName( String departmentName )
+    {
+        this.departmentName = departmentName;
     }
 
-    public String getForename() {
-        return forename;
+
+    public Contact getContact()
+    {
+        return contact;
     }
 
-    public void setForename(String forename) {
-        this.forename = forename;
+
+    public void setContact( Contact contact )
+    {
+        this.contact = contact;
     }
 
-    public String getSurname() {
-        return surname;
-    }
 
-    public void setSurname(String contactPersonSurname) {
-        this.surname = contactPersonSurname;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String contactPersonMail) {
-        this.mail = contactPersonMail;
-    }
-
-    public String getStreet() {
+    public String getStreet()
+    {
         return street;
     }
 
-    public void setStreet(String street) {
+
+    public void setStreet( String street )
+    {
         this.street = street;
     }
 
-    public String getHouseNumber() {
+
+    public String getHouseNumber()
+    {
         return houseNumber;
     }
 
-    public void setHouseNumber(String houseNumber) {
+
+    public void setHouseNumber( String houseNumber )
+    {
         this.houseNumber = houseNumber;
     }
 
-    public String getLocation() {
+
+    public String getLocation()
+    {
         return location;
     }
 
-    public void setLocation(String location) {
+
+    public void setLocation( String location )
+    {
         this.location = location;
     }
 
-    public String getPostalCode() {
+
+    public String getPostalCode()
+    {
         return postalCode;
     }
 
-    public void setPostalCode(String postalCode) {
+
+    public void setPostalCode( String postalCode )
+    {
         this.postalCode = postalCode;
     }
 
-    public String getCountry() {
+
+    public String getCountry()
+    {
         return country;
     }
 
-    public void setCountry(String country) {
+
+    public void setCountry( String country )
+    {
         this.country = country;
     }
 
-    public boolean isRegistered() {
+
+    public boolean isRegistered()
+    {
         return registered;
     }
 
-    public void setRegistered(boolean registered) {
+
+    public void setRegistered( boolean registered )
+    {
         this.registered = registered;
+    }
+
+
+    public boolean isSendConfirmationMail()
+    {
+        return sendConfirmationMail;
+    }
+
+
+    public void setSendConfirmationMail( boolean sendConfirmationMail )
+    {
+        this.sendConfirmationMail = sendConfirmationMail;
     }
 }
