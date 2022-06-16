@@ -3,10 +3,11 @@ import { useGetAllDevices } from "../../hooks/useGetAllDevices";
 import { useMutation } from "react-query";
 import Notifications from "../shared/Notifications";
 import { deleteDevice, postDevice, putDevice } from "../../utils/requests/Devices";
-import { DeviceOverlay } from "./DeviceOverlay";
+import { CreateDeviceOverlay } from "./CreateDeviceOverlay";
 import { DeleteDeviceOverlay } from "./DeleteDevice Overlay";
 import DefaultPage from "../shared/DefaultPage";
 import DevicesDataGrid from "./DevicesDataGrid";
+import EditDeviceOverlay from "./EditDeviceOverlay";
 
 
 const Devices = () => {
@@ -18,99 +19,55 @@ const Devices = () => {
 
   const { devices, refetch } = useGetAllDevices();
 
-
-  const addDeviceMutation = useMutation( ( deviceDto ) => postDevice( deviceDto ), {
-    onSuccess: () => {
-      Notifications.showSuccess( "Das Gerät wurde erfolgreich erstellt!" )
-      setIsAddOverlayVisible( false )
-      refetch();
-    },
-    onError: ( error ) => {
-      Notifications.showError( "Fehler beim Hinzufügen des Gerätes!" )
-      console.log( error )
-    }
-  } )
-
-  const editDeviceMutation = useMutation( ( deviceDto ) => putDevice( selectedDevice.id, deviceDto ), {
-    onSuccess: () => {
-      Notifications.showSuccess( `Das Gerät: ${selectedDevice.deviceName} wurde erfolgreich aktualisiert!` )
-      setIsEditOverlayVisible( false )
-      refetch();
-    },
-    onError: ( error ) => {
-      Notifications.showError( `Das Gerät: ${selectedDevice.deviceName} konnte nicht aktualisiert werden!` )
-      console.log( error )
-    }
-  } )
-
-  const deleteDeviceMutation = useMutation( () => deleteDevice( selectedDevice.id ), {
-    onSuccess: () => {
-      setDeleteOverlayVisible( false )
-      Notifications.showSuccess( `Das Gerät: ${selectedDevice.deviceName} wurde erfolgreich gelöscht!` )
-      refetch();
-    },
-    onError: ( error ) => {
-      Notifications.showError( `Das Gerät: ${selectedDevice.deviceName} konnte nicht gelöscht werden!` )
-      console.log( error )
-    }
-  } )
-
-  const dtoBuilder = ( deviceName, deviceId, isPrimary ) => {
-    return {
-      deviceName: deviceName,
-      deviceId: deviceId,
-      isPrimary: isPrimary
-    }
+  const handleCreateAndRefetch = () => {
+    setIsAddOverlayVisible( false );
+    refetch();
   }
 
-  const addDevice = ( deviceName, deviceId, isPrimary ) => {
-    addDeviceMutation.mutate( dtoBuilder( deviceName, deviceId, isPrimary ) )
+  const handleEditAndRefetch = () =>{
+    setIsEditOverlayVisible(false);
+    refetch();
   }
 
-  const editDevice = ( deviceName, deviceId, isPrimary ) => {
-    editDeviceMutation.mutate( dtoBuilder( deviceName, deviceId, isPrimary ) )
+  const handleDeleteAndRefetch = () =>{
+    setDeleteOverlayVisible(false);
+    refetch();
   }
 
   return (
-      <DefaultPage>
-        <h1>Geräteübersicht</h1>
-        <DevicesDataGrid
-            devices={devices}
-            selectedDeviceFunction={( item ) => setSelectedDevice( item )}
-            setDeleteOverlayVisibleFunction={( state ) => setDeleteOverlayVisible( state )}
-            setIsEditOverlayVisibleFunction={( state ) => setIsEditOverlayVisible( state )}
-            setIsAddOverlayVisibleFunction={( state ) => setIsAddOverlayVisible( state )}
-        />
+    <DefaultPage>
+      <h1>Geräteübersicht</h1>
+      <DevicesDataGrid
+        devices={devices}
+        selectedDeviceFunction={( item ) => setSelectedDevice( item )}
+        setDeleteOverlayVisibleFunction={( state ) => setDeleteOverlayVisible( state )}
+        setIsEditOverlayVisibleFunction={( state ) => setIsEditOverlayVisible( state )}
+        setIsAddOverlayVisibleFunction={( state ) => setIsAddOverlayVisible( state )}
+      />
 
 
-        {isAddOverlayVisible &&
-            <DeviceOverlay
-                handleClose={() => setIsAddOverlayVisible( false )}
-                headline={"Neues Gerät hinzufügen"}
-                submitBtnText={"Hinzufügen"}
-                submitBtnFunction={addDevice}
-            />}
+      {isAddOverlayVisible &&
+        <CreateDeviceOverlay
+          closeOverlayAndRefetch={() => handleCreateAndRefetch()}
+          closeOverlay={() => setIsAddOverlayVisible( false )}
+        />}
 
-        {isEditOverlayVisible &&
-            <DeviceOverlay
-                handleClose={() => setIsEditOverlayVisible( false )}
-                headline={selectedDevice.deviceName + " bearbeiten"}
-                submitBtnText={"Ändern"}
-                submitBtnFunction={editDevice}
-                initialDeviceName={selectedDevice.deviceName}
-                initialDeviceId={selectedDevice.deviceId}
-                initialIsPrimary={selectedDevice.isPrimary}
-            />}
+      {isEditOverlayVisible &&
+        <EditDeviceOverlay
+          closeOverlayAndRefetch={() => handleEditAndRefetch()}
+          closeOverlay={() => setIsEditOverlayVisible( false )}
+          device={selectedDevice}
+        />}
 
 
-        {isDeleteOverlayVisible &&
-            <DeleteDeviceOverlay
-                deviceName={selectedDevice.deviceName}
-                handleClose={() => setDeleteOverlayVisible( false )}
-                submitBtnFunction={() => deleteDeviceMutation.mutate()}
-            />}
+      {isDeleteOverlayVisible &&
+        <DeleteDeviceOverlay
+          closeOverlayAndRefetch={()=>handleDeleteAndRefetch()}
+          closeOverlay={() => setDeleteOverlayVisible( false )}
+          device={selectedDevice}
+        />}
 
-      </DefaultPage>
+    </DefaultPage>
   );
 }
 

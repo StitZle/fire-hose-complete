@@ -1,7 +1,6 @@
-import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import { gridLocale } from "../../i118/GridLocale";
 import React from "react";
-import IconButton from "@material-ui/core/IconButton";
 import { Button, Checkbox } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -27,45 +26,20 @@ const DevicesDataGrid = ( {
                           } ) => {
   const classes = useStyles();
 
-  const buttons = [
-    {
-      key: 1,
-      labelText: "Gerät löschen",
-      icon: <DeleteIcon/>,
-      onClick: () => {
-        setDeleteOverlayVisibleFunction( true )
-      }
-    }, {
-      key: 1,
-      labelText: "Gerät bearbeiten",
-      icon: <EditIcon/>,
-      onClick: () => {
-        setIsEditOverlayVisibleFunction( true )
-      }
-    }]
+  const editDevice = React.useCallback(
+    ( row ) => () => {
+      selectedDeviceFunction( row );
+      setIsEditOverlayVisibleFunction( true );
+    }, [selectedDeviceFunction, setIsEditOverlayVisibleFunction]
+  );
 
+  const deleteDevice = React.useCallback(
+    ( row ) => () => {
+      selectedDeviceFunction( row );
+      setDeleteOverlayVisibleFunction( true );
+    }, [selectedDeviceFunction, setDeleteOverlayVisibleFunction]
+  );
 
-  const buttonHandler = ( props ) => {
-    if( props ) {
-      return (
-        <div>
-          {
-            buttons.map( ( btn ) => {
-              return (
-                <IconButton
-                  aria-label={btn.labelText}
-                  onClick={( value ) => {
-                    btn.onClick( value )
-                  }}>
-                  {btn.icon}
-                </IconButton>
-              )
-            } )
-          }
-        </div>
-      )
-    }
-  }
 
   const checkboxRender = ( params ) => {
     return (
@@ -77,13 +51,32 @@ const DevicesDataGrid = ( {
     )
   }
 
-  //https://mui.com/x/react-data-grid/columns/#special-properties
-  const columns = [
-    { field: "deviceName", headerName: "Gerätename", flex: true },
-    { field: "deviceId", headerName: "Kennung", flex: true },
-    { field: "isPrimary", headerName: "Primäres Gerät", renderCell: checkboxRender, flex: true },
-    { field: "", headerName: "Aktionen", renderCell: buttonHandler, flex: true }
-  ]
+  const columns = React.useMemo(
+    () => [
+      { field: "deviceName", headerName: "Gerätename", flex: true },
+      { field: "deviceId", headerName: "Kennung", flex: true },
+      { field: "isPrimary", headerName: "Primäres Gerät", renderCell: checkboxRender, flex: true },
+      {
+        field: "actions",
+        type: "actions",
+        width: 140,
+        getActions: ( params ) => [
+          <GridActionsCellItem
+            icon={<DeleteIcon/>}
+            label="Gerät löschen"
+            onClick={deleteDevice( params.row )}
+          />,
+          <GridActionsCellItem
+            icon={<EditIcon/>}
+            label="Geräte bearbeiten"
+            onClick={editDevice( params.row )}
+          />
+        ],
+      },
+    ],
+    [deleteDevice, editDevice]
+  );
+
 
   const CustomToolbar = () => {
     return (
@@ -103,7 +96,6 @@ const DevicesDataGrid = ( {
         columns={columns}
         loading={devices.length === 0}
         pageSize={10}
-        onRowClick={( item ) => selectedDeviceFunction( item.row )}
         localeText={gridLocale}
         components={{ Toolbar: CustomToolbar }}
         className={classes.dataGridRemoveBorder}
