@@ -2,54 +2,52 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { BrowserRouter } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import { ThemeProvider } from "@material-ui/styles";
-import { createBrowserHistory } from "history";
+import {QueryClient, QueryClientProvider} from "react-query";
+import {BrowserRouter} from "react-router-dom";
+import {ToastContainer} from "react-toastify";
+import {ThemeProvider} from "@material-ui/styles";
+import {createBrowserHistory} from "history";
 
-import { Auth0Provider } from "@auth0/auth0-react";
+import {Auth0Provider} from "@auth0/auth0-react";
 import configJson from "./auth_config.json";
 import theme from "./theme";
-import { AppRouter } from "./router/AppRouter";
+import {AppRouter} from "./router/AppRouter";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      cacheTime: 0,
-      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+const queryClient = new QueryClient( {
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            cacheTime: 0,
+            retryDelay: ( attemptIndex ) => Math.min( 1000 * 2 ** attemptIndex, 30000 ),
+        },
+        mutations: {
+            retry: false,
+        },
     },
-    mutations: {
-      retry: false,
-    },
-  },
-});
+} );
 
-export const history = createBrowserHistory({
-  basename: process.env.PUBLIC_URL,
-});
+export const history = createBrowserHistory( {
+    basename: process.env.PUBLIC_URL,
+} );
 
 const providerConfig = {
-  domain: configJson.domain,
-  clientId: configJson.clientId,
-  audience: configJson.audience,
-  redirectUri: window.location.origin,
-  cacheLocation: "localstorage",
+    domain: configJson.domain,
+    clientId: configJson.clientId,
+    audience: configJson.audience,
+    redirectUri: window.location.origin,
+    cacheLocation: "localstorage",
 };
 
-const app = (
-  <Auth0Provider {...providerConfig}>
+const app = (<Auth0Provider {...providerConfig}>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter exact path={"/"}>
-        <ThemeProvider theme={theme}>
-          <ToastContainer />
-          <AppRouter />
-        </ThemeProvider>
-      </BrowserRouter>
+        <BrowserRouter exact path={"/"}>
+            <ThemeProvider theme={theme}>
+                <ToastContainer/>
+                <AppRouter/>
+            </ThemeProvider>
+        </BrowserRouter>
     </QueryClientProvider>
-  </Auth0Provider>
-);
+</Auth0Provider>);
 
 ReactDOM.render(app, document.getElementById("root"));
 

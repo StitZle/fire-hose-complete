@@ -1,12 +1,11 @@
 package com.niclas.rest.controller;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.niclas.model.Order;
+import com.niclas.rest.exceptionHandling.exception.DepartmentNotFoundException;
+import com.niclas.rest.exceptionHandling.exception.OrderParamsOverload;
+import com.niclas.service.OrderService;
+import com.niclas.transfer.OrderRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.niclas.model.Order;
-import com.niclas.rest.exceptionHandling.exception.OrderParamsOverload;
-import com.niclas.service.OrderService;
-import com.niclas.transfer.OrderRequest;
-
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 
 @Slf4j
@@ -31,17 +28,12 @@ public class OrderController {
 
     private final OrderService orderService;
 
-
-    @Autowired
     public OrderController( OrderService orderService ) {
         this.orderService = orderService;
     }
 
-
     @PostMapping( value = "/orders" )
-    public ResponseEntity<Order> addOrder( @RequestBody OrderRequest orderRequest )
-            throws JsonProcessingException, OrderParamsOverload
-    {
+    public ResponseEntity<Order> addOrder( @RequestBody OrderRequest orderRequest ) throws OrderParamsOverload, DepartmentNotFoundException {
         Order order = orderService.addOrder( orderRequest );
         System.out.println( order );
         return new ResponseEntity<>( order, HttpStatus.CREATED );
@@ -49,10 +41,7 @@ public class OrderController {
 
 
     @GetMapping( value = "/orders" )
-    public ResponseEntity<List<Order>> getAllOrdersBetweenDates(
-            @RequestParam @DateTimeFormat( pattern = "dd/MM/yyyy" ) Date startDate,
-            @RequestParam @DateTimeFormat( pattern = "dd/MM/yyyy" ) Date endDate )
-    {
+    public ResponseEntity<List<Order>> getAllOrdersBetweenDates( @RequestParam @DateTimeFormat( pattern = "dd/MM/yyyy" ) Date startDate, @RequestParam @DateTimeFormat( pattern = "dd/MM/yyyy" ) Date endDate ) {
         //TODO add if not found custom Response
         //TODO add default range (1 Year)
 
@@ -64,8 +53,7 @@ public class OrderController {
 
 
     //TODO move this to other file
-    private static Date nextDay( Date date )
-    {
+    private static Date nextDay( Date date ) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime( date );
         calendar.add( Calendar.DATE, 1 );
@@ -73,14 +61,12 @@ public class OrderController {
     }
 
 
-    private static LocalDateTime dateToLocalDateTime( Date date )
-    {
+    private static LocalDateTime dateToLocalDateTime( Date date ) {
         return LocalDateTime.ofInstant( date.toInstant(), ZoneId.systemDefault() );
     }
 
 
-    private static Date localDateTimeToDate( LocalDateTime localDateTime )
-    {
+    private static Date localDateTimeToDate( LocalDateTime localDateTime ) {
         return Date.from( localDateTime.atZone( ZoneId.systemDefault() ).toInstant() );
     }
 

@@ -3,6 +3,7 @@ package com.niclas.rest.controller;
 import com.niclas.model.Device;
 import com.niclas.rest.exceptionHandling.exception.DeviceNotFoundException;
 import com.niclas.service.DeviceService;
+import com.niclas.transfer.DeviceRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class DeviceController {
 
 
     @PostMapping( value = "/devices", consumes = {MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseEntity<Device> addDevice( @RequestBody Device deviceRequest ) {
+    public ResponseEntity<Device> addDevice( @RequestBody DeviceRequest deviceRequest ) {
 
         Device device = deviceService.addDevice( deviceRequest );
         return new ResponseEntity<>( device, HttpStatus.CREATED );
@@ -43,13 +44,14 @@ public class DeviceController {
 
     @GetMapping( value = "/devices" )
     public ResponseEntity<List<Device>> getAllDevices() {
+
         List<Device> devices = deviceService.getAllDevices();
         return new ResponseEntity<>( devices, HttpStatus.OK );
     }
 
 
     @PutMapping( value = "/devices/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseEntity<Device> editDevice( @PathVariable( value = "id" ) ObjectId id, @RequestBody Device deviceRequest ) throws DeviceNotFoundException {
+    public ResponseEntity<Device> editDevice( @PathVariable( value = "id" ) ObjectId id, @RequestBody DeviceRequest deviceRequest ) throws DeviceNotFoundException {
 
         Device device = deviceService.updateDevice( deviceRequest, id );
         return new ResponseEntity<>( device, HttpStatus.OK );
@@ -58,6 +60,7 @@ public class DeviceController {
 
     @DeleteMapping( value = "/devices/{id}" )
     public ResponseEntity<Object> deleteComponent( @PathVariable( value = "id" ) ObjectId id ) {
+
         deviceService.deleteDevice( id );
         return new ResponseEntity<>( HttpStatus.OK );
     }

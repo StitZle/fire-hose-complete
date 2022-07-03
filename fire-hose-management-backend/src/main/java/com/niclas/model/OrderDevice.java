@@ -1,5 +1,6 @@
 package com.niclas.model;
 
+import com.niclas.transfer.OrderRequestDevice;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
@@ -9,18 +10,14 @@ public class OrderDevice extends AuditModel {
     @Id
     private ObjectId id;
 
-    private String orderId;
-
     private String deviceId;
 
     private String deviceName;
 
     private int count;
 
-
     public OrderDevice() {
     }
-
 
     public OrderDevice( String deviceId, String deviceName, int count ) {
         this.deviceId = deviceId;
@@ -28,24 +25,16 @@ public class OrderDevice extends AuditModel {
         this.count = count;
     }
 
+    public static OrderDevice createOrderDevice( OrderRequestDevice orderRequestDevice ) {
+        return new OrderDevice( orderRequestDevice.getDeviceId(), orderRequestDevice.getDeviceName(), orderRequestDevice.getCount() );
+    }
 
     public String getId() {
         return id.toHexString();
     }
 
-
     public void setId( ObjectId id ) {
         this.id = id;
-    }
-
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-
-    public void setOrderId( String orderId ) {
-        this.orderId = orderId;
     }
 
 

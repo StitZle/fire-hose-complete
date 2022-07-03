@@ -1,13 +1,10 @@
-import { createTheme } from "@mui/material/styles";
-import { deDE } from "@material-ui/core/locale";
+import {createTheme} from "@mui/material/styles";
+import {deDE} from "@material-ui/core/locale";
 
-const theme = createTheme(
-  {
+const theme = createTheme( {
     palette: {
-      primary: { main: "#2B7A78" },
+        primary: { main: "#2B7A78" },
     },
-  },
-  deDE
-);
+}, deDE );
 
 export default theme;

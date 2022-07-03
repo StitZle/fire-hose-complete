@@ -66,11 +66,9 @@ public class DepartmentController {
 
 
     @DeleteMapping( "/departments/{id}" )
-    public ResponseEntity<Object> deleteDepartment( @PathVariable( value = "id" ) ObjectId id ) {
+    public ResponseEntity<Object> deleteDepartment( @PathVariable( value = "id" ) ObjectId id ) throws DepartmentNotFoundException {
 
         departmentService.deleteDepartment( id );
         return new ResponseEntity<>( HttpStatus.OK );
     }
-
-
 }

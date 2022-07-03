@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -23,24 +24,24 @@ public class DepartmentService {
 	}
 
 	public Department addDepartment( DepartmentRequest departmentRequest ) {
-		Department department = Department.createNewDepartment( departmentRequest );
+		Department department = Department.createDepartment( departmentRequest );
 		departmentRepository.save( department );
 		return department;
 	}
 
 
 	public List<Department> getAllDepartments() {
-		return departmentRepository.findAllByOrderByIdDesc();
+		return departmentRepository.findDepartmentsByDeletedIsFalseOrderByIdDesc();
 	}
 
 
 	public Department getDepartmentById( ObjectId id ) throws DepartmentNotFoundException {
-		return departmentRepository.findDepartmentById( id ).orElseThrow( () -> new DepartmentNotFoundException( id ) );
+		return departmentRepository.findDepartmentByIdAndDeletedIsFalse( id ).orElseThrow( () -> new DepartmentNotFoundException( id ) );
 	}
 
 
 	public Department updateDepartment( Department departmentRequest, ObjectId id ) throws DepartmentNotFoundException {
-		Department department = departmentRepository.findDepartmentById( id ).orElseThrow( () -> new DepartmentNotFoundException( id ) );
+		Department department = departmentRepository.findDepartmentByIdAndDeletedIsFalse( id ).orElseThrow( () -> new DepartmentNotFoundException( id ) );
 
 		department.setDepartmentName( departmentRequest.getDepartmentName() );
 		department.setStreet( departmentRequest.getStreet() );
@@ -59,8 +60,11 @@ public class DepartmentService {
 	}
 
 
-	public void deleteDepartment( ObjectId id ) {
-		departmentRepository.deleteById( id );
+	public void deleteDepartment( ObjectId id ) throws DepartmentNotFoundException {
+		Department department = departmentRepository.findDepartmentByIdAndDeletedIsFalse( id ).orElseThrow( () -> new DepartmentNotFoundException( id ) );
+		department.setDeleted( true );
+		department.setDeletionDate( new Date() );
+		departmentRepository.save( department );
 	}
 
 }

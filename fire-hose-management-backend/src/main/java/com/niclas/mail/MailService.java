@@ -1,6 +1,5 @@
 package com.niclas.mail;
 
-import com.niclas.model.Contact;
 import com.niclas.model.Order;
 import org.springframework.stereotype.Component;
 
@@ -24,17 +23,15 @@ public class MailService {
     public void buildAndSendOrderConfirmationMail( Order order ) {
         Mail mail = new Mail();
         mail.setFrom( ORDER_CONFIRMATION_FROM );
-        mail.setRecipient( order.getDepartment().getContact().getMail() );
+        mail.setRecipient( "official@niclasbuerger.de" );
         mail.setSubject( ORDER_CONFIRMATION_SUBJECT );
         mail.setTemplate( ORDER_CONFIRMATION_TEMPLATE );
 
 
-        Contact contact = order.getDepartment().getContact();
-
         Map<String, Object> properties = new HashMap<>();
-        properties.put( "gender", contact.getGender().value );
-        properties.put( "firstname", contact.getFirstname() );
-        properties.put( "lastname", contact.getLastname() );
+        properties.put( "gender", "HERR" );
+        properties.put( "firstname", "Niclas" );
+        properties.put( "lastname", "Bürger" );
         properties.put( "orderId", order.getOrderId() );
 
         String note = "-";

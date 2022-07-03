@@ -1,72 +1,60 @@
 package com.niclas.service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import com.niclas.mail.MailService;
+import com.niclas.model.Order;
+import com.niclas.model.OrderDevice;
+import com.niclas.repository.DepartmentRepository;
+import com.niclas.repository.OrderRepository;
+import com.niclas.rest.exceptionHandling.exception.DepartmentNotFoundException;
+import com.niclas.rest.exceptionHandling.exception.OrderParamsOverload;
+import com.niclas.transfer.OrderRequest;
+import com.niclas.transfer.OrderRequestDevice;
+import com.niclas.utils.Generators;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.niclas.mail.MailService;
-import com.niclas.model.Department;
-import com.niclas.model.Order;
-import com.niclas.model.OrderDevice;
-import com.niclas.repository.OrderRepository;
-import com.niclas.rest.exceptionHandling.exception.OrderParamsOverload;
-import com.niclas.transfer.OrderRequest;
-import com.niclas.utils.Generators;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 @Component
 public class OrderService {
 
-
     private final OrderRepository orderRepository;
 
     private final MailService mailService;
 
-    public OrderService( OrderRepository orderRepository, MailService mailService ) {
+    private final DepartmentRepository departmentRepository;
+
+    public OrderService( OrderRepository orderRepository, MailService mailService, DepartmentRepository departmentRepository ) {
         this.orderRepository = orderRepository;
 
         this.mailService = mailService;
+        this.departmentRepository = departmentRepository;
     }
 
-
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-
-
-    private Order createNewOrder( OrderRequest orderRequest ) {
-        Order order = new Order(
-
-        );
-
-        return order;
-    }
-
-    public Order addOrder( OrderRequest orderRequest ) throws OrderParamsOverload {
+    public Order addOrder( OrderRequest orderRequest ) throws OrderParamsOverload, DepartmentNotFoundException {
         Order order = new Order();
         order.setOrderId( Generators.generateOrderId() );
 
         checkForDoubleParams( orderRequest );
 
-        if( orderRequest.getDepartmentOrderRequest() != null ) {
-            Department department = Department.createDepartment( orderRequest.getDepartmentOrderRequest() );
-            order.setDepartment( department );
+        ObjectId departmentId = orderRequest.getDepartmentId();
+        if( departmentId != null ) {
+            departmentRepository.findDepartmentByIdAndDeletedIsFalse( departmentId ).orElseThrow( () -> new DepartmentNotFoundException( departmentId ) );
+            order.setDepartmentId( departmentId );
         }
+
+        order.setDevices( buildOrderDeviceList( orderRequest.getOrderRequestDeviceList() ) );
+        order.setSenderFirstname( orderRequest.getSenderFirstname() );
+        order.setSenderLastname( order.getSenderLastname() );
+        order.setNotes( orderRequest.getNotes() );
 
        /* if( orderRequest.getContactOrderRequest() != null ) {
             OrderContact orderContact = objectMapper.treeToValue( orderJson.get( "contact" ), OrderContact.class );
             order.setOrderContact( orderContact );
-        }
-
-        order.setDevices( getOrderDevicesFromJson( orderJson.get( "devices" ), order.getOrderId() ) );
-        order.setSenderFirstname( orderJson.get( "firstname" ).textValue() );
-        order.setSenderLastname( orderJson.get( "lastname" ).textValue() );
-
-        //TODO if no note is set then set this to null
-        order.setNotes( orderJson.get( "notes" ).textValue() );*/
+        }*/
 
         orderRepository.save( order );
         //mailService.buildAndSendOrderConfirmationMail( order );
@@ -91,25 +79,12 @@ public class OrderService {
         }*/
     }
 
-
-    private List<OrderDevice> getOrderDevicesFromJson( JsonNode deviceNodes, String orderId ) {
-        List<OrderDevice> devices = new ArrayList<>();
-        for( JsonNode node : deviceNodes ) {
-            OrderDevice orderDevice = buildOrderDevice( node, orderId );
-            devices.add( orderDevice );
-        }
-        return devices;
+    private List<OrderDevice> buildOrderDeviceList( List<OrderRequestDevice> orderRequestDeviceList ) {
+        List<OrderDevice> orderDeviceList = new ArrayList<>();
+        orderRequestDeviceList.forEach( orderRequestDevice -> {
+            OrderDevice orderDevice = OrderDevice.createOrderDevice( orderRequestDevice );
+            orderDeviceList.add( orderDevice );
+        } );
+        return orderDeviceList;
     }
-
-
-    private OrderDevice buildOrderDevice( JsonNode deviceNode, String orderId ) {
-        OrderDevice orderDevice = new OrderDevice();
-        orderDevice.setId( new ObjectId() );
-        orderDevice.setOrderId( orderId );
-        orderDevice.setDeviceId( deviceNode.get( "deviceId" ).asText() );
-        orderDevice.setDeviceName( deviceNode.get( "deviceName" ).asText() );
-        orderDevice.setCount( deviceNode.get( "count" ).asInt() );
-        return orderDevice;
-    }
-
 }

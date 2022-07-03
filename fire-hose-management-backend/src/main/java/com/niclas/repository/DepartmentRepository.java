@@ -1,12 +1,11 @@
 package com.niclas.repository;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.niclas.model.Department;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.niclas.model.Department;
+import java.util.List;
+import java.util.Optional;
 
 
 public interface DepartmentRepository extends MongoRepository<Department, ObjectId>
@@ -14,9 +13,9 @@ public interface DepartmentRepository extends MongoRepository<Department, Object
 
     Department findDepartmentByDepartmentName( String departmentName );
 
+    Optional<Department> findDepartmentByIdAndDeletedIsFalse( ObjectId id );
 
-    Optional<Department> findDepartmentById( ObjectId id );
-
+    List<Department> findDepartmentsByDeletedIsFalseOrderByIdDesc();
 
     List<Department> findAllByOrderByIdDesc();
 

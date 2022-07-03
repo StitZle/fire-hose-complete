@@ -3,7 +3,7 @@ package com.niclas.transfer;
 import com.niclas.utils.Gender;
 
 
-public class ContactOrderRequest {
+public class ContactRequest {
 
     private String firstname;
 
@@ -13,7 +13,7 @@ public class ContactOrderRequest {
 
     private String mail;
 
-    public ContactOrderRequest() {
+    public ContactRequest() {
     }
 
     public String getFirstname() {

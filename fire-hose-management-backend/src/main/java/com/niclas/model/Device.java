@@ -1,5 +1,6 @@
 package com.niclas.model;
 
+import com.niclas.transfer.DeviceRequest;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,11 +22,14 @@ public class Device extends AuditModel {
     public Device() {
     }
 
-
     public Device( String deviceName, String deviceId, boolean isPrimary ) {
         this.deviceName = deviceName;
         this.deviceId = deviceId;
         this.isPrimary = isPrimary;
+    }
+
+    public static Device createDevice( DeviceRequest deviceRequest ) {
+        return new Device( deviceRequest.getDeviceName(), deviceRequest.getDeviceId(), deviceRequest.isPrimary() );
     }
 
 

@@ -1,162 +1,163 @@
 @mixin overlay-padding {
-  padding-left: 32px;
-  padding-right: 100px;
+    padding-left: 32px;
+    padding-right: 100px;
 }
 
 .uli-overlay-background {
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  left: 0;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
 
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
 
-  background-color: rgba(#797473, 0.8);
+    background-color: rgba(#797473, 0.8);
 
-  display: flex;
-  justify-content: flex-end;
+    display: flex;
+    justify-content: flex-end;
 
-  animation: fadeIn 0.6s;
+    animation: fadeIn 0.6s;
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
     }
-    to {
-      opacity: 1;
-    }
-  }
 
-  &.no-animation {
-    animation: none;
-  }
+    &.no-animation {
+        animation: none;
+    }
 }
 
 .uli-overlay-panel {
-  position: relative;
+    position: relative;
 
-  background-color: white;
-  height: 100%;
-  overflow-y: auto;
+    background-color: white;
+    height: 100%;
+    overflow-y: auto;
 
-  animation: slideIn 0.6s ease-in-out;
+    animation: slideIn 0.6s ease-in-out;
 
-  &.no-animation {
-    animation: none;
-  }
-
-  &.size-s {
-    width: calc(35%);
-
-    @keyframes slideIn {
-      from {
-        right: -35%;
-      }
-      to {
-        right: 0;
-      }
+    &.no-animation {
+        animation: none;
     }
-  }
 
-  &.size-m {
-    width: calc(
-      55% - 1px
-    ); // one px is subtracted, because otherwise the test framework is not able to click the overlay-background
+    &.size-s {
+        width: calc(35%);
 
-    @keyframes slideIn {
-      from {
-        right: -55%;
-      }
-      to {
-        right: 0;
-      }
+        @keyframes slideIn {
+            from {
+                right: -35%;
+            }
+            to {
+                right: 0;
+            }
+        }
     }
-  }
 
-  &.size-l {
-    width: calc(80%);
+    &.size-m {
+        width: calc(
+                55% - 1px
+        ); // one px is subtracted, because otherwise the test framework is not able to click the overlay-background
 
-    @keyframes slideIn {
-      from {
-        right: -80%;
-      }
-      to {
-        right: 0;
-      }
+        @keyframes slideIn {
+            from {
+                right: -55%;
+            }
+            to {
+                right: 0;
+            }
+        }
     }
-  }
+
+    &.size-l {
+        width: calc(80%);
+
+        @keyframes slideIn {
+            from {
+                right: -80%;
+            }
+            to {
+                right: 0;
+            }
+        }
+    }
 }
 
 .uli-overlay-header {
-  position: -webkit-sticky;
-  position: sticky;
-  z-index: 1;
-  top: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 1;
+    top: 0;
 
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
 
-  background-color: white;
-  /*width: 100%;*/
+    background-color: white;
+    /*width: 100%;*/
 
-  @include overlay-padding;
-  padding-top: 80px;
+    @include overlay-padding;
+    padding-top: 80px;
 
-  transition: box-shadow 0.4s;
-  &.show-shadow {
-    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
-  }
+    transition: box-shadow 0.4s;
+
+    &.show-shadow {
+        box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+    }
 }
 
 .uli-overlay-close {
-  background: rgba(white, 0.8);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  line-height: 0;
+    background: rgba(white, 0.8);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    line-height: 0;
 
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 2px 2px rgba(#00a19c, 0.4);
-  }
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 2px 2px rgba(#00a19c, 0.4);
+    }
 
-  &:hover {
-    color: #00a19c;
-  }
+    &:hover {
+        color: #00a19c;
+    }
 
-  &.only {
-    float: right;
-    position: relative;
-    top: 87px;
-    right: 100px;
-  }
+    &.only {
+        float: right;
+        position: relative;
+        top: 87px;
+        right: 100px;
+    }
 }
 
 .uli-overlay-footer {
-  @include overlay-padding;
-  background-color: white;
-  padding-top: 24px;
-  padding-bottom: 32px;
-  width: 100%;
+    @include overlay-padding;
+    background-color: white;
+    padding-top: 24px;
+    padding-bottom: 32px;
+    width: 100%;
 
-  position: sticky;
-  bottom: 0;
+    position: sticky;
+    bottom: 0;
 
-  z-index: 1;
+    z-index: 1;
 
-  &.show-shadow {
-    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
-  }
+    &.show-shadow {
+        box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+    }
 }
 
 .uli-overlay-content {
-  @include overlay-padding;
-  padding-top: 32px;
-  padding-bottom: 32px;
+    @include overlay-padding;
+    padding-top: 32px;
+    padding-bottom: 32px;
 
-  &.only {
-    padding-top: 80px;
-  }
+    &.only {
+        padding-top: 80px;
+    }
 }
