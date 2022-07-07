@@ -19,14 +19,15 @@ public class OrderDevice extends AuditModel {
     public OrderDevice() {
     }
 
-    public OrderDevice( String deviceId, String deviceName, int count ) {
+    public OrderDevice(ObjectId id, String deviceId, String deviceName, int count ) {
+        this.id = id;
         this.deviceId = deviceId;
         this.deviceName = deviceName;
         this.count = count;
     }
 
     public static OrderDevice createOrderDevice( OrderRequestDevice orderRequestDevice ) {
-        return new OrderDevice( orderRequestDevice.getDeviceId(), orderRequestDevice.getDeviceName(), orderRequestDevice.getCount() );
+        return new OrderDevice(orderRequestDevice.getId(), orderRequestDevice.getDeviceId(), orderRequestDevice.getDeviceName(), orderRequestDevice.getCount() );
     }
 
     public String getId() {

@@ -32,6 +32,10 @@ public class OrderRequest {
     private String notes;
 
 
+    public OrderRequest() {
+    }
+
+
     public OrderRequest( ObjectId departmentId, ContactRequest contactRequest, List<OrderRequestDevice> orderRequestDeviceList, String senderFirstname, String senderLastname, String notes ) {
         this.departmentId = departmentId;
         this.contactRequest = contactRequest;
@@ -82,7 +86,7 @@ public class OrderRequest {
     }
 
 
-    public String getLastname() {
+    public String getSenderLastname() {
         return senderLastname;
     }
 

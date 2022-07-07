@@ -25,7 +25,6 @@ public class OrderRequestDevice {
     @JsonProperty( "isPrimary" )
     private boolean isPrimary;
 
-
     @NotNull
     @Min( 1 )
     @JsonProperty( "count" )

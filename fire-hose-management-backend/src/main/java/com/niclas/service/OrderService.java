@@ -1,7 +1,6 @@
 package com.niclas.service;
 
-import com.niclas.mail.MailService;
-import com.niclas.mail.SendOrderSuccessMail;
+import com.niclas.mail.SendMail;
 import com.niclas.model.Order;
 import com.niclas.model.OrderDevice;
 import com.niclas.repository.DepartmentRepository;
@@ -12,7 +11,6 @@ import com.niclas.transfer.OrderRequest;
 import com.niclas.transfer.OrderRequestDevice;
 import com.niclas.utils.Generators;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -25,19 +23,15 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    private final MailService mailService;
-
     private final DepartmentRepository departmentRepository;
 
-    private final SendOrderSuccessMail sendOrderSuccessMail;
+    private final SendMail sendMail;
 
-    public OrderService( OrderRepository orderRepository, MailService mailService, DepartmentRepository departmentRepository,
-            SendOrderSuccessMail sendOrderSuccessMail ) {
+    public OrderService( OrderRepository orderRepository, DepartmentRepository departmentRepository,
+            SendMail sendMail ) {
         this.orderRepository = orderRepository;
-
-        this.mailService = mailService;
         this.departmentRepository = departmentRepository;
-        this.sendOrderSuccessMail = sendOrderSuccessMail;
+        this.sendMail = sendMail;
     }
 
     public Order addOrder( OrderRequest orderRequest ) throws OrderParamsOverload, DepartmentNotFoundException {
@@ -54,7 +48,7 @@ public class OrderService {
 
         order.setDevices( buildOrderDeviceList( orderRequest.getOrderRequestDeviceList() ) );
         order.setSenderFirstname( orderRequest.getSenderFirstname() );
-        order.setSenderLastname( order.getSenderLastname() );
+        order.setSenderLastname( orderRequest.getSenderLastname() );
         order.setNotes( orderRequest.getNotes() );
 
        /* if( orderRequest.getContactOrderRequest() != null ) {
@@ -63,8 +57,7 @@ public class OrderService {
         }*/
 
         orderRepository.save( order );
-        sendOrderSuccessMail.sendMail( order );
-        //mailService.buildAndSendOrderConfirmationMail( order );
+        sendMail.sendMail( order );
 
         return order;
     }
