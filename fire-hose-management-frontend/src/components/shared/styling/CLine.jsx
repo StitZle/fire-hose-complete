@@ -1,5 +1,5 @@
 import React from "react";
-import {makeStyles} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     hrText: {
@@ -33,5 +33,5 @@ const useStyles = makeStyles((theme) => ({
 
 export const CLine = ({ title }) => {
     const classes = useStyles();
-    return <hr className={classes.hrText} data-content={title}/>;
+    return <hr className={classes.hrText} data-content={title} />;
 };

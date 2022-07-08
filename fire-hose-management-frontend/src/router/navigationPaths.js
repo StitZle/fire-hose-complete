@@ -20,8 +20,8 @@ export const DASHBOARD = {
     name: "Dashboard",
     exact: true,
     authRequired: false,
-    icon: <DashboardIcon/>,
-    component: <Dashboard/>,
+    icon: <DashboardIcon />,
+    component: <Dashboard />,
 };
 
 export const DELIVERIES = {
@@ -29,8 +29,8 @@ export const DELIVERIES = {
     name: "Abgaben",
     exact: true,
     authRequired: true,
-    icon: <LocalShippingIcon/>,
-    component: <Deliveries/>,
+    icon: <LocalShippingIcon />,
+    component: <Deliveries />,
 };
 
 export const DELIVERY_DETAILS = {
@@ -38,7 +38,7 @@ export const DELIVERY_DETAILS = {
     name: "Abgaben details",
     exact: true,
     authRequired: true,
-    component: <DeliveryDetail/>,
+    component: <DeliveryDetail />,
 };
 
 export const REPAIRS = {
@@ -46,8 +46,8 @@ export const REPAIRS = {
     name: "Gerätewartung",
     exact: true,
     authRequired: true,
-    icon: <BuildCircleIcon/>,
-    component: <Repairs/>,
+    icon: <BuildCircleIcon />,
+    component: <Repairs />,
 };
 
 export const ADD_REPAIR = {
@@ -55,8 +55,8 @@ export const ADD_REPAIR = {
     name: "Neue Wartung",
     exact: true,
     authRequired: true,
-    icon: <BuildCircleIcon/>,
-    component: <AddRepair/>,
+    icon: <BuildCircleIcon />,
+    component: <AddRepair />,
 };
 
 export const EXPORT = {
@@ -64,8 +64,8 @@ export const EXPORT = {
     name: "Export",
     exact: true,
     authRequired: true,
-    icon: <FileDownloadIcon/>,
-    component: <ExportData/>,
+    icon: <FileDownloadIcon />,
+    component: <ExportData />,
 };
 
 export const DEPARTMENTS = {
@@ -73,8 +73,8 @@ export const DEPARTMENTS = {
     name: "Abteilungen",
     exact: true,
     authRequired: true,
-    icon: <PeopleIcon/>,
-    component: <Departments/>,
+    icon: <PeopleIcon />,
+    component: <Departments />,
 };
 
 export const DEVICES = {
@@ -82,8 +82,8 @@ export const DEVICES = {
     name: "Geräteübersicht",
     exact: true,
     authRequired: true,
-    icon: <DeviceHubIcon/>,
-    component: <Devices/>,
+    icon: <DeviceHubIcon />,
+    component: <Devices />,
 };
 
 export const ORDER_FORM = {
@@ -91,7 +91,7 @@ export const ORDER_FORM = {
     name: "Auftrag",
     exact: true,
     authRequired: false,
-    component: <OrderForm/>,
+    component: <OrderForm />,
 };
 
 export const ORDER_SUCCESS = {
@@ -99,10 +99,21 @@ export const ORDER_SUCCESS = {
     name: "Auftrag",
     exact: true,
     authRequired: false,
-    component: <OrderSuccess/>,
+    component: <OrderSuccess />,
 };
 
-export const allRoutes = [DASHBOARD, DELIVERIES, DELIVERY_DETAILS, REPAIRS, ADD_REPAIR, EXPORT, DEPARTMENTS, DEVICES, ORDER_FORM, ORDER_SUCCESS,];
+export const allRoutes = [
+    DASHBOARD,
+    DELIVERIES,
+    DELIVERY_DETAILS,
+    REPAIRS,
+    ADD_REPAIR,
+    EXPORT,
+    DEPARTMENTS,
+    DEVICES,
+    ORDER_FORM,
+    ORDER_SUCCESS,
+];
 
 export const primaryRoutes = [DASHBOARD, DELIVERIES, REPAIRS, EXPORT];
 

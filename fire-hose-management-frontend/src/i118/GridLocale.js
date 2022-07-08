@@ -46,7 +46,8 @@ export const gridLocale = {
     filterOperatorOnOrBefore: "is on or before",
 
     // Rows selected footer text
-    footerRowSelected: ( count ) => count !== 1 ? `${count.toLocaleString()} ausgewählte Zeilen` : `${count.toLocaleString()} ausgewählte Zeile`,
+    footerRowSelected: (count) =>
+        count !== 1 ? `${count.toLocaleString()} ausgewählte Zeilen` : `${count.toLocaleString()} ausgewählte Zeile`,
 
     // Total rows footer text
     footerTotalRows: "Total Rows:",

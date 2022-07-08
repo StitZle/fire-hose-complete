@@ -56,7 +56,7 @@ public class OrderRequest {
     }
 
 
-    public ContactRequest getContactOrderRequest() {
+    public ContactRequest getContactRequest() {
         return contactRequest;
     }
 

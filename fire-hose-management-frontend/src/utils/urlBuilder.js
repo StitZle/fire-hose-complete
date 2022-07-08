@@ -1,24 +1,24 @@
-import {urls} from "./constants";
+import { urls } from "./constants";
 
 const isStaging = true;
 
 class urlBuilder {
     static deliveriesBetweenDates = () => {
-        if( isStaging ) {
+        if (isStaging) {
             return urls.deliveries.staging;
         }
         return urls.deliveries.prod;
     };
 
     static maintenanceDevicesTemplates = () => {
-        if( isStaging ) {
+        if (isStaging) {
             return urls.maintenanceDevicesTemplates.staging;
         }
         return urls.maintenanceDevicesTemplates.prod;
     };
 
     static maintenanceDevices = () => {
-        if( isStaging ) {
+        if (isStaging) {
             return urls.maintenanceDevices.staging;
         }
         return urls.maintenanceDevices.prod;

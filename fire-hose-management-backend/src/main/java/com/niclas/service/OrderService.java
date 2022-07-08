@@ -2,6 +2,7 @@ package com.niclas.service;
 
 import com.niclas.mail.SendMail;
 import com.niclas.model.Order;
+import com.niclas.model.OrderContact;
 import com.niclas.model.OrderDevice;
 import com.niclas.repository.DepartmentRepository;
 import com.niclas.repository.OrderRepository;
@@ -46,15 +47,24 @@ public class OrderService {
             order.setDepartmentId( departmentId );
         }
 
+         if( orderRequest.getContactRequest() != null ) {
+             //TODO add OrderContactRequest to transferObjects
+             // Validate
+             // add here
+            OrderContact orderContact = new OrderContact(
+                    orderRequest.getContactRequest().getFirstname(),
+                    orderRequest.getContactRequest().getLastname(),
+                    orderRequest.getContactRequest().getMail(),
+                    orderRequest.getContactRequest().get(),
+            );
+            order.setOrderContact( orderContact );
+        }
+
         order.setDevices( buildOrderDeviceList( orderRequest.getOrderRequestDeviceList() ) );
         order.setSenderFirstname( orderRequest.getSenderFirstname() );
         order.setSenderLastname( orderRequest.getSenderLastname() );
         order.setNotes( orderRequest.getNotes() );
 
-       /* if( orderRequest.getContactOrderRequest() != null ) {
-            OrderContact orderContact = objectMapper.treeToValue( orderJson.get( "contact" ), OrderContact.class );
-            order.setOrderContact( orderContact );
-        }*/
 
         orderRepository.save( order );
         sendMail.sendMail( order );
@@ -69,14 +79,13 @@ public class OrderService {
 
 
     private void checkForDoubleParams( OrderRequest orderRequest ) throws OrderParamsOverload {
-
-        /*if( orderRequest.getDepartmentOrderRequest() != null && orderRequest.getContactRequest() != null ) {
+        if( orderRequest.getDepartmentId() != null && orderRequest.getContactRequest() != null ) {
             throw new OrderParamsOverload( "Order cannot have both fields set: department, contact" );
         }
 
-        if( orderRequest.getDepartmentOrderRequest() == null && orderRequest.getContactRequest() == null ) {
+        if( orderRequest.getDepartmentId() == null && orderRequest.getContactRequest() == null ) {
             throw new OrderParamsOverload( "Order cannot have both fields null. One field must be set: department or contact" );
-        }*/
+        }
     }
 
     private List<OrderDevice> buildOrderDeviceList( List<OrderRequestDevice> orderRequestDeviceList ) {

@@ -1,5 +1,5 @@
 {
-  "domain": "fire-hose-management.eu.auth0.com",
-  "clientId": "MbdDNM8RvvqtXpmhjkQUsNHwM7EgNYnK",
-  "audience": "http://localhost:8080/auth"
+    "domain": "fire-hose-management.eu.auth0.com",
+    "clientId": "MbdDNM8RvvqtXpmhjkQUsNHwM7EgNYnK",
+    "audience": "http://localhost:8080/auth"
 }

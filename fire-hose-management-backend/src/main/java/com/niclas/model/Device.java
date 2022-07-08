@@ -18,6 +18,7 @@ public class Device extends AuditModel {
 
     private boolean isPrimary;
 
+    //TODO add Deletion Date and is Deleted
 
     public Device() {
     }
