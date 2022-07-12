@@ -59,7 +59,8 @@ public class DeviceController {
 
 
     @DeleteMapping( value = "/devices/{id}" )
-    public ResponseEntity<Object> deleteComponent( @PathVariable( value = "id" ) ObjectId id ) {
+    public ResponseEntity<Object> deleteComponent( @PathVariable( value = "id" ) ObjectId id )
+            throws DeviceNotFoundException {
 
         deviceService.deleteDevice( id );
         return new ResponseEntity<>( HttpStatus.OK );

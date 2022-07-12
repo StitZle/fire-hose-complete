@@ -1,5 +1,7 @@
 package com.niclas.model;
 
+import java.util.Date;
+
 import com.niclas.transfer.DeviceRequest;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -18,19 +20,24 @@ public class Device extends AuditModel {
 
     private boolean isPrimary;
 
-    //TODO add Deletion Date and is Deleted
+    private Date deletionDate;
+
+    private boolean deleted;
+
 
     public Device() {
     }
 
-    public Device( String deviceName, String deviceId, boolean isPrimary ) {
+    public Device( String deviceName, String deviceId, boolean isPrimary, Date deletionDate, boolean deleted ) {
         this.deviceName = deviceName;
         this.deviceId = deviceId;
         this.isPrimary = isPrimary;
+        this.deletionDate = deletionDate;
+        this.deleted = deleted;
     }
 
     public static Device createDevice( DeviceRequest deviceRequest ) {
-        return new Device( deviceRequest.getDeviceName(), deviceRequest.getDeviceId(), deviceRequest.isPrimary() );
+        return new Device( deviceRequest.getDeviceName(), deviceRequest.getDeviceId(), deviceRequest.isPrimary(), null, false  );
     }
 
 
@@ -73,5 +80,24 @@ public class Device extends AuditModel {
         this.isPrimary = primary;
     }
 
+
+    public Date getDeletionDate() {
+        return deletionDate;
+    }
+
+
+    public void setDeletionDate( Date deletionDate ) {
+        this.deletionDate = deletionDate;
+    }
+
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+
+    public void setDeleted( boolean deleted ) {
+        this.deleted = deleted;
+    }
 }
 

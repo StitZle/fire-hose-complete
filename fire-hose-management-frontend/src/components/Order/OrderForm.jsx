@@ -145,14 +145,17 @@ const OrderForm = () => {
         };
 
         if (departmentId === "NO_DEPARTMENT") {
+            orderDto.departmentId = null;
             orderDto.contact = {
+                gender: contactGender,
                 firstname: contactFirstname,
                 lastname: contactLastname,
-                company: contactOrganisationName,
+                organisation: contactOrganisationName,
                 mail: contactMail,
             };
         }
 
+        console.log(orderDto);
         postOrderMutation.mutate(orderDto);
     };
 

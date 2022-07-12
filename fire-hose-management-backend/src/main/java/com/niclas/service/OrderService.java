@@ -47,16 +47,8 @@ public class OrderService {
             order.setDepartmentId( departmentId );
         }
 
-         if( orderRequest.getContactRequest() != null ) {
-             //TODO add OrderContactRequest to transferObjects
-             // Validate
-             // add here
-            OrderContact orderContact = new OrderContact(
-                    orderRequest.getContactRequest().getFirstname(),
-                    orderRequest.getContactRequest().getLastname(),
-                    orderRequest.getContactRequest().getMail(),
-                    orderRequest.getContactRequest().get(),
-            );
+         if( orderRequest.getOrderContactRequest() != null ) {
+            OrderContact orderContact = OrderContact.createOrderContact( orderRequest.getOrderContactRequest() );
             order.setOrderContact( orderContact );
         }
 
@@ -79,11 +71,11 @@ public class OrderService {
 
 
     private void checkForDoubleParams( OrderRequest orderRequest ) throws OrderParamsOverload {
-        if( orderRequest.getDepartmentId() != null && orderRequest.getContactRequest() != null ) {
+        if( orderRequest.getDepartmentId() != null && orderRequest.getOrderContactRequest() != null ) {
             throw new OrderParamsOverload( "Order cannot have both fields set: department, contact" );
         }
 
-        if( orderRequest.getDepartmentId() == null && orderRequest.getContactRequest() == null ) {
+        if( orderRequest.getDepartmentId() == null && orderRequest.getOrderContactRequest() == null ) {
             throw new OrderParamsOverload( "Order cannot have both fields null. One field must be set: department or contact" );
         }
     }

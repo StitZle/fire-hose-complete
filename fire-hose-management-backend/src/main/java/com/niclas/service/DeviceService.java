@@ -9,6 +9,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -53,8 +54,11 @@ public class DeviceService {
         return device;
     }
 
-    public void deleteDevice( ObjectId id ) {
-        deviceRepository.deleteById( id );
+    public void deleteDevice( ObjectId id ) throws DeviceNotFoundException {
+        Device device = deviceRepository.findDeviceById( id ).orElseThrow(() -> new DeviceNotFoundException( id ));
+        device.setDeleted( true );
+        device.setDeletionDate( new Date() );
+        deviceRepository.save( device );
     }
 
 }

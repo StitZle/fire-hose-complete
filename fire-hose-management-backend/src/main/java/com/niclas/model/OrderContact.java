@@ -3,11 +3,16 @@ package com.niclas.model;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
+import com.niclas.transfer.OrderContactRequest;
+import com.niclas.utils.Gender;
+
 
 public class OrderContact {
 
     @Id
     private ObjectId id;
+
+    private Gender gender;
 
     private String firstname;
 
@@ -15,18 +20,25 @@ public class OrderContact {
 
     private String mail;
 
-    private String company;
+    private String organisation;
 
 
     public OrderContact() {
     }
 
 
-    public OrderContact( String firstname, String lastname, String mail, String company ) {
+    public OrderContact( Gender gender, String firstname, String lastname, String mail, String organisation ) {
+        this.gender = gender;
         this.firstname = firstname;
         this.lastname = lastname;
         this.mail = mail;
-        this.company = company;
+        this.organisation = organisation;
+    }
+
+
+    public static OrderContact createOrderContact( OrderContactRequest orderContactRequest ){
+        return new OrderContact(orderContactRequest.getGender(), orderContactRequest.getFirstname(),
+                orderContactRequest.getLastname(), orderContactRequest.getMail(), orderContactRequest.getOrganisation() );
     }
 
 
@@ -70,12 +82,12 @@ public class OrderContact {
     }
 
 
-    public String getCompany() {
-        return company;
+    public String getOrganisation() {
+        return organisation;
     }
 
 
-    public void setCompany( String company ) {
-        this.company = company;
+    public void setOrganisation( String organisation ) {
+        this.organisation = organisation;
     }
 }

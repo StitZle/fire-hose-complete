@@ -14,7 +14,7 @@ public class OrderRequest {
     private ObjectId departmentId;
 
     @JsonProperty( "contact" )
-    private ContactRequest contactRequest;
+    private OrderContactRequest orderContactRequest;
 
     @Min( 1 )
     @JsonProperty( "devices" )
@@ -36,9 +36,9 @@ public class OrderRequest {
     }
 
 
-    public OrderRequest( ObjectId departmentId, ContactRequest contactRequest, List<OrderRequestDevice> orderRequestDeviceList, String senderFirstname, String senderLastname, String notes ) {
+    public OrderRequest( ObjectId departmentId, OrderContactRequest orderContactRequest, List<OrderRequestDevice> orderRequestDeviceList, String senderFirstname, String senderLastname, String notes ) {
         this.departmentId = departmentId;
-        this.contactRequest = contactRequest;
+        this.orderContactRequest = orderContactRequest;
         this.orderRequestDeviceList = orderRequestDeviceList;
         this.senderFirstname = senderFirstname;
         this.senderLastname = senderLastname;
@@ -56,13 +56,13 @@ public class OrderRequest {
     }
 
 
-    public ContactRequest getContactRequest() {
-        return contactRequest;
+    public OrderContactRequest getOrderContactRequest() {
+        return orderContactRequest;
     }
 
 
-    public void setContactOrderRequest( ContactRequest contactRequest ) {
-        this.contactRequest = contactRequest;
+    public void setContactOrderRequest( OrderContactRequest orderContactRequest ) {
+        this.orderContactRequest = orderContactRequest;
     }
 
 
