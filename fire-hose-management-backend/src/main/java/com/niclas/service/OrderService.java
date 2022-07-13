@@ -1,6 +1,7 @@
 package com.niclas.service;
 
 import com.niclas.mail.SendMail;
+import com.niclas.model.Department;
 import com.niclas.model.Order;
 import com.niclas.model.OrderContact;
 import com.niclas.model.OrderDevice;
@@ -8,14 +9,16 @@ import com.niclas.repository.DepartmentRepository;
 import com.niclas.repository.OrderRepository;
 import com.niclas.rest.exceptionHandling.exception.DepartmentNotFoundException;
 import com.niclas.rest.exceptionHandling.exception.OrderParamsOverload;
+import com.niclas.transfer.Delivery;
 import com.niclas.transfer.OrderRequest;
 import com.niclas.transfer.OrderRequestDevice;
 import com.niclas.utils.Generators;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -65,8 +68,46 @@ public class OrderService {
     }
 
 
-    public List<Order> getAllOrdersBetweenDates( Date startDate, Date endDate ) {
-        return orderRepository.findAllByCreatedAtBetween( startDate, endDate );
+    public List<Delivery> getAllOrdersBetweenDates( Instant startDate, Instant endDate ) {
+
+        //fallbacks
+        if( startDate == null ) {
+            startDate = Instant.now().minus( 30, ChronoUnit.DAYS ).truncatedTo( ChronoUnit.DAYS );
+
+        }
+        if( endDate == null ) {
+            endDate = Instant.now();
+        }
+
+
+        List<Order> orders = orderRepository.findAllByCreatedAtBetween( startDate, endDate );
+
+        List<Delivery> deliveries = new ArrayList<>();
+        orders.forEach( ( order ) -> {
+            Delivery delivery = new Delivery();
+            delivery.setId( order.getId() );
+            delivery.setOrderId( order.getOrderId() );
+            delivery.setDevices( order.getDevices() );
+            delivery.setSenderFirstname( order.getSenderFirstname() );
+            delivery.setSenderLastname( order.getSenderLastname() );
+            delivery.setNotes( order.getNotes() );
+
+
+            if( order.getDepartmentId() != null ) {
+                try {
+                    Department department = departmentRepository.findDepartmentById( order.getDepartmentId() ).orElseThrow( () -> new DepartmentNotFoundException( order.getDepartmentId() ) );
+                    delivery.setDepartment( department );
+                }
+                catch( DepartmentNotFoundException e ) {
+                    throw new RuntimeException( e );
+                }
+            }
+            else {
+                delivery.setOrderContact( order.getOrderContact() );
+            }
+            deliveries.add( delivery );
+        } );
+        return deliveries;
     }
 
 

@@ -1,19 +1,19 @@
 import * as i18nIsoCountries from "i18n-iso-countries";
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Stack from "@mui/material/Stack";
-import { Button, Checkbox, FormControlLabel, Grid, MenuItem } from "@material-ui/core";
-import { CTextField } from "../shared/input/CTextField";
-import { CSelect } from "../shared/input/CSelect";
-import { ValidatorForm } from "react-material-ui-form-validator";
-import { Overlay } from "../shared/Overlay";
-import { makeStyles } from "@material-ui/core/styles";
-import { useMutation, useQueryClient } from "react-query";
-import { postDepartment } from "../../utils/requests/Departments";
+import {Button, Checkbox, FormControlLabel, Grid, MenuItem} from "@material-ui/core";
+import {CTextField} from "../shared/input/CTextField";
+import {CSelect} from "../shared/input/CSelect";
+import {ValidatorForm} from "react-material-ui-form-validator";
+import {Overlay} from "../shared/Overlay";
+import {makeStyles} from "@material-ui/core/styles";
+import {useMutation, useQueryClient} from "react-query";
+import {postDepartment} from "../../utils/requests/Departments";
 import Notifications from "../shared/Notifications";
-import { departmentBuilder } from "./departmentHelper";
-import { Alert } from "@mui/material";
+import {departmentBuilder} from "./departmentHelper";
+import {Alert} from "@mui/material";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles( ( theme ) => ({
     checkbox: {
         display: "table-cell",
         verticalAlign: "middle",
@@ -75,7 +75,7 @@ export const CreateDepartmentOverlay = ({ closeOverlay }) => {
     return (
         <Overlay onClose={() => closeOverlay()} headerContent={<h2>Neue Organisation anlegen</h2>} size={"m"}>
             <Alert severity="info">
-                Nach der erstellung einer neuen Organisation kann der <strong>Abteilungsname sowie Adressdaten</strong>{" "}
+                Nach der erstellung einer neuen Organisation kann der <strong>Abteilungsname sowie alle Adressdaten</strong>{" "}
                 nicht mehr angepasst werden.
             </Alert>
 

@@ -1,5 +1,16 @@
 package com.niclas.mail;
 
+import com.niclas.model.Department;
+import com.niclas.model.Order;
+import com.niclas.model.OrderDevice;
+import com.niclas.repository.DepartmentRepository;
+import com.niclas.rest.exceptionHandling.exception.DepartmentNotFoundException;
+import com.niclas.utils.Gender;
+import org.bson.types.ObjectId;
+import org.springframework.stereotype.Component;
+import sibModel.SendSmtpEmail;
+import sibModel.SendSmtpEmailTo;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,22 +19,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import org.bson.types.ObjectId;
-import org.springframework.stereotype.Component;
+import static com.niclas.utils.Gender.*;
 
-import com.niclas.model.Department;
-import com.niclas.model.Order;
-import com.niclas.model.OrderDevice;
-import com.niclas.repository.DepartmentRepository;
-import com.niclas.rest.exceptionHandling.exception.DepartmentNotFoundException;
-import com.niclas.utils.Gender;
-
-import sibModel.SendSmtpEmail;
-import sibModel.SendSmtpEmailTo;
-
-import static com.niclas.utils.Gender.FEMALE;
-import static com.niclas.utils.Gender.MALE;
-import static com.niclas.utils.Gender.OTHER;
 
 @Component
 public class BuildOrderSuccessMail {
@@ -35,7 +32,9 @@ public class BuildOrderSuccessMail {
         this.departmentRepository = departmentRepository;
     }
 
+    private final String REGISTERED_ORGANISATION = "REGISTERED_ORGANISATION";
 
+    private final String ORGANISATION_NAME = "ORGANISATION_NAME";
     private final String EMAIL = "EMAIL";
     private final String SALUTATION = "SALUTATION";
     private final String FIRSTNAME = "FIRSTNAME";
@@ -53,27 +52,40 @@ public class BuildOrderSuccessMail {
     private final String DATE = "DATE";
 
     public SendSmtpEmail buildOrderSuccessMail( Order order ) throws DepartmentNotFoundException {
-        Department department = getDepartment( order.getDepartmentId() );
+
 
         SendSmtpEmail sendSmtpEmail = new SendSmtpEmail();
-
+        SendSmtpEmailTo sendSmtpEmailTo = new SendSmtpEmailTo();
         sendSmtpEmail.setTemplateId( 1L );
 
-        //to
-        SendSmtpEmailTo sendSmtpEmailTo = new SendSmtpEmailTo();
-        sendSmtpEmailTo.setEmail( department.getContact().getMail() );
-        sendSmtpEmailTo.setName( department.getContactFullName() );
-        sendSmtpEmail.setTo( Arrays.asList( sendSmtpEmailTo ) );
+        if( order.getDepartmentId() != null ) {
+            Department department = getDepartment( order.getDepartmentId() );
 
-        //params
-        sendSmtpEmail.setParams( buildParams( order, department ) );
+            //to
+            sendSmtpEmailTo.setEmail( department.getContact().getMail() );
+            sendSmtpEmailTo.setName( department.getContactFullName() );
+
+            //params
+            sendSmtpEmail.setParams( buildRegisteredOrganisationParams( order, department ) );
+        }
+        else {
+            sendSmtpEmailTo.setEmail( order.getOrderContact().getMail() );
+            sendSmtpEmailTo.setName( order.getOrderContact().getFullName() );
+
+            //params
+            sendSmtpEmail.setParams( buildNonRegisteredOrganisationParams( order ) );
+        }
+
+        sendSmtpEmail.setTo( Arrays.asList( sendSmtpEmailTo ) );
 
         return sendSmtpEmail;
     }
 
 
-    private HashMap<String, Object> buildParams( Order order, Department department ) {
+    private HashMap<String, Object> buildRegisteredOrganisationParams( Order order, Department department ) {
         HashMap<String, Object> params = new HashMap<>();
+        params.put( REGISTERED_ORGANISATION, true );
+
         params.put( EMAIL, department.getContact().getMail() );
         params.put( ORDER_ID, order.getOrderId() );
         params.put( DEVICES, buildDeviceList( order.getDevices() ) );
@@ -92,15 +104,38 @@ public class BuildOrderSuccessMail {
 
         params.put( SENDER_FIRSTNAME, order.getSenderFirstname() );
         params.put( SENDER_LASTNAME, order.getSenderLastname() );
-        params.put( DATE, buildDateToString(order.getCreatedAt()) );
+        params.put( DATE, buildDateToString( order.getCreatedAt() ) );
+
+        return params;
+    }
+
+
+    private HashMap<String, Object> buildNonRegisteredOrganisationParams( Order order ) {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put( REGISTERED_ORGANISATION, false );
+
+        params.put( EMAIL, order.getOrderContact().getMail() );
+        params.put( ORDER_ID, order.getOrderId() );
+        params.put( DEVICES, buildDeviceList( order.getDevices() ) );
+
+        params.put( SALUTATION, buildSalutation( order.getOrderContact().getGender() ) );
+        params.put( FIRSTNAME, order.getOrderContact().getFirstname() );
+        params.put( LASTNAME, order.getOrderContact().getLastname() );
+
+        params.put( ORGANISATION_NAME, order.getOrderContact().getOrganisation() );
+
+        params.put( NOTES, buildNotes( order.getNotes() ) );
+
+        params.put( SENDER_FIRSTNAME, order.getSenderFirstname() );
+        params.put( SENDER_LASTNAME, order.getSenderLastname() );
+        params.put( DATE, buildDateToString( order.getCreatedAt() ) );
 
         return params;
     }
 
 
     private Department getDepartment( ObjectId departmentId ) throws DepartmentNotFoundException {
-        return departmentRepository.findDepartmentByIdAndDeletedIsFalse( departmentId )
-                .orElseThrow( () -> new DepartmentNotFoundException( departmentId ) );
+        return departmentRepository.findDepartmentByIdAndDeletedIsFalse( departmentId ).orElseThrow( () -> new DepartmentNotFoundException( departmentId ) );
     }
 
 
@@ -137,10 +172,10 @@ public class BuildOrderSuccessMail {
         return "-";
     }
 
-    private String buildDateToString( Date date ){
+    private String buildDateToString( Date date ) {
         String pattern = "dd/MM/yyyy HH:mm:ss";
-        DateFormat df = new SimpleDateFormat(pattern);
-        return df.format(date);
+        DateFormat df = new SimpleDateFormat( pattern );
+        return df.format( date );
     }
 
     private static class OrderMailDevice {

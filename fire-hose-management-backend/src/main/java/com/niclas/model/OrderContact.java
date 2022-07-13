@@ -1,16 +1,10 @@
 package com.niclas.model;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-
 import com.niclas.transfer.OrderContactRequest;
 import com.niclas.utils.Gender;
 
 
 public class OrderContact {
-
-    @Id
-    private ObjectId id;
 
     private Gender gender;
 
@@ -36,21 +30,22 @@ public class OrderContact {
     }
 
 
-    public static OrderContact createOrderContact( OrderContactRequest orderContactRequest ){
-        return new OrderContact(orderContactRequest.getGender(), orderContactRequest.getFirstname(),
-                orderContactRequest.getLastname(), orderContactRequest.getMail(), orderContactRequest.getOrganisation() );
+    public static OrderContact createOrderContact( OrderContactRequest orderContactRequest ) {
+        return new OrderContact( orderContactRequest.getGender(), orderContactRequest.getFirstname(), orderContactRequest.getLastname(), orderContactRequest.getMail(), orderContactRequest.getOrganisation() );
+    }
+
+    public String getFullName() {
+        return this.getFirstname() + " " + this.getLastname();
     }
 
 
-    public String getId() {
-        return id.toHexString();
+    public Gender getGender() {
+        return gender;
     }
 
-
-    public void setId( ObjectId id ) {
-        this.id = id;
+    public void setGender( Gender gender ) {
+        this.gender = gender;
     }
-
 
     public String getFirstname() {
         return firstname;

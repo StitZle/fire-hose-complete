@@ -8,10 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface DepartmentRepository extends MongoRepository<Department, ObjectId>
-{
+public interface DepartmentRepository extends MongoRepository<Department, ObjectId> {
 
     Department findDepartmentByDepartmentName( String departmentName );
+
+    Optional<Department> findDepartmentById( ObjectId id );
 
     Optional<Department> findDepartmentByIdAndDeletedIsFalse( ObjectId id );
 

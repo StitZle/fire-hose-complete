@@ -57,13 +57,14 @@ public class Department extends AuditModel {
         return new Department( departmentRequest.getDepartmentName(), new Contact( departmentRequest.getContactRequest().getFirstname(), departmentRequest.getContactRequest().getLastname(), departmentRequest.getContactRequest().getGender(), departmentRequest.getContactRequest().getMail() ), departmentRequest.getStreet(), departmentRequest.getHouseNumber(), departmentRequest.getLocation(), departmentRequest.getPostalCode(), departmentRequest.getCountry(), true, departmentRequest.getSendConfirmationMail(), null, false );
     }
 
-    public String getContactFullName(){
+    // TODO exclude this from Request
+    public String getContactFullName() {
         return this.contact.getFirstname() + " " + this.contact.getLastname();
     }
 
 
-    public String getId() {
-        return id.toHexString();
+    public ObjectId getId() {
+        return id;
     }
 
 

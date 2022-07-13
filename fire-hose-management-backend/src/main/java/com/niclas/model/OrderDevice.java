@@ -27,11 +27,11 @@ public class OrderDevice extends AuditModel {
     }
 
     public static OrderDevice createOrderDevice( OrderRequestDevice orderRequestDevice ) {
-        return new OrderDevice(orderRequestDevice.getId(), orderRequestDevice.getDeviceId(), orderRequestDevice.getDeviceName(), orderRequestDevice.getCount() );
+        return new OrderDevice( orderRequestDevice.getId(), orderRequestDevice.getDeviceId(), orderRequestDevice.getDeviceName(), orderRequestDevice.getCount() );
     }
 
-    public String getId() {
-        return id.toHexString();
+    public ObjectId getId() {
+        return id;
     }
 
     public void setId( ObjectId id ) {

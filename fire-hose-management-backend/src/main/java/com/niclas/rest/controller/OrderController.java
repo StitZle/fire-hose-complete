@@ -4,6 +4,7 @@ import com.niclas.model.Order;
 import com.niclas.rest.exceptionHandling.exception.DepartmentNotFoundException;
 import com.niclas.rest.exceptionHandling.exception.OrderParamsOverload;
 import com.niclas.service.OrderService;
+import com.niclas.transfer.Delivery;
 import com.niclas.transfer.OrderRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -35,19 +37,15 @@ public class OrderController {
     @PostMapping( value = "/orders" )
     public ResponseEntity<Order> addOrder( @RequestBody OrderRequest orderRequest ) throws OrderParamsOverload, DepartmentNotFoundException {
         Order order = orderService.addOrder( orderRequest );
-        System.out.println( order );
         return new ResponseEntity<>( order, HttpStatus.CREATED );
     }
 
 
     @GetMapping( value = "/orders" )
-    public ResponseEntity<List<Order>> getAllOrdersBetweenDates( @RequestParam @DateTimeFormat( pattern = "dd/MM/yyyy" ) Date startDate, @RequestParam @DateTimeFormat( pattern = "dd/MM/yyyy" ) Date endDate ) {
+    public ResponseEntity<List<Delivery>> getAllOrdersBetweenDates( @RequestParam( required = false ) @DateTimeFormat( iso = DateTimeFormat.ISO.DATE_TIME ) Instant startDate, @RequestParam( required = false ) @DateTimeFormat( iso = DateTimeFormat.ISO.DATE_TIME ) Instant endDate ) {
         //TODO add if not found custom Response
         //TODO add default range (1 Year)
-
-        // transform Date
-        Date endDateWithTimeOffset = nextDay( endDate );
-        List<Order> orderList = orderService.getAllOrdersBetweenDates( startDate, endDateWithTimeOffset );
+        List<Delivery> orderList = orderService.getAllOrdersBetweenDates( startDate, endDate );
         return new ResponseEntity<>( orderList, HttpStatus.OK );
     }
 

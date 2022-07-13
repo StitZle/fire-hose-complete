@@ -1,16 +1,16 @@
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import { DataGrid, GridActionsCellItem, GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
-import { Checkbox } from "@material-ui/core";
-import { gridLocale } from "../../i118/GridLocale";
+import {DataGrid, GridActionsCellItem, GridToolbarContainer, GridToolbarExport} from "@mui/x-data-grid";
+import {Checkbox} from "@material-ui/core";
+import {gridLocale} from "../../i118/GridLocale";
 import dayjs from "dayjs";
-import { Chip } from "@mui/material";
-import { DELIVERY_DETAILS } from "../../router/navigationPaths";
-import { useNavigate } from "react-router-dom";
+import {Chip} from "@mui/material";
+import {DELIVERY_DETAILS} from "../../router/navigationPaths";
+import {useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles( ( theme ) => ({
     dataGrid: {
         height: 720,
         width: "100%",
@@ -39,15 +39,15 @@ const DeliveriesDataGrid = ({ deliveries = [] }) => {
             return delivery.department.department;
         }
         if (delivery.contact !== null) {
-            return delivery.contact.company;
+            return delivery.contact.organisation;
         }
     };
 
     const statusRender = (params) => {
-        const delivery = params.value;
-        if (delivery === null) {
-            return <Chip label="Nicht registriert" color="error" />;
-        }
+        /* const delivery = params.value;
+         if (delivery === null) {
+             return <Chip label="Nicht registriert" color="error" />;
+         }*/
         return <Chip label="Registriert" color="success" />;
     };
 

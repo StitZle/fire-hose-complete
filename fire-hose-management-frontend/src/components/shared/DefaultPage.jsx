@@ -1,43 +1,78 @@
-import { Drawer, ListItemButton } from "@mui/material";
+import {Drawer, ListItem, ListItemButton} from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import React from "react";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
-import { primaryRoutes, secondaryRoutes } from "../../router/navigationPaths";
-import { Link } from "react-router-dom";
+import {DASHBOARD, DELIVERIES, EXPORT, primaryRoutes, REPAIRS, secondaryRoutes} from "../../router/navigationPaths";
+import {Link, useNavigate} from "react-router-dom";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { useAuth0 } from "@auth0/auth0-react";
+import {useAuth0} from "@auth0/auth0-react";
 import Box from "@mui/material/Box";
 import NavigationAppBar from "./NavigationAppBar";
 
 const drawerWidth = 240;
 
-const DefaultPage = ({ children }) => {
+const DefaultPage = ( { children } ) => {
     const { isAuthenticated } = useAuth0();
 
-    const primaryItems = primaryRoutes.map((route, index) => (
-        <ListItemButton key={index} component={Link} to={route.path}>
-            <ListItemIcon>{route.icon}</ListItemIcon>
-            <ListItemText primary={route.name} />
-        </ListItemButton>
+    const navigate = useNavigate();
+
+
+    const primaryItems = primaryRoutes.map( ( route, index ) => (<ListItem>
+                <ListItemButton key={index} component={Link} to={route.path}>
+                    <ListItemIcon>{route.icon}</ListItemIcon>
+                    <ListItemText primary={route.name}/>
+                </ListItemButton>
+            </ListItem>
+
+    ) );
+
+    const secondaryItems = secondaryRoutes.map((route, index) => (<ListItem key={index} component={Link} to={route.path}>
+                <ListItemIcon>{route.icon}</ListItemIcon>
+                <ListItemText primary={route.name}/>
+            </ListItem>
     ));
 
-    const secondaryItems = secondaryRoutes.map((route, index) => (
-        <ListItemButton key={index} component={Link} to={route.path}>
-            <ListItemIcon>{route.icon}</ListItemIcon>
-            <ListItemText primary={route.name} />
-        </ListItemButton>
-    ));
-
-    const drawer = (
-        <div>
-            <Toolbar />
-            <Divider />
-            <List>{primaryItems}</List>
-            <Divider />
-            <List>{secondaryItems}</List>
-        </div>
+    const drawer = (<>
+                <Toolbar/>
+                <List>
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={() => navigate( DASHBOARD.path )}>
+                            <ListItemIcon>
+                                {DASHBOARD.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={DASHBOARD.name}/>
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={() => navigate( DELIVERIES.path )}>
+                            <ListItemIcon>
+                                {DELIVERIES.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={DELIVERIES.name}/>
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={() => navigate( REPAIRS.path )}>
+                            <ListItemIcon>
+                                {REPAIRS.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={REPAIRS.name}/>
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={() => navigate( EXPORT.path )}>
+                            <ListItemIcon>
+                                {EXPORT.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={EXPORT.name}/>
+                        </ListItemButton>
+                    </ListItem>
+                </List>
+                <Divider/>
+                <List>{secondaryItems}</List>
+            </>
     );
 
     return (

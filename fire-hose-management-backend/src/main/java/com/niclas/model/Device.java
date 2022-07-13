@@ -1,11 +1,11 @@
 package com.niclas.model;
 
-import java.util.Date;
-
 import com.niclas.transfer.DeviceRequest;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Date;
 
 
 @Document( "devices" )
@@ -37,12 +37,12 @@ public class Device extends AuditModel {
     }
 
     public static Device createDevice( DeviceRequest deviceRequest ) {
-        return new Device( deviceRequest.getDeviceName(), deviceRequest.getDeviceId(), deviceRequest.isPrimary(), null, false  );
+        return new Device( deviceRequest.getDeviceName(), deviceRequest.getDeviceId(), deviceRequest.isPrimary(), null, false );
     }
 
 
-    public String getId() {
-        return id.toHexString();
+    public ObjectId getId() {
+        return id;
     }
 
 
